@@ -1,0 +1,15 @@
+<div class="d-flex flex-row p-2">
+    <app-filter style="width: 15%;" (filters)="getByFilters($event)"></app-filter>
+    <div style="width: 85%;">
+        <div class="card d-flex flex-row bg-dark mt-2 mb-2 ml-3" *ngFor="let exhibition of exhibitions"
+            style="color: azure; height: 200px; width: 95%;">
+            <img class="card-img-top w-25" src="../../../../assets/Images/pexels.jpg" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">{{exhibition.title}}</h5>
+                <p class="card-text">{{exhibition.description}}</p>
+                <input type="datetime-local" value="{{exhibition.startingDate}}"><br>
+                <a routerLink='/Exhibition/{{exhibition.title}}' class="btn btn-primary">Join</a>
+            </div>
+        </div>
+    </div>
+</div>
