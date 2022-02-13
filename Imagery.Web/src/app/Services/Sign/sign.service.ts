@@ -75,7 +75,7 @@ export class SignService {
     const tokenKey: string = 'token';
     const token = localStorage.getItem(tokenKey);
 
-    if (!token) {
+    if (!token || prop === '') {
       return '';
     }
 

@@ -1,0 +1,2 @@
+<ng-content *ngIf="isLogged()" select="[authorized]"></ng-content>
+<ng-content *ngIf="!isLogged()" select="[unauthorized]"></ng-content>

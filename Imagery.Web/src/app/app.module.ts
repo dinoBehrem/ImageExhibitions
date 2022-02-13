@@ -16,6 +16,8 @@ import { SuperAdminAccessGuard } from './Guards/super-admin-access.guard';
 import { AdminAccessGuard } from './Guards/admin-access.guard';
 import { FilterComponent } from './Components/filter/filter.component';
 import { ExhibitionsComponent } from './Components/Exhibition/exhibitions/exhibitions.component';
+import { CreateExhibitionComponent } from './Components/Exhibition/create-exhibition/create-exhibition.component';
+import { HeaderStatusComponent } from './Components/Header/header-status/header-status.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,8 @@ import { ExhibitionsComponent } from './Components/Exhibition/exhibitions/exhibi
     UsersComponent,
     FilterComponent,
     ExhibitionsComponent,
+    CreateExhibitionComponent,
+    HeaderStatusComponent,
   ],
   imports: [
     BrowserModule,
@@ -34,9 +38,10 @@ import { ExhibitionsComponent } from './Components/Exhibition/exhibitions/exhibi
     ReactiveFormsModule,
     HttpClientModule,
     RouterModule.forRoot([
-      { path: '', component: ExhibitionsComponent },
+      { path: 'Home', component: ExhibitionsComponent },
       { path: 'Login', component: SigninComponent },
       { path: 'Register', component: SignupComponent },
+      { path: 'Create', component: CreateExhibitionComponent },
       {
         path: 'Users',
         component: UsersComponent,

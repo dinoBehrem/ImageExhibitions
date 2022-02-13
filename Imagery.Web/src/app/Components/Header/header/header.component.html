@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-dark">
     <a class="navbar-brand" routerLink="">Imagery</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -6,37 +6,41 @@
   
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" routerLink="">Home <span class="sr-only">(current)</span></a>
+        <li class="nav-item">
+          <a class="nav-link navItem" routerLink="Home" routerLinkActive="activeLink">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="Create">Create</a>
+          <a class="nav-link navItem" routerLink="Create" routerLinkActive="activeLink">Create</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="Users">Users</a>
-        </li>
-        <li class="nav-item" *ngIf="!isLogged">
-          <a class="nav-link" routerLink="Login">Login</a>
-        </li>
-        <!-- <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Dropdown
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Something else here</a>
-          </div>
+        <!-- <li class="nav-item">
+          <a class="nav-link" routerLink="Users" routerLinkActive="activeLink">Users</a>
         </li> -->
-        <li class="nav-item" *ngIf="!isLogged">
-          <a class="nav-link" routerLink="Register">Register</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link btn btn-danger" (click)="Logout()">Logout</a>
-        </li>
-        
       </ul>
+        <app-header-status>
+          <ng-container authorized>
+            <div class="dropdown">
+              <button class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{getUsername()}}
+              </button>
+              <ul class="dropdown-menu dropdown-menu-dark bg-dark text-small shadow" aria-labelledby="dropdownUser1" id="profileMenu">
+                <li><a class="dropdown-item dropwonItem">Profile</a></li>
+                <li><a class="dropdown-item dropwonItem" *ngIf="adminPermission()" routerLink="Users">Users</a></li>
+                <li><a class="dropdown-item dropwonItem">Profile</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item dropwonItem" (click)="Logout()">Sign out</a></li>
+              </ul>
+            </div>
+          </ng-container>
+          <ng-container unauthorized>
+           <button class="btn btn-success" routerLink="Login">Sign in</button>
+           <button class="btn btn-warning" routerLink="Register">Sign up</button>
+
+          </ng-container>
+          <ng-container unauthorized>
+
+          </ng-container>
+        </app-header-status>
+      
     </div>
   </nav>
   <router-outlet></router-outlet>

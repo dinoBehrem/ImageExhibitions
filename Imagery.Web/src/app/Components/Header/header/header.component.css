@@ -1,0 +1,29 @@
+.activeLink {
+  border-radius: 10px;
+  background-color: #ffffff;
+  color: #000000;
+}
+
+#profileMenu {
+  margin-left: -75px;
+}
+
+.navItem {
+  color: #000000;
+  border-radius: 10px;
+}
+
+.navItem:hover {
+  color: #000000;
+  background-color: #ffffff;
+  border-radius: 10px;
+}
+
+.dropwonItem {
+  color: #ffffff;
+}
+
+.dropwonItem:hover {
+  color: #000000;
+  background-color: #ffffff;
+}
