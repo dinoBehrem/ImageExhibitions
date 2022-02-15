@@ -13,5 +13,6 @@ namespace Imagery.Service.Services.Authentication
     {
         Task<Response> SignUp(RegisterVM register);
         Task<AuthResponse> SignIn(LoginVM login);
+        Task<UserVM> GetUser(string username);
     }
 }

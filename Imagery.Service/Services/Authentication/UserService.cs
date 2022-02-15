@@ -89,5 +89,29 @@ namespace Imagery.Service.Services.Authentication
                 IsSuccess = true
             };
         }
+
+        public async Task<UserVM> GetUser(string username)
+        {
+            var userExists = await UserManager.FindByNameAsync(username);
+
+            if (userExists == null)
+            {
+                return null;
+            }
+
+            var roles = await UserManager.GetRolesAsync(userExists);
+
+            UserVM user = new UserVM()
+            {
+                Username = userExists.UserName,
+                Firstname = userExists.FirstName,
+                Lastname = userExists.LastName,
+                Email = userExists.Email,
+                Picture = userExists.ProfilePicture,
+                Roles = roles.ToList()
+            };
+
+            return user;
+        }
     }
 }

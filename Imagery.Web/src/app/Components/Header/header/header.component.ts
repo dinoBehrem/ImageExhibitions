@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { SignService } from 'src/app/Services/Sign/sign.service';
 
 @Component({
@@ -7,7 +8,7 @@ import { SignService } from 'src/app/Services/Sign/sign.service';
   styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent implements OnInit {
-  constructor(private signService: SignService) {}
+  constructor(private signService: SignService, private router: Router) {}
   isLogged: boolean = this.signService.GetToken() == '';
 
   ngOnInit(): void {}
@@ -33,7 +34,7 @@ export class HeaderComponent implements OnInit {
     const username: string = this.signService.GetJWTData(claim);
 
     if (username === '') {
-      alert('Server error');
+      // this.router.navigateByUrl('Login');
       return;
     }
 

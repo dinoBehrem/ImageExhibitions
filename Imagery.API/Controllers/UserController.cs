@@ -20,6 +20,7 @@ namespace Imagery.API.Controllers
         {
             UserService = userService;
         }
+
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> Register([FromBody] RegisterVM register)
@@ -56,6 +57,19 @@ namespace Imagery.API.Controllers
             }
 
             return Ok(authResponse);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<UserVM>> GetUser(string username)
+        {
+            if (string.IsNullOrEmpty(username))
+            {
+                return BadRequest("Invalid username!");
+            }
+
+            UserVM user = await UserService.GetUser(username);
+
+            return Ok(user);
         }
     }
 }

@@ -3,6 +3,7 @@ using Imagery.Repository.Context;
 using Imagery.Repository.Repository;
 using Imagery.Service.Services.Authentication;
 using Imagery.Service.Services.Exhbition;
+using Imagery.Service.Services.Image;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -34,6 +35,7 @@ namespace Imagery.API.Extensions
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IExhibitionService, ExhibitionService>();
+            services.AddScoped<IImageService, ImageService>();
 
             services.AddCors();
 

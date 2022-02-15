@@ -21,6 +21,7 @@ namespace Imagery.API
         {
             services.AppServices(Configuration);
             services.AuthService(Configuration);
+            services.AddHttpContextAccessor();
             services.AddControllers();
 
         }
@@ -41,6 +42,7 @@ namespace Imagery.API
 
             app.UseRouting();
 
+            app.UseStaticFiles();
             app.UseAuthentication();
             app.UseAuthorization();
 

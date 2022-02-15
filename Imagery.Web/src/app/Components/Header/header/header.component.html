@@ -12,9 +12,6 @@
         <li class="nav-item">
           <a class="nav-link navItem" routerLink="Create" routerLinkActive="activeLink">Create</a>
         </li>
-        <!-- <li class="nav-item">
-          <a class="nav-link" routerLink="Users" routerLinkActive="activeLink">Users</a>
-        </li> -->
       </ul>
         <app-header-status>
           <ng-container authorized>
@@ -23,9 +20,8 @@
                 {{getUsername()}}
               </button>
               <ul class="dropdown-menu dropdown-menu-dark bg-dark text-small shadow" aria-labelledby="dropdownUser1" id="profileMenu">
-                <li><a class="dropdown-item dropwonItem">Profile</a></li>
+                <li><a class="dropdown-item dropwonItem" routerLink="Profile">Profile</a></li>
                 <li><a class="dropdown-item dropwonItem" *ngIf="adminPermission()" routerLink="Users">Users</a></li>
-                <li><a class="dropdown-item dropwonItem">Profile</a></li>
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item dropwonItem" (click)="Logout()">Sign out</a></li>
               </ul>
@@ -33,11 +29,6 @@
           </ng-container>
           <ng-container unauthorized>
            <button class="btn btn-success" routerLink="Login">Sign in</button>
-           <button class="btn btn-warning" routerLink="Register">Sign up</button>
-
-          </ng-container>
-          <ng-container unauthorized>
-
           </ng-container>
         </app-header-status>
       

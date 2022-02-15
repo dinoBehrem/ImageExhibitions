@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { SignUpVM } from 'src/app/ViewModels/SignUpVM';
 import { AuthResponse } from 'src/app/ViewModels/AuthResponse';
 import { SignInVM } from 'src/app/ViewModels/SignInVM';
+import { Observable } from 'rxjs';
+import { UserVM } from 'src/app/ViewModels/UserVM';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +16,7 @@ export class SignService {
       'Content-Type': 'application/json',
     }),
   };
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient) {}
 
   isAuthenticated() {
     const token = this.GetToken();
@@ -83,5 +84,12 @@ export class SignService {
     const dataValue = JSON.parse(atob(dataProps[1]));
 
     return dataValue[prop];
+  }
+
+  GetUser(username: string): Observable<UserVM> {
+    return this.http.get<UserVM>(
+      this.url + '/GetUser?username=' + username,
+      this.options
+    );
   }
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { SignService } from 'src/app/Services/Sign/sign.service';
 
 @Component({
@@ -7,7 +8,7 @@ import { SignService } from 'src/app/Services/Sign/sign.service';
   styleUrls: ['./header-status.component.css'],
 })
 export class HeaderStatusComponent implements OnInit {
-  constructor(private singService: SignService) {}
+  constructor(private singService: SignService, private router: Router) {}
 
   ngOnInit(): void {}
 

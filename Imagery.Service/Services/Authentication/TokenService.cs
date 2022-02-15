@@ -27,9 +27,6 @@ namespace Imagery.Service.Services.Authentication
             var claims = new List<Claim>()
             {
                 new Claim("Id", user.Id),
-                //new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                //new Claim(JwtRegisteredClaimNames.Sub, user.Email),
-                //new Claim(JwtRegisteredClaimNames.Jti,  Guid.NewGuid().ToString()),
                 new Claim(ClaimTypes.Name, user.UserName)
             };
 

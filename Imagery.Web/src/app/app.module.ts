@@ -18,6 +18,7 @@ import { FilterComponent } from './Components/filter/filter.component';
 import { ExhibitionsComponent } from './Components/Exhibition/exhibitions/exhibitions.component';
 import { CreateExhibitionComponent } from './Components/Exhibition/create-exhibition/create-exhibition.component';
 import { HeaderStatusComponent } from './Components/Header/header-status/header-status.component';
+import { ProfileComponent } from './Components/User/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { HeaderStatusComponent } from './Components/Header/header-status/header-
     ExhibitionsComponent,
     CreateExhibitionComponent,
     HeaderStatusComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -47,6 +49,7 @@ import { HeaderStatusComponent } from './Components/Header/header-status/header-
         component: UsersComponent,
         canActivate: [SuperAdminAccessGuard],
       },
+      { path: 'Profile', component: ProfileComponent },
     ]),
   ],
   providers: [

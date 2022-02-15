@@ -3,4 +3,6 @@ export interface UserVM {
   lastname: string;
   username: string;
   email: string;
+  roles: string[];
+  picture: string;
 }

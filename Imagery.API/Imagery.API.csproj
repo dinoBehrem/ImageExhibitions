@@ -22,4 +22,9 @@
     <ProjectReference Include="..\Imagery.Service\Imagery.Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\ExponentItems\" />
+    <Folder Include="wwwroot\ProfilePictures\" />
+  </ItemGroup>
+
 </Project>
