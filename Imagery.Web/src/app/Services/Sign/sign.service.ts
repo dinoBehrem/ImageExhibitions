@@ -5,18 +5,19 @@ import { AuthResponse } from 'src/app/ViewModels/AuthResponse';
 import { SignInVM } from 'src/app/ViewModels/SignInVM';
 import { Observable } from 'rxjs';
 import { UserVM } from 'src/app/ViewModels/UserVM';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SignService {
-  url: string = 'https://localhost:44367/User';
+  url: string = 'https://localhost:44395/User';
   options = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
     }),
   };
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   isAuthenticated() {
     const token = this.GetToken();
@@ -53,6 +54,8 @@ export class SignService {
     const expiriation: string = 'token-expiriation';
     localStorage.removeItem(tokenKey);
     localStorage.removeItem(expiriation);
+
+    // this.router.navigateByUrl('Login');
   }
 
   SaveToken(authResponse: AuthResponse) {

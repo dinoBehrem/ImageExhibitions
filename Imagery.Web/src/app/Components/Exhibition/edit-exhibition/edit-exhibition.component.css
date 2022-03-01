@@ -1,0 +1,51 @@
+#editContainer {
+  display: flex;
+  flex-direction: row;
+  height: calc(100% - 56px);
+}
+
+#exhbitionDetails {
+  width: 25%;
+  height: 100%;
+  background-color: rgba(197, 199, 200, 0.322);
+  padding: 5px;
+}
+
+#imageDisplay {
+  width: 75%;
+  height: 100%;
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#exhbitionForm {
+  padding: 8px;
+}
+
+.toggleModal {
+  width: 250px;
+  height: 250px;
+  background-color: rgba(197, 199, 200, 0.322);
+  border-radius: 10px;
+  margin: 5px;
+}
+
+img {
+  height: 100%;
+  width: 100%;
+}
+
+#priceDimensions {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.itemPrice {
+  width: 45%;
+}
+
+#modalImage {
+  width: 100%;
+}

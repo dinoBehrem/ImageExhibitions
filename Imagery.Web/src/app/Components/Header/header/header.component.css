@@ -27,3 +27,27 @@
   color: #000000;
   background-color: #ffffff;
 }
+
+#navigation {
+  height: 65px;
+  background-color: #078d86;
+}
+
+#signIn {
+  background-color: #078d86;
+  color: #ffffff;
+  border: 1px solid #ffffff;
+  border-radius: 10px;
+  font-size: 18px;
+  -o-transition: 0.5s;
+  -ms-transition: 0.5s;
+  -moz-transition: 0.5s;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+}
+
+#signIn:hover {
+  background-color: #ffffff;
+  color: #078d86;
+  font-size: 20px;
+}

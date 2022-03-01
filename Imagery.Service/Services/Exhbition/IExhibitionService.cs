@@ -10,7 +10,8 @@ namespace Imagery.Service.Services.Exhbition
 {
     public interface IExhibitionService
     {
-        Task<Response> Create(ExhbitionCreationVM exhibitionCreationVM);
+        Task<ExhibitionVM> Create(ExhbitionCreationVM exhibitionCreationVM);
         List<ExhibitionVM> Exhibitions();
+        ExhibitionVM GetById(int id);
     }
 }

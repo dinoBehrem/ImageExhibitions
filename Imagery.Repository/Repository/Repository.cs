@@ -23,24 +23,25 @@ namespace Imagery.Repository.Repository
             return Entities.ToList();
         }
 
-        public RepositoryResponse Add(TEntity entity)
+        public RepositoryResponse<TEntity> Add(TEntity entity)
         {
             try
             {
                 Entities.Add(entity);
 
                 ImageryContext.SaveChanges();
-                return new RepositoryResponse()
+                return new RepositoryResponse<TEntity>()
                 {
                     Status = "Success",
                     Message = "Entity successfully added!",
-                    IsSuccess = true
+                    IsSuccess = true,
+                    Content = entity
                 };
             }
             catch (Exception ex)
             {
 
-                return new RepositoryResponse() 
+                return new RepositoryResponse<TEntity>() 
                 {
                     Status = "Error",
                     Message = ex.Message,
@@ -49,6 +50,30 @@ namespace Imagery.Repository.Repository
                 };
             }
             
+        }
+
+        public RepositoryResponse<TEntity> GetSingleOrDefault(int id)
+        {
+            TEntity entity = Entities.Find(id);
+
+            RepositoryResponse<TEntity> response = new RepositoryResponse<TEntity>();
+
+            if (entity == null)
+            {
+                response.Status = "Error";
+                response.Message = "Entity not found!";
+                response.IsSuccess = false;
+                response.Content = null;
+            }
+            else
+            {
+                response.Status = "Success";
+                response.Message = "Entity successfully found!";
+                response.IsSuccess = true;
+                response.Content = entity;
+            }
+
+            return response;
         }
     }
 }

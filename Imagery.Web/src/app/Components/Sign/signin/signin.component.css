@@ -80,3 +80,9 @@
   font-size: 13px;
   text-decoration: none;
 }
+
+.form-group {
+  text-align: left;
+  font-size: 12px;
+  color: red;
+}

@@ -8,15 +8,17 @@
                 </div>
                 <form id="Login" [formGroup]= "loginDetails" (ngSubmit)="Login()">
                     <div class="form-group">
-                        <input type="text" class="form-control" id="inputUsername" placeholder="Username" formControlName="username">
+                        <input type="text" class="form-control" id="inputUsername" placeholder="Username" formControlName="username" required>
+                        <span class="errorSpan" *ngIf="loginDetails.get('username')?.invalid && loginDetails.get('username')?.touched">Username is required!</span>
                     </div>
                     <div class="form-group">
-                        <input type="password" class="form-control" id="inputPassword" placeholder="Password" formControlName="password">
+                        <input type="password" class="form-control" id="inputPassword" placeholder="Password" formControlName="password" required>
+                        <span class="errorSpan" *ngIf="loginDetails.get('password')?.invalid && loginDetails.get('password')?.touched">Password is required!</span>
                     </div>
                     <!-- <div class="forgot">
                         <a href="reset.html">Forgot password?</a>
                     </div> -->
-                    <button type="submit" class="btn btn-primary">Login</button>
+                    <button type="submit" class="btn btn-primary" [disabled]="!loginDetails.valid">Login</button>
                     <div><span>Not a member!</span><a routerLink="/Register">Sign up</a></div>
                 </form>
             </div>

@@ -1,20 +1,76 @@
-<div class="container pt-3">
-    <form [formGroup]="exhibitionDetails" (ngSubmit)="create()">
-        <div class="form-group">
-            <label for="title">Title</label>
-            <input type="text" class="form-control" id="title" aria-describedby="title" placeholder="Enter title"
-                formControlName='title'>
-        </div>
-        <div class="form-group">
-            <label for="description">Description</label>
-            <textarea type="text" class="form-control" id="description" placeholder="Description"
-                formControlName='description'></textarea>
-        </div>
-        <div class="form-group">
-            <label for="startingDate">Starting date:</label>
-            <input type="datetime-local" class="form-control" id="startingDate" formControlName='startingDate'>
+<div id="container">
+    <div id="exhbitionDetails">
+        <h3 style="text-align: center;">Organize exhibition</h3>
+        <hr>
+        <form id="exhbitionForm" [formGroup]="exhibitionDetails" (ngSubmit)="save()">
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" class="form-control" id="title" aria-describedby="title" placeholder="Enter title"
+                    [(ngModel)]="exhibition.title" value="{{exhibition.title}}">
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea type="text" class="form-control" id="description" placeholder="Description"
+                [(ngModel)]="exhibition.description" value="{{exhibition.description}}" ></textarea>
+            </div>
+            <div class="form-group">
+                <label for="startingDate">Starting date:</label>
+                <input type="datetime-local" class="form-control" id="startingDate" [(ngModel)]="exhibition.startingDate" value="{{exhibition.startingDate}}">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Create</button>
+            <a routerLink="my-exhbitions">My exhibitions</a>
+        </form>
+    </div>
+    <!-- <div id="imageDisplay">
+        <div id="toggleModal">
+            <img src="../../../../assets/plus-icon.png" data-toggle="modal" data-target="#exampleModal" />
         </div>
 
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
+       Modal ---
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Upload image</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="exhbitionForm" (ngSubmit)="saveImage()"> ---
+                            <div id="modalImage">
+                                <img [src]="imageURL">
+                            </div>
+
+                            <input class="form-control" type="file" id="file" aria-describedby="file"
+                                (change)="fileInput($event)" required>
+                                <hr>
+                            <label>Name</label>
+                            <input class="form-control" type="text" [(ngModel)]="name" required>
+                            <label>Description</label>
+                            <input class="form-control" type="text" [(ngModel)]="imageDescription" required>
+                            <label>Artist</label>
+                            <input class="form-control" type="text" [(ngModel)]="creator" required>
+                            <div id="priceDimensions">
+                                <div class="itemPrice">
+                                    <label>Price</label>
+                                    <input class="form-control" type="number" [(ngModel)]="price" required>
+                                </div>
+                                <div class="itemPrice">
+                                    <label>Dimensions</label>
+                                    <input class="form-control" type="text" [(ngModel)]="dimensions" required>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary" (click)="saveImage()">Save changes</button>
+                            </div>
+                        </form> ---
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
 </div>

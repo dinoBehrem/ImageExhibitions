@@ -10,7 +10,7 @@ import { UserVM } from 'src/app/ViewModels/UserVM';
   providedIn: 'root',
 })
 export class UserService {
-  url: string = 'https://localhost:44367/Authentication';
+  url: string = 'https://localhost:44395/Authentication';
   options = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',

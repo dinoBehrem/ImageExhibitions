@@ -21,7 +21,7 @@ namespace Imagery.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<string>> Create([FromBody]ExhbitionCreationVM exhbitionCreationVM)
+        public async Task<ActionResult> Create([FromBody]ExhbitionCreationVM exhbitionCreationVM)
         {
             // check if input is valid
             if (exhbitionCreationVM == null)
@@ -33,9 +33,9 @@ namespace Imagery.API.Controllers
             var response = await ExhibitionService.Create(exhbitionCreationVM);
 
             // check response for success
-            if (!response.IsSuccess)
+            if (response == null)
             {
-                return BadRequest(response);
+                return BadRequest("Error, try again!");
             }
 
             return Ok(response);
@@ -47,6 +47,24 @@ namespace Imagery.API.Controllers
             var exhbitions = ExhibitionService.Exhibitions();
 
             return Ok(exhbitions);
+        }
+
+        [HttpGet("{id}")]
+        public ActionResult<ExhibitionVM> GetExhbition(int id)
+        {
+            if (id == -1)
+            {
+                return BadRequest("Invalid exhbition id!");
+            }
+
+            var serviceresponse = ExhibitionService.GetById(id);
+
+            if (serviceresponse == null)
+            {
+                return BadRequest("Exhbition not found, try again!");
+            }
+
+            return Ok(serviceresponse);
         }
     }
 }

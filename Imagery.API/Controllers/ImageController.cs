@@ -1,4 +1,5 @@
 ﻿using Imagery.Service.Services.Image;
+using Imagery.Service.ViewModels.Image;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -20,13 +21,9 @@ namespace Imagery.API.Controllers
 
             ImageService = imageService;
         }
-        public class Picture
-        {
-            public IFormFile Image { get; set; }
-        }
 
         [HttpPost]
-        public async Task<ActionResult<string>> UploadImage(string username, [FromForm] Picture picture)
+        public async Task<ActionResult<string>> ProfilePictureUpload(string username, [FromForm] ProfilePictureVM picture)
         {
 
             if (string.IsNullOrEmpty(username))
@@ -43,6 +40,20 @@ namespace Imagery.API.Controllers
             if (string.IsNullOrEmpty(response))
             {
                 return BadRequest("Error while saving picture, try again!");
+            }
+
+            return Ok(response);
+        }
+
+        [HttpPost("{id}")]
+        public ActionResult<string> ItemUpload(int id, [FromForm] ItemUploadVM item)
+        {
+
+            var response = ImageService.UploadItem(id, item);
+
+            if (response == null)
+            {
+                return BadRequest("Image not uploaded, try again!");
             }
 
             return Ok(response);

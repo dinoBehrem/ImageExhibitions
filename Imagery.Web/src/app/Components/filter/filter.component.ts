@@ -23,4 +23,6 @@ export class FilterComponent implements OnInit {
   sendFilters() {
     this.filters.emit(this.params.value as FilterVM);
   }
+
+  resetFilters() {}
 }

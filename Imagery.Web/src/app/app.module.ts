@@ -19,6 +19,7 @@ import { ExhibitionsComponent } from './Components/Exhibition/exhibitions/exhibi
 import { CreateExhibitionComponent } from './Components/Exhibition/create-exhibition/create-exhibition.component';
 import { HeaderStatusComponent } from './Components/Header/header-status/header-status.component';
 import { ProfileComponent } from './Components/User/profile/profile.component';
+import { EditExhibitionComponent } from './Components/Exhibition/edit-exhibition/edit-exhibition.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { ProfileComponent } from './Components/User/profile/profile.component';
     CreateExhibitionComponent,
     HeaderStatusComponent,
     ProfileComponent,
+    EditExhibitionComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,10 +42,12 @@ import { ProfileComponent } from './Components/User/profile/profile.component';
     ReactiveFormsModule,
     HttpClientModule,
     RouterModule.forRoot([
+      { path: '', component: ExhibitionsComponent },
       { path: 'Home', component: ExhibitionsComponent },
       { path: 'Login', component: SigninComponent },
       { path: 'Register', component: SignupComponent },
       { path: 'Create', component: CreateExhibitionComponent },
+      { path: 'EditExhibition/:id', component: EditExhibitionComponent },
       {
         path: 'Users',
         component: UsersComponent,

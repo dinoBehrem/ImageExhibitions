@@ -26,6 +26,9 @@ namespace Imagery.Repository.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<string>("CoverImage")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
@@ -46,6 +49,41 @@ namespace Imagery.Repository.Migrations
                     b.HasIndex("OrganizerId");
 
                     b.ToTable("Exhibitions");
+                });
+
+            modelBuilder.Entity("Imagery.Core.Models.ExponentItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Creator")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Dimensions")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ExhibitionId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExhibitionId");
+
+                    b.ToTable("ExponentItems");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -267,6 +305,17 @@ namespace Imagery.Repository.Migrations
                         .HasForeignKey("OrganizerId");
 
                     b.Navigation("Organizer");
+                });
+
+            modelBuilder.Entity("Imagery.Core.Models.ExponentItem", b =>
+                {
+                    b.HasOne("Imagery.Core.Models.Exhibition", "Exhibition")
+                        .WithMany()
+                        .HasForeignKey("ExhibitionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Exhibition");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

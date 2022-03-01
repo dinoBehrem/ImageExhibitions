@@ -16,6 +16,7 @@ namespace Imagery.Core.Models
         public string Description { get; set; }
         public DateTime Date { get; set; }
         public DateTime ExpiringTime { get; set; }
+        public string CoverImage { get; set; } // execute migration
 
         [ForeignKey(nameof(OrganizerId))]
         public User Organizer { get; set; }

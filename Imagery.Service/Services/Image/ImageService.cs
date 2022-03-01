@@ -1,4 +1,8 @@
 ﻿using Imagery.Core.Models;
+using Imagery.Repository.Repository;
+using Imagery.Service.Helpers;
+using Imagery.Service.Services.Exhbition;
+using Imagery.Service.ViewModels.Image;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -16,12 +20,14 @@ namespace Imagery.Service.Services.Image
         private readonly UserManager<User> UserManager;
         private readonly IWebHostEnvironment HostEnviroment;
         private readonly IHttpContextAccessor ContextAccessor;
+        private readonly IRepository<ExponentItem> ItemRepository;
 
-        public ImageService(UserManager<User> userManager, IWebHostEnvironment hostEnviroment, IHttpContextAccessor contextAccessor)
+        public ImageService(UserManager<User> userManager, IWebHostEnvironment hostEnviroment, IHttpContextAccessor contextAccessor, IRepository<ExponentItem> itemRepository)
         {
             UserManager = userManager;
             HostEnviroment = hostEnviroment;
             ContextAccessor = contextAccessor;
+            ItemRepository = itemRepository;
         }
 
         public async Task<string> UploadProfilePicture(string username, IFormFile file)
@@ -74,7 +80,7 @@ namespace Imagery.Service.Services.Image
             return imageURL;
         }
 
-        public void DeleteImage(string folder, string imagepath)
+        private void DeleteImage(string folder, string imagepath)
         {
             if (string.IsNullOrEmpty(imagepath))
             {
@@ -90,11 +96,59 @@ namespace Imagery.Service.Services.Image
             }
         }
 
-        public string EditImage(string folder, IFormFile image, string path)
+        private string EditImage(string folder, IFormFile image, string path)
         {
             DeleteImage(folder, path);
 
             return SaveImage(folder, image);
+        }
+
+        public List<ExponentItemVM> GetExhibitionItems(int id)
+        {
+            List<ExponentItemVM> items = ItemRepository.GetAll().Where(item => item.ExhibitionId == id).Select(item => new ExponentItemVM() 
+            {
+                Name = item.Name,
+                Description = item.Description,
+                Creator = item.Creator,
+                Image = item.Image,
+                Dimensions = item.Dimensions,
+                Price = item.Price
+            }).ToList();
+
+            return items;
+        }
+
+        public  ExponentItemVM UploadItem(int id, ItemUploadVM itemUpload)
+        {
+            const string folder = "ExponentItems";
+
+            string imagePath = EditImage(folder, itemUpload.Image, null);
+
+            if (string.IsNullOrEmpty(imagePath))
+            {
+                return null;
+            }
+
+            var repoResponse = ItemRepository.Add(new ExponentItem()
+            {
+                Name = itemUpload.Name,
+                Description = itemUpload.ImageDescription,
+                Creator = itemUpload.Creator,
+                Dimensions = itemUpload.Dimensions,
+                ExhibitionId = id,
+                Price = itemUpload.Price,
+                Image = imagePath
+            });
+
+            if (!repoResponse.IsSuccess)
+            {
+                return null;
+            }
+
+            ExponentItemVM exponentItem = Mapper.MapExponentItem(repoResponse.Content);
+
+            return exponentItem;
+            
         }
     }
 }

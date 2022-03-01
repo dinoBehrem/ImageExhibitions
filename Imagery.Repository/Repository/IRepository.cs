@@ -10,6 +10,8 @@ namespace Imagery.Repository.Repository
     public interface IRepository<TEntity>
     {
         List<TEntity> GetAll();
-        RepositoryResponse Add(TEntity entity);
+        RepositoryResponse<TEntity> Add(TEntity entity);
+        RepositoryResponse<TEntity> GetSingleOrDefault(int id);
+        
     }
 }

@@ -59,9 +59,7 @@ export class ProfileComponent implements OnInit {
   }
 
   saveImage() {
-    console.log(this.image);
     this.imageData.append('image', this.image, this.image.name);
-    console.log(this.imageData.getAll('image'));
     this.imageService
       .UploadProfilePicture(this.user.username, this.imageData)
       .subscribe((res: any) => {

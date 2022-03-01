@@ -84,6 +84,7 @@ namespace Imagery.Service.Services.Authentication
                     Lastname = user.LastName,
                     Username = user.UserName,
                     Email = user.Email,
+                    Picture = user.ProfilePicture
                 });
         }
 

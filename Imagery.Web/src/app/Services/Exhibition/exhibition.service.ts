@@ -4,14 +4,16 @@ import { Observable } from 'rxjs';
 import { ExhibitionCreationVM } from 'src/app/ViewModels/ExhibitionCreationVM';
 import { ExhibitionVM } from 'src/app/ViewModels/ExhibitionVM';
 import { FilterVM } from 'src/app/ViewModels/FilterVM';
+import { ItemUploadVM } from 'src/app/ViewModels/ItemUploadVM';
+import { SignService } from '../Sign/sign.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ExhibitionService {
-  url: string = 'https://localhost:44367/Exhibition';
+  url: string = 'https://localhost:44395/Exhibition';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private signServices: SignService) {}
 
   GetAll(): Observable<ExhibitionVM[]> {
     let options = {
@@ -22,8 +24,16 @@ export class ExhibitionService {
     return this.http.get<ExhibitionVM[]>(this.url + '/GetAll', options);
   }
 
-  GetSingle(title: string): Observable<ExhibitionVM> {
-    return this.http.get<ExhibitionVM>(this.url + '/GetByTitle?title=' + title);
+  GetSingle(id: number): Observable<ExhibitionVM> {
+    let options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+    return this.http.get<ExhibitionVM>(
+      this.url + '/GetExhbition/' + id,
+      options
+    );
   }
 
   Create(exhibition: ExhibitionCreationVM): any {
@@ -32,32 +42,26 @@ export class ExhibitionService {
         'Content-Type': 'application/json',
       }),
     };
-    return this.http
-      .post<ExhibitionCreationVM>(
-        this.url + '/CreateExhibition',
-        exhibition,
-        options
-      )
-      .subscribe((data: any) =>
-        alert(
-          'Exhibition ' + '"' + data.title + '"' + ' successfully organized!'
-        )
-      );
+    return this.http.post<ExhibitionCreationVM>(
+      this.url + '/Create',
+      exhibition,
+      options
+    );
   }
 
-  // ItemUpload(title: string, item: ItemUploadVM): any {
-  //   let options = {
-  //     headers: new HttpHeaders({
-  //       'Content-Type': 'application/json',
-  //       'Authentication-token': this.getToken(),
-  //     }),
-  //   };
-  //   return this.http.post<ItemUploadVM>(
-  //     this.url + '/ItemUpload' + `?title=${title}`,
-  //     item,
-  //     options
-  //   );
-  // }
+  ItemUpload(title: string, item: ItemUploadVM): any {
+    let options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authentication-token': this.signServices.GetToken() + '',
+      }),
+    };
+    return this.http.post<ItemUploadVM>(
+      this.url + '/ItemUpload' + `?title=${title}`,
+      item,
+      options
+    );
+  }
 
   Filter(filter: FilterVM): Observable<ExhibitionVM[]> {
     let dateFromString: string;

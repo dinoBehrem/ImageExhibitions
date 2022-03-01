@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { FormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { SignService } from 'src/app/Services/Sign/sign.service';
 import { SignInVM } from 'src/app/ViewModels/SignInVM';
@@ -11,7 +15,10 @@ import { SignInVM } from 'src/app/ViewModels/SignInVM';
   styleUrls: ['./signin.component.css'],
 })
 export class SigninComponent implements OnInit {
-  loginDetails!: FormGroup;
+  loginDetails: FormGroup = new FormGroup({
+    username: new FormControl('', Validators.required),
+    password: new FormControl('', Validators.required),
+  });
   constructor(
     private signServices: SignService,
     private formBuilder: FormBuilder,
@@ -20,8 +27,8 @@ export class SigninComponent implements OnInit {
 
   ngOnInit(): void {
     this.loginDetails = this.formBuilder.group({
-      username: '',
-      password: '',
+      username: ['', { validators: [Validators.required] }],
+      password: ['', { validators: [Validators.required] }],
     });
   }
 

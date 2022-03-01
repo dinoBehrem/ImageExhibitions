@@ -1,1 +1,56 @@
-<p>filter works!</p>
+<div id="filter">
+    <div class="botomLine" id="filterHeader">
+        <span id="filterTitle">Filters</span>
+        <a id="filterReset" (click)="resetFilters()">Reset all</a>
+    </div>
+    <div>
+        <form class="d-flex flex-column" [formGroup]="params" (ngSubmit)="sendFilters()">
+            <div>
+                <div class="botomLine">
+                    <div class="category">
+                        <span>Budget</span>
+                        <a class="expandCategory" data-toggle="collapse" href="#collapseBudget" role="button" aria-expanded="false" aria-controls="collapseBudget">                    
+                        </a>
+                    </div>
+                    <div class="collapse" id="collapseBudget">
+                        <div style="height: 70px;">
+                            Anim pariatur cliche reprehenderit.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="botomLine">
+                    <div class="category">
+                        <span>Date</span>
+                        <a class="expandCategory" data-toggle="collapse" href="#collapseDate" role="button" aria-expanded="false" aria-controls="collapseDate">                    
+                        </a>
+                    </div>
+                    <div class="collapse" id="collapseDate">
+                        <!-- style="height: 70px;" -->
+                        <div >
+                            <span>From:</span>
+                            <input type="datetime-local" class="form-control" formControlName="dateFrom"><br>
+                            <label>To:</label>
+                            <input type="datetime-local" class="form-control" formControlName="dateTo"><br>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div>
+                    <label>Creator name:</label>
+                    <input type="text" class="form-control" formControlName="creatorName">
+                </div>
+                <div>
+                    <label>Type:</label>
+                    <div>
+                        <input type="radio">
+                        <label>Photographies</label>
+                        <input type="radio">
+                        <label>Paintings & drawings</label>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-secondary">Filter</button>
+        </form>
+    </div>
+</div>

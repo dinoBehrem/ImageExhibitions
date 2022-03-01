@@ -1,5 +1,6 @@
 <div>
   <p>{{user?.firstname}} {{user?.lastname}} {{user?.username}} {{user?.email}}</p><br>
+  <img src="{{user?.picture}}">
  </div>
  <select [(ngModel)]="_role">
   <option *ngFor="let role of roles">{{role}}</option>
@@ -25,7 +26,7 @@
             <td>{{user.lastname}}</td>
             <td>{{user.username}}</td>
             <td>{{user.email}}</td>
-            <td>{{user.picture}}</td>
+            <td><img [src]="user?.picture" alt="Profile picture..."></td>
             <!-- <td>
               <button type="button" class="btn btn-success" (click)="Promote(user.username)">Promote</button>
               <button type="button" class="btn btn-danger" (click)="Demote(user.username)">Demote</button>
