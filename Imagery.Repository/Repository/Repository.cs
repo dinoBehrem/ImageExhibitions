@@ -20,36 +20,35 @@ namespace Imagery.Repository.Repository
         }
         public List<TEntity> GetAll()
         {
+
             return Entities.ToList();
         }
 
         public RepositoryResponse<TEntity> Add(TEntity entity)
         {
+            RepositoryResponse<TEntity> response = new RepositoryResponse<TEntity>();
+
             try
             {
                 Entities.Add(entity);
 
                 ImageryContext.SaveChanges();
-                return new RepositoryResponse<TEntity>()
-                {
-                    Status = "Success",
-                    Message = "Entity successfully added!",
-                    IsSuccess = true,
-                    Content = entity
-                };
+               
+                response.Status = "Success";
+                response.Message = "Entity successfully added!";
+                response.IsSuccess = true;
+                response.Content = entity;
             }
             catch (Exception ex)
             {
-
-                return new RepositoryResponse<TEntity>() 
-                {
-                    Status = "Error",
-                    Message = ex.Message,
-                    InnerMessage = ex.InnerException?.Message,
-                    IsSuccess = false
-                };
+                response.Status = "Error";
+                response.Message = ex.Message;
+                response.InnerMessage = ex.InnerException?.Message;
+                response.IsSuccess = false;
+                response.Content = null;
             }
-            
+
+            return response;
         }
 
         public RepositoryResponse<TEntity> GetSingleOrDefault(int id)
@@ -71,6 +70,37 @@ namespace Imagery.Repository.Repository
                 response.Message = "Entity successfully found!";
                 response.IsSuccess = true;
                 response.Content = entity;
+            }
+
+            return response;
+        }
+
+        public void SaveChanges()
+        {
+            ImageryContext.SaveChanges();
+        }
+
+        public RepositoryResponse<TEntity> Update(TEntity entity)
+        {
+            RepositoryResponse<TEntity> response = new RepositoryResponse<TEntity>();
+
+            try
+            {
+                ImageryContext.Entry(entity).State = EntityState.Modified;
+                SaveChanges();
+
+                response.Status = "Success";
+                response.Message = "Entity successfully added!";
+                response.IsSuccess = true;
+                response.Content = entity;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "Error";
+                response.Message = ex.Message;
+                response.InnerMessage = ex.InnerException?.Message;
+                response.IsSuccess = false;
+                response.Content = null;
             }
 
             return response;

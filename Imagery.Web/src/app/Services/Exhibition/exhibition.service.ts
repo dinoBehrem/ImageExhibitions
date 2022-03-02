@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { CoverImageVM } from 'src/app/ViewModels/CoverImageVM';
 import { ExhibitionCreationVM } from 'src/app/ViewModels/ExhibitionCreationVM';
 import { ExhibitionVM } from 'src/app/ViewModels/ExhibitionVM';
 import { FilterVM } from 'src/app/ViewModels/FilterVM';
@@ -133,5 +134,27 @@ export class ExhibitionService {
     }
 
     return dateString;
+  }
+
+  UpdateCover(cover: CoverImageVM): any {
+    let options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+    return this.http.post<CoverImageVM>(
+      this.url + '/UpadteCoverImage',
+      cover,
+      options
+    );
+  }
+
+  Update(exhibition: ExhibitionVM): any {
+    let options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+    return this.http.post(this.url + '/Update', exhibition, options);
   }
 }

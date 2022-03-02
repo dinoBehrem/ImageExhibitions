@@ -12,6 +12,7 @@ namespace Imagery.Repository.Repository
         List<TEntity> GetAll();
         RepositoryResponse<TEntity> Add(TEntity entity);
         RepositoryResponse<TEntity> GetSingleOrDefault(int id);
-        
+        RepositoryResponse<TEntity> Update(TEntity entity);
+        void SaveChanges();
     }
 }

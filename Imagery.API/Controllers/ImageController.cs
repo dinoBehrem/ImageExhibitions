@@ -23,6 +23,7 @@ namespace Imagery.API.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<string>> ProfilePictureUpload(string username, [FromForm] ProfilePictureVM picture)
         {
 
@@ -46,6 +47,7 @@ namespace Imagery.API.Controllers
         }
 
         [HttpPost("{id}")]
+        [Authorize]
         public ActionResult<string> ItemUpload(int id, [FromForm] ItemUploadVM item)
         {
 

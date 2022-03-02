@@ -6,4 +6,5 @@ export interface ItemUploadVM {
   imageDescritpion: string;
   price: number;
   dimensions: string;
+  isCover: boolean;
 }

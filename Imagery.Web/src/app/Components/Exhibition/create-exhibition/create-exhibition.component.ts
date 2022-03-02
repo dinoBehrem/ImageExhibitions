@@ -30,7 +30,6 @@ export class CreateExhibitionComponent implements OnInit {
   // });
 
   user!: UserVM;
-  exhibition!: ExhibitionVM;
 
   constructor(
     private exhibitionService: ExhibitionService,
@@ -52,12 +51,12 @@ export class CreateExhibitionComponent implements OnInit {
     if (this.auth.isAuthenticated()) {
       let userName = this.getUser();
       this.exhibitionDetails.addControl('organizer', new FormControl(userName));
+      console.log(this.exhibitionDetails.value);
 
       this.exhibitionService
         .Create(this.exhibitionDetails.value as ExhibitionCreationVM)
         .subscribe((res: any) => {
-          this.exhibition = res;
-          this.router.navigate(['EditExhibition', this.exhibition.id]);
+          this.router.navigate(['EditExhibition', res]);
         });
     } else {
       alert('You are not signed user, please sign in!');

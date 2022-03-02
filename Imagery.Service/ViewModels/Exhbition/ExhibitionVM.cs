@@ -17,5 +17,26 @@ namespace Imagery.Service.ViewModels.Exhbition
         public UserVM Organizer { get; set; }
         public string Cover { get; set; }
         public List<ExponentItemVM> Items { get; set; }
+        public double AveragePrice { get 
+            {
+                if (Items.Count > 0)
+                {
+                    return Items.Average(item => item.Price);
+                }else
+                {
+                    return 0;
+                }
+            } set 
+            {
+                if(Items.Count > 0)
+                {
+                    AveragePrice = Items.Average(item => item.Price);
+                }else
+                {
+                    AveragePrice = 0;
+                }
+            } 
+        }
+
     }
 }

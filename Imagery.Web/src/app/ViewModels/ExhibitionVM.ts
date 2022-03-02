@@ -5,8 +5,9 @@ export interface ExhibitionVM {
   id: number;
   title: string;
   description: string;
-  startingDate: Date;
+  date: Date;
   organizer: UserVM;
   cover: string;
   items: ExponentItemVM[];
+  averagePrice: number;
 }

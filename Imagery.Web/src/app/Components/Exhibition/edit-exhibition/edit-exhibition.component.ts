@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ExhibitionService } from 'src/app/Services/Exhibition/exhibition.service';
 import { ImageServiceService } from 'src/app/Services/Image/image-service.service';
 import { SignService } from 'src/app/Services/Sign/sign.service';
+import { CoverImageVM } from 'src/app/ViewModels/CoverImageVM';
 import { ExhibitionVM } from 'src/app/ViewModels/ExhibitionVM';
 import { ExponentItemVM } from 'src/app/ViewModels/ExponentItemVM';
 
@@ -25,17 +26,12 @@ export class EditExhibitionComponent implements OnInit {
     image: File,
     name: '',
     creator: '',
-    imageDescription: '',
+    description: '',
     dimensions: '',
     price: 0.0,
+    isCover: false,
   };
-
-  image!: File;
-  name: string = '';
-  creator: string = '';
-  imageDescription: string = '';
-  dimensions: string = '';
-  price: number = 0.0;
+  private imagePlaceholder: string = '../../../assets/imagePlaceholder.png';
 
   constructor(
     private exhibitionService: ExhibitionService,
@@ -64,34 +60,7 @@ export class EditExhibitionComponent implements OnInit {
     });
   }
 
-  // save() {
-  //   if (this.auth.isAuthenticated()) {
-  //     let userName = this.getUser();
-  //     this.exhibitionDetails.addControl('organizer', new FormControl(userName));
-
-  //     this.exhibitionService
-  //       .Create(this.exhibitionDetails.value as ExhibitionCreationVM)
-  //       .subscribe((res: any) => {
-  //         this.exhibition = res;
-  //         this.router.navigate(['EditExhibition', this.exhibition.id]);
-  //       });
-  //   } else {
-  //     alert('You are not signed user, please sign in!');
-  //   }
-  // }
-
   fileInput(item: any) {
-    // if (item?.target?.files.length > 0) {
-    //   this.image = item?.target?.files[0];
-
-    //   var reader = new FileReader();
-    //   reader.onload = (event: any) => {
-    //     this.imageURL = event.target.result;
-    //   };
-    //   reader.readAsDataURL(this.image);
-    //   console.log(this.image);
-    // }
-
     if (item?.target?.files.length > 0) {
       this.itemVM.image = item?.target?.files[0];
 
@@ -100,24 +69,15 @@ export class EditExhibitionComponent implements OnInit {
         this.imageURL = event.target.result;
       };
       reader.readAsDataURL(this.itemVM.image);
-      console.log(this.image);
     }
   }
 
   saveImage() {
-    // this.imageData.append('exhibitionId', this.exhibition.id.toString());
-    // this.imageData.append('image', this.image, this.image.name);
-    // this.imageData.append('name', this.name);
-    // this.imageData.append('creator', this.creator);
-    // this.imageData.append('imageDescription', this.imageDescription);
-    // this.imageData.append('price', this.price.toString());
-    // this.imageData.append('dimensions', this.dimensions);
-
     this.imageData.append('exhibitionId', this.exhibition.id.toString());
     this.imageData.append('image', this.itemVM.image, this.itemVM.image.name);
     this.imageData.append('name', this.itemVM.name);
     this.imageData.append('creator', this.itemVM.creator);
-    this.imageData.append('imageDescription', this.itemVM.imageDescription);
+    this.imageData.append('imageDescription', this.itemVM.description);
     this.imageData.append('price', this.itemVM.price.toString());
     this.imageData.append('dimensions', this.itemVM.dimensions);
 
@@ -130,12 +90,16 @@ export class EditExhibitionComponent implements OnInit {
   }
 
   clearModal() {
-    this.imageURL = '';
-    this.name = '';
-    this.creator = '';
-    this.imageDescription = '';
-    this.price = 0.0;
-    this.dimensions = '';
+    this.itemVM = {
+      image: File,
+      name: '',
+      creator: '',
+      description: '',
+      dimensions: '',
+      price: 0.0,
+    };
+
+    this.imageURL = this.imagePlaceholder;
   }
 
   getUser() {
@@ -153,5 +117,37 @@ export class EditExhibitionComponent implements OnInit {
   setItem(event: ExponentItemVM) {
     this.itemVM = event;
     this.imageURL = event.image;
+  }
+
+  newItem() {
+    this.imageURL = this.imagePlaceholder;
+    this.itemVM = {
+      image: File,
+      name: '',
+      creator: '',
+      description: '',
+      dimensions: '',
+      price: 0.0,
+    };
+  }
+
+  setCover() {
+    let imageCover = {
+      exhibitionId: this.exhibition.id,
+      coverImage: this.imageURL,
+    };
+
+    this.exhibitionService
+      .UpdateCover(imageCover as CoverImageVM)
+      .subscribe((res: any) => {
+        alert(res);
+        this.exhibition.cover = imageCover.coverImage;
+      });
+  }
+
+  editDetails() {
+    this.exhibitionService.Update(this.exhibition).subscribe((res: any) => {
+      this.exhibition = res;
+    });
   }
 }

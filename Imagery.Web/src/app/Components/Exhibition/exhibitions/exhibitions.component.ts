@@ -11,6 +11,14 @@ import { FilterVM } from 'src/app/ViewModels/FilterVM';
 export class ExhibitionsComponent implements OnInit {
   exhibitions: ExhibitionVM[] = [];
   imagePath: string = '../../../../../pexels.jpg';
+  filters: any = {
+    dateFrom: null,
+    dateTo: null,
+    avgPriceMin: null,
+    avgPriceMax: null,
+  };
+
+  filter: string = '';
 
   constructor(private exhibitionService: ExhibitionService) {}
 
@@ -24,9 +32,38 @@ export class ExhibitionsComponent implements OnInit {
       .subscribe((data: any) => (this.exhibitions = data));
   }
 
+  setFilters(filters: FilterVM) {
+    this.filters = filters;
+  }
+
+  filterExhibitions() {
+    if (this.exhibitions == null) {
+      return [];
+    }
+
+    return this.exhibitions.filter(
+      (exhibition) =>
+        exhibition.title.toLowerCase().includes(this.filter.toLowerCase()) &&
+        (exhibition.date >= this.filters?.dateFrom ||
+          this.filters.dateFrom == null) &&
+        (exhibition.date <= this.filters?.dateTo ||
+          this.filters.dateTo == null) &&
+        (exhibition.averagePrice >= this.filters?.avgPriceMin ||
+          this.filters.avgPriceMin == null) &&
+        (exhibition.averagePrice <= this.filters?.avgPriceMax ||
+          this.filters.avgPriceMax == null)
+    );
+  }
+
   getByFilters(filters: FilterVM): void {
     this.exhibitionService.Filter(filters).subscribe((data: any) => {
       this.exhibitions = data;
     });
+  }
+
+  filterByExhibitionName() {
+    return this.exhibitions.filter((exhibition) =>
+      exhibition.title.toLowerCase().includes(this.filter.toLowerCase())
+    );
   }
 }

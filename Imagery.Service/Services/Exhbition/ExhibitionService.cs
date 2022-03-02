@@ -57,11 +57,12 @@ namespace Imagery.Service.Services.Exhbition
             return new ExhibitionVM()
             {
                 Id = result.Content.Id,
-                Title = exhibitionCreation.Title,
-                Description = exhibitionCreation.Description,
-                Date = exhibitionCreation.StartingDate,
+                Title = result.Content.Title,
+                Description = result.Content.Description,
+                Date = result.Content.Date,
                 Organizer = Mapper.MapUserVM(user),
-                Items = null
+                Items = null,
+                Cover = result.Content.CoverImage
             };
         }
 
@@ -75,7 +76,7 @@ namespace Imagery.Service.Services.Exhbition
                 Organizer = toUserVM(exhibition.OrganizerId),
                 Date = exhibition.Date,
                 Cover = exhibition.CoverImage,
-                Items = ExhbitionItems(exhibition.Id)
+                Items = ExhbitionItems(exhibition.Id),
             }).ToList();
 
             return exhibitions;
@@ -114,12 +115,61 @@ namespace Imagery.Service.Services.Exhbition
                 Lastname = user.LastName,
                 Username = user.UserName,
                 Email = user.Email,
+                Picture = user.ProfilePicture
             };
         }
 
         private List<ExponentItemVM> ExhbitionItems(int id)
         {
             return ImageService.GetExhibitionItems(id).ToList();
+        }
+
+        public string SetExhibitionCover(CoverImageVM cover)
+        {
+            if (string.IsNullOrEmpty(cover.CoverImage))
+            {
+                return null;
+            }
+
+            var response = ExhibitionRepository.GetSingleOrDefault(cover.ExhibitionId);
+
+            if (!response.IsSuccess)
+            {
+                return null;
+            }
+
+            response.Content.CoverImage = cover.CoverImage;
+            ExhibitionRepository.SaveChanges();
+
+            return "Cover image successfully updated!";
+        }
+
+        public ExhibitionVM UpdateExhibition(ExhibitionVM input)
+        {
+            var exhibition = ExhibitionRepository.GetSingleOrDefault(input.Id);
+
+            if (!exhibition.IsSuccess)
+            {
+                return null;
+            }
+
+            exhibition.Content.Title = input.Title;
+            exhibition.Content.Date = input.Date;
+            exhibition.Content.Description = input.Description;
+
+            var result = ExhibitionRepository.Update(exhibition.Content);
+
+            if (!result.IsSuccess)
+            {
+                return null;
+            }
+
+            var response = Mapper.MapExhibitionVM(exhibition.Content);
+
+            response.Items = ExhbitionItems(response.Id);
+            response.Organizer = toUserVM(exhibition.Content.OrganizerId);
+
+            return response;
         }
     }
 }

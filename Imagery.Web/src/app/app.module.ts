@@ -20,6 +20,7 @@ import { CreateExhibitionComponent } from './Components/Exhibition/create-exhibi
 import { HeaderStatusComponent } from './Components/Header/header-status/header-status.component';
 import { ProfileComponent } from './Components/User/profile/profile.component';
 import { EditExhibitionComponent } from './Components/Exhibition/edit-exhibition/edit-exhibition.component';
+import { ExhibitionComponent } from './Components/Exhibition/exhibition/exhibition.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { EditExhibitionComponent } from './Components/Exhibition/edit-exhibition
     HeaderStatusComponent,
     ProfileComponent,
     EditExhibitionComponent,
+    ExhibitionComponent,
   ],
   imports: [
     BrowserModule,
@@ -48,6 +50,7 @@ import { EditExhibitionComponent } from './Components/Exhibition/edit-exhibition
       { path: 'Register', component: SignupComponent },
       { path: 'Create', component: CreateExhibitionComponent },
       { path: 'EditExhibition/:id', component: EditExhibitionComponent },
+      { path: 'Exhibition/:id', component: ExhibitionComponent },
       {
         path: 'Users',
         component: UsersComponent,

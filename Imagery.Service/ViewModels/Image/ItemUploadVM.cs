@@ -23,6 +23,6 @@ namespace Imagery.Service.ViewModels.Image
         [Required(ErrorMessage = "Price is a required field!")]
         public double Price { get; set; }
         public IFormFile Image { get; set; }
-        
+
     }
 }

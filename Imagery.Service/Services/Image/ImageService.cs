@@ -145,7 +145,7 @@ namespace Imagery.Service.Services.Image
                 return null;
             }
 
-            ExponentItemVM exponentItem = Mapper.MapExponentItem(repoResponse.Content);
+            ExponentItemVM exponentItem = Mapper.MapExponentItemVM(repoResponse.Content);
 
             return exponentItem;
             

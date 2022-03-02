@@ -16,6 +16,8 @@ export class FilterComponent implements OnInit {
       creatorName: '',
       dateFrom: null,
       dateTo: null,
+      avgPriceMax: null,
+      avgPriceMin: null,
     });
   }
   @Output() filters = new EventEmitter<FilterVM>();
@@ -24,5 +26,15 @@ export class FilterComponent implements OnInit {
     this.filters.emit(this.params.value as FilterVM);
   }
 
-  resetFilters() {}
+  resetFilters() {
+    this.params = this.formBuilder.group({
+      creatorName: '',
+      dateFrom: null,
+      dateTo: null,
+      avgPriceMax: null,
+      avgPriceMin: null,
+    });
+
+    this.sendFilters();
+  }
 }

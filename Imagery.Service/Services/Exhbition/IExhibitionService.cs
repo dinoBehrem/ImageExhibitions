@@ -1,4 +1,5 @@
 ﻿using Imagery.Service.ViewModels.Exhbition;
+using Imagery.Service.ViewModels.Image;
 using Imagery.Service.ViewModels.User;
 using System;
 using System.Collections.Generic;
@@ -13,5 +14,7 @@ namespace Imagery.Service.Services.Exhbition
         Task<ExhibitionVM> Create(ExhbitionCreationVM exhibitionCreationVM);
         List<ExhibitionVM> Exhibitions();
         ExhibitionVM GetById(int id);
+        ExhibitionVM UpdateExhibition(ExhibitionVM exhibition);
+        string SetExhibitionCover(CoverImageVM cover);
     }
 }

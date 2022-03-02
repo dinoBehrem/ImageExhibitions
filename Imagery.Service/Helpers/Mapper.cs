@@ -1,4 +1,5 @@
 ﻿using Imagery.Core.Models;
+using Imagery.Service.ViewModels.Exhbition;
 using Imagery.Service.ViewModels.Image;
 using Imagery.Service.ViewModels.User;
 using Microsoft.AspNetCore.Identity;
@@ -31,7 +32,7 @@ namespace Imagery.Service.Helpers
             return toUserVM;
         }
 
-        public static ExponentItemVM MapExponentItem(ExponentItem exponentItem)
+        public static ExponentItemVM MapExponentItemVM(ExponentItem exponentItem)
         {
             if (exponentItem == null)
             {
@@ -49,6 +50,26 @@ namespace Imagery.Service.Helpers
             };
 
             return exponent;
+        }
+
+        public static ExhibitionVM MapExhibitionVM(Exhibition exhibition)
+        {
+            if (exhibition == null)
+            {
+                return null;
+            }
+
+            ExhibitionVM exhibitionVM = new ExhibitionVM()
+            {
+                Id = exhibition.Id,
+                Title = exhibition.Title,
+                Description = exhibition.Description,
+                Date = exhibition.Date,
+                Cover = exhibition.CoverImage,
+                Organizer = MapUserVM(exhibition.Organizer)
+            };
+
+            return exhibitionVM;
         }
     }
 }

@@ -1,0 +1,45 @@
+<div id="imageDisplay">
+    <div *ngFor="let item of exhibition?.items" class="toggleModal" (click)="setItem(item)">
+        <img src="{{item.image}}" data-toggle="modal" data-target="#exampleModal" />
+    </div>
+   <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document" style="width: 800px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Preview image</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="exhbitionForm">
+                        <div id="modalImage">
+                            <img [src]="itemVM.image">
+                        </div>
+                        <label>Name</label>
+                        <input class="form-control" type="text" [(ngModel)]="itemVM.name" value="{{itemVM.name}}" required>
+                        <label>Description</label>
+                        <input class="form-control" type="text" [(ngModel)]="itemVM.description" value="{{itemVM.description}}" required>
+                        <label>Artist</label>
+                        <input class="form-control" type="text" [(ngModel)]="itemVM.creator" required>
+                        <div id="priceDimensions">
+                            <div class="itemPrice">
+                                <label>Price</label>
+                                <input class="form-control" type="number" [(ngModel)]="itemVM.price" required>
+                            </div>
+                            <div class="itemPrice">
+                                <label>Dimensions</label>
+                                <input class="form-control" type="text" [(ngModel)]="itemVM.dimensions" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary" (click)="addToCart()">Add to cart</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

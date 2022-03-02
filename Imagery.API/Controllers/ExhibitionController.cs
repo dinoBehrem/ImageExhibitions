@@ -1,5 +1,7 @@
 ﻿using Imagery.Service.Services.Exhbition;
 using Imagery.Service.ViewModels.Exhbition;
+using Imagery.Service.ViewModels.Image;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -21,6 +23,7 @@ namespace Imagery.API.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult> Create([FromBody]ExhbitionCreationVM exhbitionCreationVM)
         {
             // check if input is valid
@@ -36,6 +39,25 @@ namespace Imagery.API.Controllers
             if (response == null)
             {
                 return BadRequest("Error, try again!");
+            }
+
+            return Ok(response.Id);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult<ExhibitionVM> Update([FromBody] ExhibitionVM exhbitionVM)
+        {
+            if (exhbitionVM == null)
+            {
+                return BadRequest("Error, inavlid data!");
+            }
+
+            var response = ExhibitionService.UpdateExhibition(exhbitionVM);
+
+            if (response == null)
+            {
+                return BadRequest("Update failed, try again!");
             }
 
             return Ok(response);
@@ -65,6 +87,25 @@ namespace Imagery.API.Controllers
             }
 
             return Ok(serviceresponse);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult<string> UpadteCoverImage([FromBody]CoverImageVM coverImage)
+        {
+            if (coverImage == null)
+            {
+                return BadRequest("Invalid data, please try again!");
+            }
+
+            var result = ExhibitionService.SetExhibitionCover(coverImage);
+
+            if (result == null)
+            {
+                return BadRequest("Invalid data, please try again!");
+            }
+
+            return Ok(result);
         }
     }
 }
