@@ -12,9 +12,8 @@ import { SignService } from '../Services/Sign/sign.service';
 @Injectable({
   providedIn: 'root',
 })
-export class AdminAccessGuard implements CanActivate {
+export class UserAccessGuard implements CanActivate {
   constructor(private signService: SignService, private router: Router) {}
-
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
@@ -28,7 +27,7 @@ export class AdminAccessGuard implements CanActivate {
       return false;
     }
 
-    if (this.isAdmin()) {
+    if (this.isUser()) {
       return true;
     }
 
@@ -36,14 +35,13 @@ export class AdminAccessGuard implements CanActivate {
     return false;
   }
 
-  isAdmin() {
+  isUser() {
+    const userRole = 'User';
     const field = 'role';
+
     let role: string[] = [...this.signService.GetJWTData(field)];
 
-    const adminRole = 'Admin';
-    const superAdminRole = 'SuperAdmin';
-
-    if (role.includes(adminRole) || role.includes(superAdminRole)) {
+    if (role.includes(userRole)) {
       return true;
     } else {
       return false;

@@ -21,6 +21,7 @@ import { HeaderStatusComponent } from './Components/Header/header-status/header-
 import { ProfileComponent } from './Components/User/profile/profile.component';
 import { EditExhibitionComponent } from './Components/Exhibition/edit-exhibition/edit-exhibition.component';
 import { ExhibitionComponent } from './Components/Exhibition/exhibition/exhibition.component';
+import { UserAccessGuard } from './Guards/user-access.guard';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,11 @@ import { ExhibitionComponent } from './Components/Exhibition/exhibition/exhibiti
       { path: 'Login', component: SigninComponent },
       { path: 'Register', component: SignupComponent },
       { path: 'Create', component: CreateExhibitionComponent },
-      { path: 'EditExhibition/:id', component: EditExhibitionComponent },
+      {
+        path: 'EditExhibition/:id',
+        component: EditExhibitionComponent,
+        canActivate: [UserAccessGuard],
+      },
       { path: 'Exhibition/:id', component: ExhibitionComponent },
       {
         path: 'Users',

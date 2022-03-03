@@ -1,5 +1,6 @@
 <div class="d-flex flex-row" id="main">
-    <app-filter style="width: 18%;" (filters)="setFilters($event)"></app-filter>
+    <app-filter 
+    (filters)="setFilters($event)"></app-filter>
     <div style="width: 82%;">
         <div id="searchBar">
             <input type="text" [(ngModel)]="filter" value="{{filter}}" (change)="filterByExhibitionName()" placeholder="Search">
