@@ -41,12 +41,11 @@ namespace Imagery.Service.Helpers
 
             ExponentItemVM exponent = new ExponentItemVM()
             {
+                Id = exponentItem.Id,
                 Name = exponentItem.Name,
                 Creator = exponentItem.Creator,
                 Description = exponentItem.Description,
-                Dimensions = exponentItem.Dimensions,
                 Image = exponentItem.Image,
-                Price = exponentItem.Price
             };
 
             return exponent;
@@ -70,6 +69,22 @@ namespace Imagery.Service.Helpers
             };
 
             return exhibitionVM;
+        }
+
+        public static DimensionsVM MapDimensionsVM(Dimensions dimensions)
+        {
+            if (dimensions == null)
+            {
+                return null;
+            }
+
+            DimensionsVM dimensionsVM = new DimensionsVM()
+            {
+                Dimension = dimensions.Dimension,
+                Price = dimensions.Price
+            };
+
+            return dimensionsVM;
         }
     }
 }

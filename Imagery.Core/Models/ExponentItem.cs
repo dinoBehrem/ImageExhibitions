@@ -15,8 +15,6 @@ namespace Imagery.Core.Models
         public string Name { get; set; }
         public string Creator { get; set; }
         public string Description { get; set; }
-        public string Dimensions { get; set; } // napraviti kao listu 
-        public double Price { get; set; }
         public string Image { get; set; } 
 
         [ForeignKey(nameof(ExhibitionId))]

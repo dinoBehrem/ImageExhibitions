@@ -22,6 +22,7 @@ import { ProfileComponent } from './Components/User/profile/profile.component';
 import { EditExhibitionComponent } from './Components/Exhibition/edit-exhibition/edit-exhibition.component';
 import { ExhibitionComponent } from './Components/Exhibition/exhibition/exhibition.component';
 import { UserAccessGuard } from './Guards/user-access.guard';
+import { AccountComponent } from './Components/User/account/account.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { UserAccessGuard } from './Guards/user-access.guard';
     ProfileComponent,
     EditExhibitionComponent,
     ExhibitionComponent,
+    AccountComponent,
   ],
   imports: [
     BrowserModule,
@@ -62,6 +64,11 @@ import { UserAccessGuard } from './Guards/user-access.guard';
         canActivate: [SuperAdminAccessGuard],
       },
       { path: 'Profile', component: ProfileComponent },
+      {
+        path: 'Account',
+        component: AccountComponent,
+        canActivate: [UserAccessGuard],
+      },
     ]),
   ],
   providers: [

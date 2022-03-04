@@ -13,5 +13,6 @@ namespace Imagery.Service.Services.Image
         Task<string> UploadProfilePicture(string username, IFormFile file);
         ExponentItemVM UploadItem(int id, ItemUploadVM itemUpload);
         List<ExponentItemVM> GetExhibitionItems(int id);
+        DimensionsVM AddDimensions(int id, DimensionsVM dimensions);
     }
 }

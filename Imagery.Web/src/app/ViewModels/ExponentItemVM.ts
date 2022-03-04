@@ -1,8 +1,10 @@
+import { DimensionsVM } from './DimensionsVM';
+
 export interface ExponentItemVM {
+  id: number;
   name: string;
   creator: string;
   description: string;
-  dimensions: string;
-  price: number;
+  dimensions: DimensionsVM[];
   image: string;
 }

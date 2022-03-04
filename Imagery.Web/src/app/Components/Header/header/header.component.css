@@ -1,31 +1,55 @@
-.activeLink {
-  border-radius: 10px;
+#navbarSupportedContent {
+  justify-content: end;
+}
+
+#mainNav {
+  height: 40px;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  margin: 0;
+  margin-right: 8px;
+  list-style: none;
+}
+
+.navItem {
+  line-height: 40px;
+  font-size: 1.1em;
+  margin-right: 7px;
+}
+
+.navItem:hover {
   background-color: #ffffff;
-  color: #000000;
+}
+
+.navItem > a {
+  text-decoration: none;
+  color: #ffffff;
+  padding: 5px;
+  height: 40px;
+  font-weight: 500;
+}
+
+.navItem > a:hover {
+  color: #078d86;
+}
+
+.navItem > .activeLink {
+  background-color: #ffffff;
+  color: #078d86;
 }
 
 #profileMenu {
   margin-left: -75px;
 }
 
-.navItem {
-  color: #000000;
-  border-radius: 10px;
-}
-
-.navItem:hover {
-  color: #000000;
-  background-color: #ffffff;
-  border-radius: 10px;
-}
-
 .dropwonItem {
-  color: #ffffff;
+  color: #078d86;
 }
 
 .dropwonItem:hover {
-  color: #000000;
-  background-color: #ffffff;
+  color: #ffffff;
+  background-color: #078d86;
 }
 
 #navigation {

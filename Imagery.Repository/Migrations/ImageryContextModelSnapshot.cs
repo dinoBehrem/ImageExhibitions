@@ -19,6 +19,29 @@ namespace Imagery.Repository.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.0");
 
+            modelBuilder.Entity("Imagery.Core.Models.Dimensions", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Dimension")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ExponentItemId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExponentItemId");
+
+                    b.ToTable("Dimensions");
+                });
+
             modelBuilder.Entity("Imagery.Core.Models.Exhibition", b =>
                 {
                     b.Property<int>("Id")
@@ -64,9 +87,6 @@ namespace Imagery.Repository.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Dimensions")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("ExhibitionId")
                         .HasColumnType("int");
 
@@ -75,9 +95,6 @@ namespace Imagery.Repository.Migrations
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("Price")
-                        .HasColumnType("float");
 
                     b.HasKey("Id");
 
@@ -296,6 +313,17 @@ namespace Imagery.Repository.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Imagery.Core.Models.Dimensions", b =>
+                {
+                    b.HasOne("Imagery.Core.Models.ExponentItem", "ExponentItem")
+                        .WithMany()
+                        .HasForeignKey("ExponentItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ExponentItem");
                 });
 
             modelBuilder.Entity("Imagery.Core.Models.Exhibition", b =>

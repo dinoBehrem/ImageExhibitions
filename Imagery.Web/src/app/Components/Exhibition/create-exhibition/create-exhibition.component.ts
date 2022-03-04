@@ -21,20 +21,11 @@ import { UserVM } from 'src/app/ViewModels/UserVM';
 })
 export class CreateExhibitionComponent implements OnInit {
   exhibitionDetails!: FormGroup;
-  // itemDetails = new FormGroup({
-  //   name: new FormControl(''),
-  //   creator: new FormControl(''),
-  //   imageDescription: new FormControl(''),
-  //   dimensions: new FormControl(''),
-  //   price: new FormControl(0),
-  // });
-
   user!: UserVM;
 
   constructor(
     private exhibitionService: ExhibitionService,
     private auth: SignService,
-    private imageService: ImageServiceService,
     private formBuilder: FormBuilder,
     private router: Router
   ) {}
@@ -62,23 +53,6 @@ export class CreateExhibitionComponent implements OnInit {
       alert('You are not signed user, please sign in!');
     }
   }
-
-  // saveImage() {
-  //   this.imageData.append('exhbitionId', this.exhibition.id.toString());
-  //   this.imageData.append('image', this.image, this.image.name);
-  //   this.imageData.append('name', this.name);
-  //   this.imageData.append('creator', this.creator);
-  //   this.imageData.append('imageDescritpion', this.imageDescription);
-  //   this.imageData.append('price', this.price.toString());
-  //   this.imageData.append('dimensions', this.dimensions);
-  //   this.imageData.append('exhibitionTitle', this.exhibition?.title);
-
-  //   this.imageService
-  //     .UploadItemImage(this.getUser(), this.imageData)
-  //     .subscribe((res: any) => {
-  //       alert(res);
-  //     });
-  // }
 
   getUser() {
     const prop: string =

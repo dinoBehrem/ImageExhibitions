@@ -59,17 +59,25 @@
                             <input class="form-control" type="text" [(ngModel)]="itemVM.description" value="{{itemVM.description}}" required>
                             <label>Artist</label>
                             <input class="form-control" type="text" [(ngModel)]="itemVM.creator" required>
-                            <div id="priceDimensions">
-                                <div class="itemPrice">
-                                    <label>Price</label>
-                                    <input class="form-control" type="number" [(ngModel)]="itemVM.price" required>
+                            <div id="priceDimensions" *ngIf="!itemVM.newItem">
+                                <div>
+                                    <select>
+                                        <option *ngFor="let dimension of itemVM.dimensions">{{dimension.dimension}} {{dimension.price}}</option>
+                                    </select>
                                 </div>
-                                <div class="itemPrice">
-                                    <label>Dimensions</label>
-                                    <input class="form-control" type="text" [(ngModel)]="itemVM.dimensions" required>
+                                <div>
+                                    <div class="itemPrice">
+                                        <label>Price</label>
+                                        <input class="form-control" type="number" [(ngModel)]="dimensionVM.price" required>
+                                    </div>
+                                    <div class="itemPrice">
+                                        <label>Dimensions</label>
+                                        <input class="form-control" type="text" [(ngModel)]="dimensionVM.dimension" required>
+                                    </div>
+                                    <button type="button" class="btn" (click)="addDimensions()">Add dimensions</button>
                                 </div>
                             </div>
-                            <a (click)="setCover()">set as cover...</a>
+                            <a (click)="setCover()" *ngIf="!itemVM.newItem">set as cover...</a>
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-primary" (click)="saveImage()">Save changes</button>
                                 <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="clearModal()">Delete</button>

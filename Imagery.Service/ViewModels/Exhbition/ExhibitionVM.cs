@@ -21,7 +21,7 @@ namespace Imagery.Service.ViewModels.Exhbition
             {
                 if (Items.Count > 0)
                 {
-                    return Items.Average(item => item.Price);
+                    return Items.Average(item => item.AveragePrice);
                 }else
                 {
                     return 0;
@@ -30,7 +30,7 @@ namespace Imagery.Service.ViewModels.Exhbition
             {
                 if(Items.Count > 0)
                 {
-                    AveragePrice = Items.Average(item => item.Price);
+                    AveragePrice = Items.Average(item => item.AveragePrice);
                 }else
                 {
                     AveragePrice = 0;

@@ -16,12 +16,6 @@ namespace Imagery.Service.ViewModels.Image
         public string Name { get; set; }
         public string Creator { get; set; }
         public string ImageDescription { get; set; }
-        
-        [Required(ErrorMessage = "Dimensions are a required field!")]
-        public string Dimensions { get; set; }
-
-        [Required(ErrorMessage = "Price is a required field!")]
-        public double Price { get; set; }
         public IFormFile Image { get; set; }
 
     }

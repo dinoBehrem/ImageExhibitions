@@ -5,6 +5,7 @@ import { ExhibitionService } from 'src/app/Services/Exhibition/exhibition.servic
 import { ImageServiceService } from 'src/app/Services/Image/image-service.service';
 import { SignService } from 'src/app/Services/Sign/sign.service';
 import { CoverImageVM } from 'src/app/ViewModels/CoverImageVM';
+import { DimensionsVM } from 'src/app/ViewModels/DimensionsVM';
 import { ExhibitionVM } from 'src/app/ViewModels/ExhibitionVM';
 import { ExponentItemVM } from 'src/app/ViewModels/ExponentItemVM';
 
@@ -22,15 +23,18 @@ export class EditExhibitionComponent implements OnInit {
   imageURL: string = '';
   imageData: FormData = new FormData();
 
+  dimensionVM = { price: 0, dimension: '' };
+
   itemVM: any = {
+    id: -1,
     image: File,
     name: '',
     creator: '',
     description: '',
-    dimensions: '',
-    price: 0.0,
-    isCover: false,
+    dimensions: [],
+    newItem: true,
   };
+
   private imagePlaceholder: string = '../../../assets/imagePlaceholder.png';
 
   constructor(
@@ -78,8 +82,13 @@ export class EditExhibitionComponent implements OnInit {
     this.imageData.append('name', this.itemVM.name);
     this.imageData.append('creator', this.itemVM.creator);
     this.imageData.append('imageDescription', this.itemVM.description);
-    this.imageData.append('price', this.itemVM.price.toString());
-    this.imageData.append('dimensions', this.itemVM.dimensions);
+    // this.imageData.append('dimensions', JSON.stringify(this.itemVM.dimensions));
+    for (let index = 0; index < this.itemVM.dimensions.length; index++) {
+      this.imageData.append(
+        `dimensions[${index}]`,
+        JSON.stringify(this.itemVM.dimensions[index])
+      );
+    }
 
     this.imageService
       .UploadItemImage(this.id, this.imageData)
@@ -95,8 +104,8 @@ export class EditExhibitionComponent implements OnInit {
       name: '',
       creator: '',
       description: '',
-      dimensions: '',
-      price: 0.0,
+      dimensions: [],
+      newItem: false,
     };
 
     this.imageURL = this.imagePlaceholder;
@@ -116,7 +125,10 @@ export class EditExhibitionComponent implements OnInit {
 
   setItem(event: ExponentItemVM) {
     this.itemVM = event;
+    this.itemVM.newItem = false;
     this.imageURL = event.image;
+
+    console.log(this.itemVM);
   }
 
   newItem() {
@@ -126,8 +138,8 @@ export class EditExhibitionComponent implements OnInit {
       name: '',
       creator: '',
       description: '',
-      dimensions: '',
-      price: 0.0,
+      dimensions: [],
+      newItem: true,
     };
   }
 
@@ -149,5 +161,21 @@ export class EditExhibitionComponent implements OnInit {
     this.exhibitionService.Update(this.exhibition).subscribe((res: any) => {
       this.exhibition = res;
     });
+  }
+
+  addDimensions() {
+    if (this.dimensionVM.dimension === '' || this.dimensionVM.price < 0) {
+      alert('Dimensions value are incorrect!');
+    }
+    if (this.itemVM.dimensions.includes(this.dimensionVM)) {
+      alert('Dimensions already exist!');
+      return;
+    }
+
+    this.imageService
+      .AddDimensions(this.itemVM.id, this.dimensionVM as DimensionsVM)
+      .subscribe((res: any) => {
+        this.itemVM.dimensions.push(res);
+      });
   }
 }

@@ -5,12 +5,15 @@
     </button>
   
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-          <a class="nav-link navItem" routerLink="Home" routerLinkActive="activeLink">Home</a>
+      <ul  id="mainNav">
+        <li class="navItem">
+          <a routerLink="Home" routerLinkActive="activeLink">Home</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link navItem" routerLink="Create" routerLinkActive="activeLink">Create</a>
+        <li class="navItem">
+          <a  routerLink="Create" routerLinkActive="activeLink">Create</a>
+        </li>
+        <li class="navItem">
+          <a routerLink="Collection" routerLinkActive="activeLink">Collection</a>
         </li>
       </ul>
         <app-header-status>
@@ -19,11 +22,12 @@
               <button class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 {{getUsername()}}
               </button>
-              <ul class="dropdown-menu dropdown-menu-dark bg-dark text-small shadow" aria-labelledby="dropdownUser1" id="profileMenu">
+              <ul class="dropdown-menu dropdown-menu-dark bg-light text-small shadow" aria-labelledby="dropdownUser1" id="profileMenu">
                 <li><a class="dropdown-item dropwonItem" routerLink="Profile">Profile</a></li>
                 <li><a class="dropdown-item dropwonItem" *ngIf="adminPermission()" routerLink="Users">Users</a></li>
+                <li><a class="dropdown-item dropwonItem" routerLink="Account">Account</a></li>
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item dropwonItem" (click)="Logout()">Sign out</a></li>
+                <li><a class="dropdown-item dropwonItem" routerLink="" (click)="Logout()">Sign out</a></li>
               </ul>
             </div>
           </ng-container>

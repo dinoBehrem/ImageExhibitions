@@ -60,5 +60,24 @@ namespace Imagery.API.Controllers
 
             return Ok(response);
         }
+
+        [HttpPost("{id}")]
+        [Authorize]
+        public ActionResult<DimensionsVM> AddDimension(int id, [FromBody]DimensionsVM dimension)
+        {
+            if (dimension == null)
+            {
+                return BadRequest("Error, try again!");
+            }
+
+            var result = ImageService.AddDimensions(id, dimension);
+
+            if (result == null)
+            {
+                return BadRequest("Error, dimensions have not been added!");
+            }
+
+            return Ok(result);
+        }
     }
 }

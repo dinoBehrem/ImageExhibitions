@@ -21,13 +21,15 @@ namespace Imagery.Service.Services.Image
         private readonly IWebHostEnvironment HostEnviroment;
         private readonly IHttpContextAccessor ContextAccessor;
         private readonly IRepository<ExponentItem> ItemRepository;
+        private readonly IRepository<Dimensions> DimensionsRepository;
 
-        public ImageService(UserManager<User> userManager, IWebHostEnvironment hostEnviroment, IHttpContextAccessor contextAccessor, IRepository<ExponentItem> itemRepository)
+        public ImageService(UserManager<User> userManager, IWebHostEnvironment hostEnviroment, IHttpContextAccessor contextAccessor, IRepository<ExponentItem> itemRepository, IRepository<Dimensions> dimensionsRepository)
         {
             UserManager = userManager;
             HostEnviroment = hostEnviroment;
             ContextAccessor = contextAccessor;
             ItemRepository = itemRepository;
+            DimensionsRepository = dimensionsRepository;
         }
 
         public async Task<string> UploadProfilePicture(string username, IFormFile file)
@@ -107,12 +109,12 @@ namespace Imagery.Service.Services.Image
         {
             List<ExponentItemVM> items = ItemRepository.GetAll().Where(item => item.ExhibitionId == id).Select(item => new ExponentItemVM() 
             {
+                Id = item.Id,
                 Name = item.Name,
                 Description = item.Description,
                 Creator = item.Creator,
                 Image = item.Image,
-                Dimensions = item.Dimensions,
-                Price = item.Price
+                Dimensions = GetItemDimensions(item.Id),
             }).ToList();
 
             return items;
@@ -134,9 +136,7 @@ namespace Imagery.Service.Services.Image
                 Name = itemUpload.Name,
                 Description = itemUpload.ImageDescription,
                 Creator = itemUpload.Creator,
-                Dimensions = itemUpload.Dimensions,
                 ExhibitionId = id,
-                Price = itemUpload.Price,
                 Image = imagePath
             });
 
@@ -149,6 +149,39 @@ namespace Imagery.Service.Services.Image
 
             return exponentItem;
             
+        }
+
+        private List<DimensionsVM> GetItemDimensions(int itemId)
+        {
+            List<DimensionsVM> dimensions = DimensionsRepository.GetAll().Where(dimension => dimension.ExponentItemId == itemId).Select(dimension => new DimensionsVM()
+            { 
+                Dimension = dimension.Dimension,
+                Price = dimension.Price
+            }).ToList();
+
+            return dimensions;
+        }
+
+        public DimensionsVM AddDimensions(int id, DimensionsVM dimensions)
+        {
+            var exponentItemExists = ItemRepository.GetSingleOrDefault(id);
+
+            if (!exponentItemExists.IsSuccess)
+            {
+                return null;
+            }
+
+
+            var setDimensions = DimensionsRepository.Add(new Dimensions() { Dimension = dimensions.Dimension, Price = dimensions.Price, ExponentItemId = exponentItemExists.Content.Id });
+
+            if (!setDimensions.IsSuccess)
+            {
+                return null;
+            }
+
+            DimensionsVM dimensionsVM = Mapper.MapDimensionsVM(setDimensions.Content);
+
+            return dimensionsVM;
         }
     }
 }

@@ -19,5 +19,6 @@ namespace Imagery.Repository.Context
         public DbSet<User> Users { get; set; }
         public DbSet<Exhibition> Exhibitions { get; set; }
         public DbSet<ExponentItem> ExponentItems { get; set; }
+        public DbSet<Dimensions> Dimensions { get; set; }
     }
 }

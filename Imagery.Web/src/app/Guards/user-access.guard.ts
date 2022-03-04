@@ -22,11 +22,10 @@ export class UserAccessGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    if (this.signService.isAuthenticated()) {
+    if (!this.signService.isAuthenticated()) {
       this.router.navigateByUrl('Login');
       return false;
     }
-
     if (this.isUser()) {
       return true;
     }
