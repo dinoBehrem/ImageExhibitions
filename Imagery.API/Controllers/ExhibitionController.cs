@@ -1,4 +1,5 @@
 ﻿using Imagery.Service.Services.Exhbition;
+using Imagery.Service.Services.Topics;
 using Imagery.Service.ViewModels.Exhbition;
 using Imagery.Service.ViewModels.Image;
 using Microsoft.AspNetCore.Authorization;
@@ -16,10 +17,12 @@ namespace Imagery.API.Controllers
     public class ExhibitionController : ControllerBase
     {
         private readonly IExhibitionService ExhibitionService;
+        private readonly ITopicService TopicService;
 
-        public ExhibitionController(IExhibitionService exhibitionService)
+        public ExhibitionController(IExhibitionService exhibitionService, ITopicService topicService)
         {
             ExhibitionService = exhibitionService;
+            TopicService = topicService;
         }
 
         [HttpPost]
@@ -103,6 +106,39 @@ namespace Imagery.API.Controllers
             if (result == null)
             {
                 return BadRequest("Invalid data, please try again!");
+            }
+
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult<TopicVM> AssignTopic([FromBody]AssignTopicVM assignTopic)
+        {
+            if (assignTopic == null)
+            {
+                return BadRequest("Error, something went wrong!");
+            }
+
+            var result = ExhibitionService.AssignTopic(assignTopic);
+
+            if (result == null)
+            {
+                return BadRequest("Topic not assigned, try again!");
+            }
+
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult<List<TopicVM>> GetTopics()
+        {
+            var result = TopicService.GetAllTopics();
+
+            if (result == null)
+            {
+                return BadRequest("Error, topics not loaded!");
             }
 
             return Ok(result);

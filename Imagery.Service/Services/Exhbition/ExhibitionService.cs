@@ -2,6 +2,7 @@
 using Imagery.Repository.Repository;
 using Imagery.Service.Helpers;
 using Imagery.Service.Services.Image;
+using Imagery.Service.Services.Topics;
 using Imagery.Service.ViewModels.Exhbition;
 using Imagery.Service.ViewModels.Image;
 using Imagery.Service.ViewModels.User;
@@ -18,13 +19,15 @@ namespace Imagery.Service.Services.Exhbition
         private readonly IRepository<Exhibition> ExhibitionRepository;
         private readonly IRepository<User> UserRepository;
         private readonly IImageService ImageService;
+        private readonly ITopicService TopicService;
 
-        public ExhibitionService(UserManager<User> userManager, IRepository<Exhibition> exhbitionRepository, IRepository<User> userRepository, IImageService imageService)
+        public ExhibitionService(UserManager<User> userManager, IRepository<Exhibition> exhbitionRepository, IRepository<User> userRepository, IImageService imageService, ITopicService topicService)
         {
             UserManager = userManager;
             ExhibitionRepository = exhbitionRepository;
             UserRepository = userRepository;
             ImageService = imageService;
+            TopicService = topicService;
         }
 
         public async Task<ExhibitionVM> Create(ExhbitionCreationVM exhibitionCreation)
@@ -77,6 +80,7 @@ namespace Imagery.Service.Services.Exhbition
                 Date = exhibition.Date,
                 Cover = exhibition.CoverImage,
                 Items = ExhbitionItems(exhibition.Id),
+                Topics = GetExhibitionTopics(exhibition.Id)
             }).ToList();
 
             return exhibitions;
@@ -99,29 +103,11 @@ namespace Imagery.Service.Services.Exhbition
                 Description = repoResponse.Content.Description,
                 Organizer = toUserVM(repoResponse.Content.OrganizerId),
                 Cover = repoResponse.Content.CoverImage,
-                Items = ExhbitionItems(id)
+                Items = ExhbitionItems(id),
+                Topics = GetExhibitionTopics(id)
             };
 
             return exhibition;
-        }
-
-        private UserVM toUserVM(string id)
-        {
-            User user = UserRepository.GetAll().Where(user => user.Id == id).Single();
-
-            return new UserVM()
-            {
-                Firstname = user.FirstName,
-                Lastname = user.LastName,
-                Username = user.UserName,
-                Email = user.Email,
-                Picture = user.ProfilePicture
-            };
-        }
-
-        private List<ExponentItemVM> ExhbitionItems(int id)
-        {
-            return ImageService.GetExhibitionItems(id).ToList();
         }
 
         public string SetExhibitionCover(CoverImageVM cover)
@@ -170,6 +156,46 @@ namespace Imagery.Service.Services.Exhbition
             response.Organizer = toUserVM(exhibition.Content.OrganizerId);
 
             return response;
+        }
+
+        private UserVM toUserVM(string id)
+        {
+            User user = UserRepository.GetAll().Where(user => user.Id == id).Single();
+
+            return new UserVM()
+            {
+                Firstname = user.FirstName,
+                Lastname = user.LastName,
+                Username = user.UserName,
+                Email = user.Email,
+                Picture = user.ProfilePicture
+            };
+        }
+
+        private List<ExponentItemVM> ExhbitionItems(int id)
+        {
+            return ImageService.GetExhibitionItems(id).ToList();
+        }
+
+        public TopicVM AssignTopic(AssignTopicVM assignTopic)
+        {
+            var exhibitionExist = ExhibitionRepository.GetSingleOrDefault(assignTopic.ExhibitionId);
+
+            if (!exhibitionExist.IsSuccess)
+            {
+                return null;
+            }
+
+            var assignedTopic = TopicService.SetExhibitionTopic(assignTopic.ExhibitionId, assignTopic.TopicId);
+
+            return assignedTopic;
+        }
+
+        private List<TopicVM> GetExhibitionTopics(int id)
+        {
+            var topics = TopicService.GetExhibitionTopics(id);
+
+            return topics;
         }
     }
 }

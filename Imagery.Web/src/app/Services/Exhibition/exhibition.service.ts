@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { AssignTopicVM } from 'src/app/ViewModels/AssignTopicVM';
 import { CoverImageVM } from 'src/app/ViewModels/CoverImageVM';
 import { ExhibitionCreationVM } from 'src/app/ViewModels/ExhibitionCreationVM';
 import { ExhibitionVM } from 'src/app/ViewModels/ExhibitionVM';
@@ -156,5 +157,23 @@ export class ExhibitionService {
       }),
     };
     return this.http.post(this.url + '/Update', exhibition, options);
+  }
+
+  AssignTopic(assignTopic: AssignTopicVM) {
+    let options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+    return this.http.post(this.url + '/AssignTopic', assignTopic, options);
+  }
+
+  GetTopics() {
+    let options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+    return this.http.get(this.url + '/GetTopics', options);
   }
 }

@@ -22,7 +22,20 @@
                 <label for="startingDate">Starting date:</label>
                 <input type="datetime-local" class="form-control" id="startingDate" [(ngModel)]="exhibition.date" [value]="exhibition.date">
             </div>
-
+            <div>
+                <div>
+                    <select [(ngModel)]="topicVM.topicId">
+                        <option *ngFor="let topic of topics" value="{{topic.id}}">{{topic.name}}</option>
+                    </select>
+                    <button type="button" class="btn" (click)="addTopic()">Add topic</button>
+                </div>
+                <div>
+                    <label *ngFor="let selectedTopic of exhibition.topics">
+                        <input type="checkbox"  checked="{{selectedTopic.isAssigned}}">
+                        <span>{{selectedTopic.name}}</span>
+                    </label>
+                </div>
+            </div>
             <button type="submit" class="btn btn-primary" (click)="editDetails()">Save changes</button>
         </div>
     </div>

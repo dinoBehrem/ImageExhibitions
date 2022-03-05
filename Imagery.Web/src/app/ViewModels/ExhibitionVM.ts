@@ -1,4 +1,5 @@
 import { ExponentItemVM } from './ExponentItemVM';
+import { TopicVM } from './TopicVM';
 import { UserVM } from './UserVM';
 
 export interface ExhibitionVM {
@@ -9,5 +10,6 @@ export interface ExhibitionVM {
   organizer: UserVM;
   cover: string;
   items: ExponentItemVM[];
+  topics: TopicVM[];
   averagePrice: number;
 }

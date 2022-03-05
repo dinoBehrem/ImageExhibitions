@@ -86,5 +86,22 @@ namespace Imagery.Service.Helpers
 
             return dimensionsVM;
         }
+
+        public static TopicVM MapTopicVM(Topic topic)
+        {
+            if (topic == null)
+            {
+                return null;
+            }
+
+            TopicVM topicVM = new TopicVM()
+            {
+                Id = topic.Id,
+                Name = topic.Name,
+                isAssigned = true
+            };
+
+            return topicVM;
+        }
     }
 }

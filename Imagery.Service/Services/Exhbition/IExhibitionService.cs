@@ -16,5 +16,7 @@ namespace Imagery.Service.Services.Exhbition
         ExhibitionVM GetById(int id);
         ExhibitionVM UpdateExhibition(ExhibitionVM exhibition);
         string SetExhibitionCover(CoverImageVM cover);
+
+        TopicVM AssignTopic(AssignTopicVM assignTopic);
     }
 }

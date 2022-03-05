@@ -4,10 +4,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ExhibitionService } from 'src/app/Services/Exhibition/exhibition.service';
 import { ImageServiceService } from 'src/app/Services/Image/image-service.service';
 import { SignService } from 'src/app/Services/Sign/sign.service';
+import { AssignTopicVM } from 'src/app/ViewModels/AssignTopicVM';
 import { CoverImageVM } from 'src/app/ViewModels/CoverImageVM';
 import { DimensionsVM } from 'src/app/ViewModels/DimensionsVM';
 import { ExhibitionVM } from 'src/app/ViewModels/ExhibitionVM';
 import { ExponentItemVM } from 'src/app/ViewModels/ExponentItemVM';
+import { TopicVM } from 'src/app/ViewModels/TopicVM';
 
 @Component({
   selector: 'app-edit-exhibition',
@@ -22,6 +24,9 @@ export class EditExhibitionComponent implements OnInit {
   exhibitionDetails!: FormGroup;
   imageURL: string = '';
   imageData: FormData = new FormData();
+
+  topics: TopicVM[] = [];
+  topicVM: any = { exhibitionId: 0, topicId: 0 };
 
   dimensionVM = { price: 0, dimension: '' };
 
@@ -51,6 +56,8 @@ export class EditExhibitionComponent implements OnInit {
 
       this.loadExhbition();
     });
+
+    this.loadTopics();
   }
 
   loadExhbition() {
@@ -61,6 +68,12 @@ export class EditExhibitionComponent implements OnInit {
 
     this.exhibitionService.GetSingle(this.id).subscribe((res: any) => {
       this.exhibition = res;
+    });
+  }
+
+  loadTopics() {
+    this.exhibitionService.GetTopics().subscribe((res: any) => {
+      this.topics = res;
     });
   }
 
@@ -176,6 +189,16 @@ export class EditExhibitionComponent implements OnInit {
       .AddDimensions(this.itemVM.id, this.dimensionVM as DimensionsVM)
       .subscribe((res: any) => {
         this.itemVM.dimensions.push(res);
+      });
+  }
+
+  addTopic() {
+    this.topicVM.exhibitionId = this.id;
+
+    this.exhibitionService
+      .AssignTopic(this.topicVM as AssignTopicVM)
+      .subscribe((res: any) => {
+        this.exhibition.topics.push(res);
       });
   }
 }

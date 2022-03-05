@@ -4,14 +4,16 @@ using Imagery.Repository.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Imagery.Repository.Migrations
 {
     [DbContext(typeof(ImageryContext))]
-    partial class ImageryContextModelSnapshot : ModelSnapshot
+    [Migration("20220305124550_TopicColumnDataTypeModified")]
+    partial class TopicColumnDataTypeModified
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
