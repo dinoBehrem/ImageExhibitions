@@ -65,7 +65,8 @@ namespace Imagery.Service.Helpers
                 Description = exhibition.Description,
                 Date = exhibition.Date,
                 Cover = exhibition.CoverImage,
-                Organizer = MapUserVM(exhibition.Organizer)
+                Organizer = MapUserVM(exhibition.Organizer),
+                Expired = exhibition.ExpiringTime < DateTime.Now
             };
 
             return exhibitionVM;

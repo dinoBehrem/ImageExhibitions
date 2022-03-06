@@ -70,6 +70,6 @@ h3 {
 
 @media (min-width: 576px) {
   .modal-dialog {
-    width: 50%;
+    width: 800px;
   }
 }

@@ -14,7 +14,11 @@ import { SignService } from '../Sign/sign.service';
 })
 export class ExhibitionService {
   url: string = 'https://localhost:44395/Exhibition';
-
+  options = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+    }),
+  };
   constructor(private http: HttpClient, private signServices: SignService) {}
 
   GetAll(): Observable<ExhibitionVM[]> {
@@ -169,11 +173,13 @@ export class ExhibitionService {
   }
 
   GetTopics() {
-    let options = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
-    return this.http.get(this.url + '/GetTopics', options);
+    return this.http.get(this.url + '/GetTopics', this.options);
+  }
+
+  GetUserExhibitions(username: string) {
+    return this.http.get(
+      this.url + '/GetUserExhibitions/' + username,
+      this.options
+    );
   }
 }

@@ -1,0 +1,22 @@
+<h2>{{username}}'s exhibitions</h2>
+<table class="table table-striped">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Title</th>
+        <th scope="col">Date</th>
+        <th scope="col">Expired</th>
+        <th scope="col">View</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let exhibition of exhibitions">
+        <td>{{exhibition.title}}</td>
+        <td>{{exhibition.date}}</td>
+        
+        <div *ngIf="exhibition.expired; then expired else active"></div>
+        <ng-template #active><td >No</td></ng-template>
+        <ng-template #expired><td >Yes</td></ng-template>
+        <td><button type="button" class="btn">Details</button></td>
+      </tr>
+    </tbody>
+  </table>

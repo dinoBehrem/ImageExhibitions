@@ -23,6 +23,7 @@ import { EditExhibitionComponent } from './Components/Exhibition/edit-exhibition
 import { ExhibitionComponent } from './Components/Exhibition/exhibition/exhibition.component';
 import { UserAccessGuard } from './Guards/user-access.guard';
 import { AccountComponent } from './Components/User/account/account.component';
+import { MyExhibitionsComponent } from './Components/Exhibition/my-exhibitions/my-exhibitions.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { AccountComponent } from './Components/User/account/account.component';
     EditExhibitionComponent,
     ExhibitionComponent,
     AccountComponent,
+    MyExhibitionsComponent,
   ],
   imports: [
     BrowserModule,
@@ -47,7 +49,7 @@ import { AccountComponent } from './Components/User/account/account.component';
     ReactiveFormsModule,
     HttpClientModule,
     RouterModule.forRoot([
-      { path: '', component: ExhibitionsComponent },
+      { path: '', redirectTo: 'Home', pathMatch: 'full' },
       { path: 'Home', component: ExhibitionsComponent },
       { path: 'Login', component: SigninComponent },
       { path: 'Register', component: SignupComponent },
@@ -69,6 +71,7 @@ import { AccountComponent } from './Components/User/account/account.component';
         component: AccountComponent,
         canActivate: [UserAccessGuard],
       },
+      { path: 'MyExhibitions', component: MyExhibitionsComponent },
     ]),
   ],
   providers: [

@@ -7,6 +7,7 @@ using Imagery.Service.ViewModels.Exhbition;
 using Imagery.Service.ViewModels.Image;
 using Imagery.Service.ViewModels.User;
 using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -65,7 +66,7 @@ namespace Imagery.Service.Services.Exhbition
                 Date = result.Content.Date,
                 Organizer = Mapper.MapUserVM(user),
                 Items = null,
-                Cover = result.Content.CoverImage
+                Cover = result.Content.CoverImage,
             };
         }
 
@@ -80,7 +81,8 @@ namespace Imagery.Service.Services.Exhbition
                 Date = exhibition.Date,
                 Cover = exhibition.CoverImage,
                 Items = ExhbitionItems(exhibition.Id),
-                Topics = GetExhibitionTopics(exhibition.Id)
+                Topics = GetExhibitionTopics(exhibition.Id),
+                Expired = exhibition.ExpiringTime < DateTime.Now
             }).ToList();
 
             return exhibitions;
@@ -196,6 +198,13 @@ namespace Imagery.Service.Services.Exhbition
             var topics = TopicService.GetExhibitionTopics(id);
 
             return topics;
+        }
+
+        public List<ExhibitionVM> UserExhibitions(string username)
+        {
+            List<ExhibitionVM> exhibitions = Exhibitions().Where(exhibition => exhibition.Organizer.Username == username).ToList();
+
+            return exhibitions;
         }
     }
 }

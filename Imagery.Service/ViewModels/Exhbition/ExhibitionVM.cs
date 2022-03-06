@@ -14,6 +14,7 @@ namespace Imagery.Service.ViewModels.Exhbition
         public string Title { get; set; }
         public string Description { get; set; }
         public DateTime Date { get; set; }
+        public bool Expired { get; set; }
         public UserVM Organizer { get; set; }
         public string Cover { get; set; }
         public List<ExponentItemVM> Items { get; set; }

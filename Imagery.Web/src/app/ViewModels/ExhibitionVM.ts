@@ -7,6 +7,7 @@ export interface ExhibitionVM {
   title: string;
   description: string;
   date: Date;
+  expired: boolean;
   organizer: UserVM;
   cover: string;
   items: ExponentItemVM[];

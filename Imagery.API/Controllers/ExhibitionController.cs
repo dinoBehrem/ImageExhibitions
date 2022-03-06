@@ -143,5 +143,24 @@ namespace Imagery.API.Controllers
 
             return Ok(result);
         }
+
+        [HttpGet("{username}")]
+        //[Authorize]
+        public ActionResult<List<ExhibitionVM>> GetUserExhibitions(string username)
+        {
+            if (string.IsNullOrEmpty(username))
+            {
+                return BadRequest("Inavlid username, try again!");
+            }
+
+            var result = ExhibitionService.UserExhibitions(username);
+
+            if (result == null)
+            {
+                return BadRequest("Error, something went wrong!");
+            }
+
+            return result;
+        }
     }
 }

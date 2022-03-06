@@ -9,7 +9,7 @@ import { SignService } from 'src/app/Services/Sign/sign.service';
 })
 export class HeaderComponent implements OnInit {
   constructor(private signService: SignService, private router: Router) {}
-  isLogged: boolean = this.signService.GetToken() == '';
+  isLogged: boolean = this.signService.GetToken() === '';
 
   ngOnInit(): void {}
 
