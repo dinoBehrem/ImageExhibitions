@@ -16,12 +16,54 @@
   display: flex;
   flex-direction: row;
   justify-content: center;
-  background-color: rgba(248, 245, 245, 0.849);
+  background-color: #f7f8fb;
 }
 
 #searchBar > input {
   width: 95%;
   height: 30px;
+}
+.exhibitionCard {
+  display: flex;
+  flex-direction: row;
+  color: #000000;
+  background-color: #ffffff;
+  height: 250px;
+  width: 95%;
+}
+.card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #faf0e2;
+}
+.cardHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.cardHeader > p {
+  color: #ee4e34;
+}
+.cardFooter {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+.topic {
+  border-radius: 20px;
+  background-color: #783937;
+  color: #fcedda;
+  font-size: 14px;
+  line-height: 20px;
+  padding: 3px;
+  margin-right: 7px;
+  text-align: center;
+}
+.sub-btn {
+  background-color: #ee4e34;
+  color: #fcedda;
+  border-color: transparent;
 }
 
 app-filter {

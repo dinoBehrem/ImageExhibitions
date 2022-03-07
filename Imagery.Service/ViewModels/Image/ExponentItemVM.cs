@@ -17,26 +17,15 @@ namespace Imagery.Service.ViewModels.Image
 
         public double AveragePrice
         {
-            get
-            {
-                if (Dimensions.Count > 0)
-                {
-                    return Dimensions.Average(dimension => dimension.Price);
-                }
-                else
+            get {
+
+                if (Dimensions == null || Dimensions.Count == 0)
                 {
                     return 0;
                 }
-            }
-            set
-            {
-                if (Dimensions.Count > 0)
-                {
-                    AveragePrice = Dimensions.Average(dimension => dimension.Price);
-                }
                 else
                 {
-                    AveragePrice = 0;
+                    return Dimensions.Average(dimension => dimension.Price);
                 }
             }
         }

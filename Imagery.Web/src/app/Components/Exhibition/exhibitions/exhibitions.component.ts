@@ -66,4 +66,12 @@ export class ExhibitionsComponent implements OnInit {
       exhibition.title.toLowerCase().includes(this.filter.toLowerCase())
     );
   }
+
+  hasStarted(date: Date) {
+    if (date > new Date()) {
+      return false;
+    }
+
+    return true;
+  }
 }

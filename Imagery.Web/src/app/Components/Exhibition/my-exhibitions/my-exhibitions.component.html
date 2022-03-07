@@ -16,7 +16,7 @@
         <div *ngIf="exhibition.expired; then expired else active"></div>
         <ng-template #active><td >No</td></ng-template>
         <ng-template #expired><td >Yes</td></ng-template>
-        <td><button type="button" class="btn">Details</button></td>
+        <td><a routerLink='/EditExhibition/{{exhibition.id}}' class="btn btn-warning">Details</a></td>
       </tr>
     </tbody>
   </table>

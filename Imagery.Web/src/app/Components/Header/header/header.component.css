@@ -1,3 +1,5 @@
+/* Peach #FCEDDA, Burnt Orange #EE4E34 */
+
 #navbarSupportedContent {
   justify-content: flex-end;
 }
@@ -19,12 +21,12 @@
 }
 
 .navItem:hover {
-  background-color: #ffffff;
+  background-color: #ee4e34;
 }
 
 .navItem > a {
   text-decoration: none;
-  color: #ffffff;
+  color: #fcedda;
   padding: 8px;
   /* height: 40px; */
   font-weight: 500;
@@ -33,15 +35,36 @@
   -moz-transition: 0.5s;
   -webkit-transition: 0.5s;
   transition: 0.5s;
+  position: relative;
 }
 
-.navItem > a:hover {
-  color: #078d86;
+.navItem > a::before {
+  content: "";
+  position: absolute;
+  width: 0;
+  left: 0;
+  bottom: 0;
+  height: 4px;
+  background-color: #fcedda;
+  -o-transition: 0.5s;
+  -ms-transition: 0.5s;
+  -moz-transition: 0.5s;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+}
+.navItem > a:hover::before {
+  width: 95%;
 }
 
-.navItem > .activeLink {
-  background-color: #ffffff;
-  color: #078d86;
+.navItem > .activeLink::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 95%;
+  height: 4px;
+  background-color: #fcedda;
+  margin-left: 5px;
 }
 
 #profileMenu {
@@ -59,7 +82,7 @@
 
 #navigation {
   height: 65px;
-  background-color: #078d86;
+  background-color: #ee4e34;
 }
 
 #signIn {

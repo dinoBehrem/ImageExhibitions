@@ -1,9 +1,11 @@
+/* Peach #FCEDDA, Burnt Orange #EE4E34 , #783937*/
+
 #filter {
   height: 100%;
 }
 #filterHeader {
   height: 65px;
-  background-color: rgba(248, 245, 245, 0.904);
+  background-color: #f7f8fb;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -25,9 +27,9 @@
   position: absolute;
   left: 0;
   bottom: 0;
-  width: 40%;
+  width: 20%;
   height: 4px;
-  background-color: #078d86;
+  background-color: #783937;
   margin-left: 5px;
   -o-transition: 0.5s;
   -ms-transition: 0.5s;
@@ -37,15 +39,17 @@
 }
 
 #filterTitle:hover::before {
-  width: 80%;
+  width: 60%;
 }
 
 #filterReset {
   width: 55%;
-  color: #078d86;
+  color: #ee4e34;
   text-align: end;
   padding-right: 10px;
   font-size: 15px;
+  cursor: pointer;
+  border-color: none;
 }
 
 .botomLine {
@@ -72,5 +76,10 @@
   bottom: calc(50% - 2px);
   width: 80%;
   height: 4px;
-  background-color: #078d86;
+  background-color: #783937;
+}
+
+.filterBtn {
+  background-color: #ee4e34;
+  color: #fcedda;
 }
