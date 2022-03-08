@@ -2,11 +2,15 @@
   height: calc(100% - 65px);
   display: flex;
   flex-direction: row;
-  overflow: scroll;
+  /* overflow: scroll; */
 }
 #exhibitionFeed {
   display: flex;
   flex-direction: column;
+  width: 82%;
+  background-color: #ffffff;
+  overflow-y: scroll;
+  align-items: center;
 }
 
 #searchBar {
@@ -43,7 +47,7 @@
   justify-content: space-between;
 }
 .cardHeader > p {
-  color: #ee4e34;
+  color: #783937;
 }
 .cardFooter {
   display: flex;

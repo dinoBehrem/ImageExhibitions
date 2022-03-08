@@ -1,6 +1,8 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { ExhibitionService } from 'src/app/Services/Exhibition/exhibition.service';
 import { FilterVM } from 'src/app/ViewModels/FilterVM';
+import { TopicVM } from 'src/app/ViewModels/TopicVM';
 
 @Component({
   selector: 'app-filter',
@@ -9,9 +11,15 @@ import { FilterVM } from 'src/app/ViewModels/FilterVM';
 })
 export class FilterComponent implements OnInit {
   params!: FormGroup;
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private exhibitionService: ExhibitionService
+  ) {}
+
+  topics: TopicVM[] = [];
 
   ngOnInit(): void {
+    this.loadTopics();
     this.params = this.formBuilder.group({
       creatorName: '',
       dateFrom: null,
@@ -36,5 +44,15 @@ export class FilterComponent implements OnInit {
     });
 
     this.sendFilters();
+  }
+
+  loadTopics() {
+    this.exhibitionService.GetTopics().subscribe((res: any) => {
+      this.topics = res;
+    });
+  }
+
+  test(topic: TopicVM) {
+    console.log(topic.name);
   }
 }

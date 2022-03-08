@@ -8,17 +8,17 @@
             <div>
                 <div class="botomLine">
                     <div class="category">
-                        <span>Budget</span>
+                        <span>Price range</span>
                         <a class="expandCategory" data-toggle="collapse" href="#collapseBudget" role="button" aria-expanded="false" aria-controls="collapseBudget">                    
                         </a>
                     </div>
                     <div class="collapse" id="collapseBudget">
                         <!-- style="height: 70px;" -->
                         <div>
-                            <label>Min</label>
-                            <input type="number" class="form-control" formControlName="avgPriceMin">
-                            <label>Max</label>
-                            <input type="number" class="form-control" formControlName="avgPriceMax">
+                            <label>From:</label>
+                            <input type="number" class="priceInput" formControlName="avgPriceMin">
+                            <label>To:</label>
+                            <input type="number" class="priceInput" formControlName="avgPriceMax">
                         </div>
                     </div>
                 </div>
@@ -32,7 +32,7 @@
                     <div class="collapse" id="collapseDate">
                         <!-- style="height: 70px;" -->
                         <div >
-                            <span>From:</span>
+                            <label>From:</label>
                             <input type="datetime-local" class="form-control" formControlName="dateFrom"><br>
                             <label>To:</label>
                             <input type="datetime-local" class="form-control" formControlName="dateTo"><br>
@@ -40,19 +40,36 @@
                     </div>
                     
                 </div>
-                <div>
-                    <label>Creator name:</label>
-                    <input type="text" class="form-control" formControlName="creatorName">
-                </div>
-                <div>
-                    <label>Type:</label>
-                    <div>
-                        <input type="radio">
-                        <label>Photographies</label>
-                        <input type="radio">
-                        <label>Paintings & drawings</label>
+                <div class="botomLine">
+                    <div class="category">
+                        <span>Creator</span>
+                        <a class="expandCategory" data-toggle="collapse" href="#collapseCreator" role="button" aria-expanded="false" aria-controls="collapseCreator">                    
+                        </a>
+                    </div>
+                    <div class="collapse" id="collapseCreator">
+                        <div >
+                            <label>Name</label>
+                            <input type="text" class="nameInput"><br>
+                        </div>
                     </div>
                 </div>
+
+                <div class="botomLine">
+                    <div class="category">
+                        <span>Topics</span>
+                        <a class="expandCategory" data-toggle="collapse" href="#collapseTopics" role="button" aria-expanded="false" aria-controls="collapseTopics">                    
+                        </a>
+                    </div>
+                    <div class="collapse" id="collapseTopics">
+                        <div >
+                            <label *ngFor="let topic of topics" class="check-box" >
+                                <input type="checkbox" (click)="test(topic)">
+                                <span>{{topic.name}}</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+               
             </div>
             <button type="submit" class="btn btn-secondary filterBtn">Filter</button>
         </form>

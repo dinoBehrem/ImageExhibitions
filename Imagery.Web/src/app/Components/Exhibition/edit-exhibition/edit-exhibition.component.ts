@@ -95,7 +95,6 @@ export class EditExhibitionComponent implements OnInit {
     this.imageData.append('name', this.itemVM.name);
     this.imageData.append('creator', this.itemVM.creator);
     this.imageData.append('imageDescription', this.itemVM.description);
-    // this.imageData.append('dimensions', JSON.stringify(this.itemVM.dimensions));
     for (let index = 0; index < this.itemVM.dimensions.length; index++) {
       this.imageData.append(
         `dimensions[${index}]`,
@@ -140,8 +139,6 @@ export class EditExhibitionComponent implements OnInit {
     this.itemVM = event;
     this.itemVM.newItem = false;
     this.imageURL = event.image;
-
-    console.log(this.itemVM);
   }
 
   newItem() {
@@ -165,8 +162,7 @@ export class EditExhibitionComponent implements OnInit {
     this.exhibitionService
       .UpdateCover(imageCover as CoverImageVM)
       .subscribe((res: any) => {
-        alert(res);
-        this.exhibition.cover = imageCover.coverImage;
+        this.exhibition.cover = res.coverImage;
       });
   }
 
@@ -180,7 +176,10 @@ export class EditExhibitionComponent implements OnInit {
     if (this.dimensionVM.dimension === '' || this.dimensionVM.price < 0) {
       alert('Dimensions value are incorrect!');
     }
-    if (this.itemVM.dimensions.includes(this.dimensionVM)) {
+    if (
+      this.itemVM.dimensions.length > 0 &&
+      this.itemVM.dimensions.includes(this.dimensionVM)
+    ) {
       alert('Dimensions already exist!');
       return;
     }

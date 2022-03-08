@@ -129,7 +129,7 @@ namespace Imagery.Service.Services.Exhbition
             response.Content.CoverImage = cover.CoverImage;
             ExhibitionRepository.SaveChanges();
 
-            return "Cover image successfully updated!";
+            return cover.CoverImage;
         }
 
         public ExhibitionVM UpdateExhibition(ExhibitionVM input)

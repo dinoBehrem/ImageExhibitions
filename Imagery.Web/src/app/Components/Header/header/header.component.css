@@ -69,15 +69,23 @@
 
 #profileMenu {
   margin-left: -75px;
+  background-color: #fcedda;
 }
 
 .dropwonItem {
-  color: #078d86;
+  color: #783937;
 }
 
 .dropwonItem:hover {
-  color: #ffffff;
-  background-color: #078d86;
+  color: #fcedda;
+  background-color: #783937;
+}
+
+.dropdown-divider {
+  height: 0;
+  margin: 0.5rem 0;
+  overflow: hidden;
+  border-top: 1px solid #783937;
 }
 
 #navigation {
@@ -85,10 +93,10 @@
   background-color: #ee4e34;
 }
 
-#signIn {
-  background-color: #078d86;
-  color: #ffffff;
-  border: 1px solid #ffffff;
+.signIn {
+  background-color: #783937;
+  color: #fcedda;
+  border: 1px solid #fcedda;
   border-radius: 10px;
   font-size: 18px;
   -o-transition: 0.5s;
@@ -98,8 +106,8 @@
   transition: 0.5s;
 }
 
-#signIn:hover {
-  background-color: #ffffff;
-  color: #078d86;
+.signIn:hover {
+  background-color: #fcedda;
+  color: #783937;
   font-size: 20px;
 }

@@ -94,7 +94,7 @@ namespace Imagery.API.Controllers
 
         [HttpPost]
         [Authorize]
-        public ActionResult<string> UpadteCoverImage([FromBody]CoverImageVM coverImage)
+        public ActionResult<CoverImageVM> UpadteCoverImage([FromBody]CoverImageVM coverImage)
         {
             if (coverImage == null)
             {
@@ -108,7 +108,9 @@ namespace Imagery.API.Controllers
                 return BadRequest("Invalid data, please try again!");
             }
 
-            return Ok(result);
+            CoverImageVM cover = new CoverImageVM() { CoverImage = result };
+
+            return Ok(cover);
         }
 
         [HttpPost]
@@ -131,7 +133,6 @@ namespace Imagery.API.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public ActionResult<List<TopicVM>> GetTopics()
         {
             var result = TopicService.GetAllTopics();

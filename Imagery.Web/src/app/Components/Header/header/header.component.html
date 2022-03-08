@@ -5,37 +5,38 @@
     </button>
   
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul  id="mainNav">
+            <ul  id="mainNav">
         <li class="navItem">
           <a routerLink="Home" routerLinkActive="activeLink">Home</a>
         </li>
         <li class="navItem">
           <a  routerLink="Create" routerLinkActive="activeLink">Create</a>
         </li>
-        <li class="navItem" *ngIf="!isLogged">
+        <li class="navItem" *ngIf="isLogged">
           <a routerLink="MyExhibitions" routerLinkActive="activeLink">My exhibitions</a>
         </li>
         <li class="navItem" *ngIf="!isLogged">
           <a routerLink="Collection" routerLinkActive="activeLink">Collection</a>
         </li>
       </ul>
+      
         <app-header-status>
           <ng-container authorized>
             <div class="dropdown">
-              <button class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <button class="btn signIn dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 {{getUsername()}}
               </button>
-              <ul class="dropdown-menu dropdown-menu-dark bg-light text-small shadow" aria-labelledby="dropdownUser1" id="profileMenu">
+              <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser1" id="profileMenu">
                 <li><a class="dropdown-item dropwonItem" routerLink="Profile">Profile</a></li>
                 <li><a class="dropdown-item dropwonItem" *ngIf="adminPermission()" routerLink="Users">Users</a></li>
-                <li><a class="dropdown-item dropwonItem" routerLink="Account">Account</a></li>
+                <!-- <li><a class="dropdown-item dropwonItem" routerLink="Account">Account</a></li> -->
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item dropwonItem" routerLink="" (click)="Logout()">Sign out</a></li>
               </ul>
             </div>
           </ng-container>
           <ng-container unauthorized>
-           <button id="signIn" class="btn" routerLink="Login">Sign in</button>
+           <button class="btn signIn" routerLink="Login">Sign in</button>
           </ng-container>
         </app-header-status>
       
