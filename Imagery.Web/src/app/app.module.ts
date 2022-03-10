@@ -65,7 +65,7 @@ import { MyExhibitionsComponent } from './Components/Exhibition/my-exhibitions/m
         component: UsersComponent,
         canActivate: [SuperAdminAccessGuard],
       },
-      { path: 'Profile', component: ProfileComponent },
+      { path: 'Profile/:username', component: ProfileComponent },
       {
         path: 'Account',
         component: AccountComponent,

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ExhibitionService } from 'src/app/Services/Exhibition/exhibition.service';
 import { ExhibitionVM } from 'src/app/ViewModels/ExhibitionVM';
 import { FilterVM } from 'src/app/ViewModels/FilterVM';
+import { TopicVM } from 'src/app/ViewModels/TopicVM';
 
 @Component({
   selector: 'app-exhibitions',
@@ -16,6 +17,9 @@ export class ExhibitionsComponent implements OnInit {
     dateTo: null,
     avgPriceMin: null,
     avgPriceMax: null,
+    topics: [],
+    creatorName: '',
+    description: '',
   };
 
   filter: string = '';
@@ -34,6 +38,7 @@ export class ExhibitionsComponent implements OnInit {
 
   setFilters(filters: FilterVM) {
     this.filters = filters;
+    this.filterExhibitions();
   }
 
   filterExhibitions() {
@@ -43,25 +48,58 @@ export class ExhibitionsComponent implements OnInit {
 
     return this.exhibitions.filter(
       (exhibition) =>
-        exhibition.title.toLowerCase().includes(this.filter.toLowerCase()) &&
+        this.checkForText(exhibition.title, this.filter) &&
         (exhibition.date >= this.filters?.dateFrom ||
-          this.filters.dateFrom == null) &&
+          this.filters?.dateFrom == null) &&
         (exhibition.date <= this.filters?.dateTo ||
-          this.filters.dateTo == null) &&
+          this.filters?.dateTo == null) &&
         (exhibition.averagePrice >= this.filters?.avgPriceMin ||
           this.filters.avgPriceMin == null) &&
         (exhibition.averagePrice <= this.filters?.avgPriceMax ||
-          this.filters.avgPriceMax == null)
+          this.filters.avgPriceMax == null) &&
+        (this.checkForText(
+          exhibition.organizer.firstname + ' ' + exhibition.organizer.lastname,
+          this.filters.creatorName
+        ) ||
+          this.filters.creatorName == '') &&
+        (this.checkForText(exhibition.description, this.filters.description) ||
+          this.filters.description == '') &&
+        (this.checkForTopic(exhibition.topics, this.filters.topics) ||
+          this.filters.topics?.length == 0)
     );
   }
 
-  getByFilters(filters: FilterVM): void {
-    this.exhibitionService.Filter(filters).subscribe((data: any) => {
-      this.exhibitions = data;
-    });
+  checkForText(content: string, keyword: string) {
+    return content.toLowerCase().includes(keyword.toLowerCase());
+  }
+
+  checkForTopic(exhibitionTopics: TopicVM[], topics: TopicVM[]) {
+    if (
+      exhibitionTopics == null ||
+      exhibitionTopics.length == 0 ||
+      topics == null ||
+      topics.length == 0
+    ) {
+      return false;
+    }
+
+    let containes = false;
+
+    for (let i = 0; i < topics.length; i++) {
+      for (let j = 0; j < exhibitionTopics.length; j++) {
+        if (exhibitionTopics[j].id == topics[i].id) {
+          containes = true;
+          i = topics.length;
+          j = exhibitionTopics.length;
+        }
+      }
+    }
+
+    return containes;
   }
 
   filterByExhibitionName() {
+    this.loadExhibitions();
     return this.exhibitions.filter((exhibition) =>
       exhibition.title.toLowerCase().includes(this.filter.toLowerCase())
     );

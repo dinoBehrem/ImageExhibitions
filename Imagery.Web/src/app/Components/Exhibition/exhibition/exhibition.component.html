@@ -8,7 +8,7 @@
         <div class="modal-dialog" role="document" style="width: 800px;">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Preview image</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">{{itemVM.name}}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -18,8 +18,8 @@
                         <div id="modalImage">
                             <img [src]="itemVM.image">
                         </div>
-                        <label>Name</label>
-                        <input class="form-control" type="text" [(ngModel)]="itemVM.name" value="{{itemVM.name}}" required>
+                        <!-- <label>Name</label>
+                        <input class="form-control" type="text" [(ngModel)]="itemVM.name" value="{{itemVM.name}}" required> -->
                         <label>Description</label>
                         <input class="form-control" type="text" [(ngModel)]="itemVM.description" value="{{itemVM.description}}" required>
                         <label>Artist</label>

@@ -9,9 +9,13 @@ import { SignService } from 'src/app/Services/Sign/sign.service';
 })
 export class HeaderComponent implements OnInit {
   constructor(private signService: SignService, private router: Router) {}
-  isLogged: boolean = this.signService.GetToken() === '';
+  isLogged?: boolean;
+  isAdmin: boolean = false;
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.userIsLogged();
+    this.adminPermission();
+  }
 
   Logout() {
     this.signService.SignOut();
@@ -23,9 +27,9 @@ export class HeaderComponent implements OnInit {
     const permission: string[] = [...this.signService.GetJWTData(claim)];
 
     if (permission.includes('Admin') || permission.includes('SuperAdmin')) {
-      return true;
+      this.isAdmin = true;
     } else {
-      return false;
+      this.isAdmin = false;
     }
   }
 
@@ -39,5 +43,9 @@ export class HeaderComponent implements OnInit {
     }
 
     return username;
+  }
+
+  userIsLogged() {
+    this.isLogged = this.signService.isAuthenticated();
   }
 }

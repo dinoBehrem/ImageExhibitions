@@ -12,12 +12,13 @@
         <li class="navItem">
           <a  routerLink="Create" routerLinkActive="activeLink">Create</a>
         </li>
-        <li class="navItem" *ngIf="isLogged">
-          <a routerLink="MyExhibitions" routerLinkActive="activeLink">My exhibitions</a>
-        </li>
-        <li class="navItem" *ngIf="!isLogged">
-          <a routerLink="Collection" routerLinkActive="activeLink">Collection</a>
-        </li>
+        <!-- <div *ngIf="isLogged; showLinks"></div> -->
+          <li class="navItem" *ngIf="isLogged">
+            <a routerLink="MyExhibitions" routerLinkActive="activeLink">My exhibitions</a>
+          </li>
+          <li class="navItem"*ngIf="isLogged">
+            <a routerLink="Collection" routerLinkActive="activeLink">Collection</a>
+          </li>
       </ul>
       
         <app-header-status>
@@ -27,8 +28,8 @@
                 {{getUsername()}}
               </button>
               <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser1" id="profileMenu">
-                <li><a class="dropdown-item dropwonItem" routerLink="Profile">Profile</a></li>
-                <li><a class="dropdown-item dropwonItem" *ngIf="adminPermission()" routerLink="Users">Users</a></li>
+                <li><a class="dropdown-item dropwonItem" routerLink="Account">Account</a></li>
+                <li><a class="dropdown-item dropwonItem" *ngIf="isAdmin" routerLink="Users">Users</a></li>
                 <!-- <li><a class="dropdown-item dropwonItem" routerLink="Account">Account</a></li> -->
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item dropwonItem" routerLink="" (click)="Logout()">Sign out</a></li>

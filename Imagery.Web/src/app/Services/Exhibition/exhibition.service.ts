@@ -69,40 +69,42 @@ export class ExhibitionService {
     );
   }
 
-  Filter(filter: FilterVM): Observable<ExhibitionVM[]> {
-    let dateFromString: string;
-    let dateToString: string;
+  Filter(filter: FilterVM): any {
+    // let dateFromString: string;
+    // let dateToString: string;
 
-    if (filter.dateFrom == null) {
-      filter.dateFrom = new Date(new Date().toLocaleDateString());
+    // if (filter.dateFrom == null) {
+    //   filter.dateFrom = new Date(new Date().toLocaleDateString());
 
-      dateFromString = this.getDateTimeString(filter.dateFrom);
-    } else {
-      dateFromString = filter.dateFrom.toString();
-    }
+    //   dateFromString = this.getDateTimeString(filter.dateFrom);
+    // } else {
+    //   dateFromString = filter.dateFrom.toString();
+    // }
 
-    if (filter.dateTo == null) {
-      filter.dateTo = new Date(new Date(2050, 1, 1).toLocaleDateString());
-      dateToString = this.getDateTimeString(filter.dateTo);
-    } else {
-      dateToString = filter.dateTo.toString();
-    }
+    // if (filter.dateTo == null) {
+    //   filter.dateTo = new Date(new Date(2050, 1, 1).toLocaleDateString());
+    //   dateToString = this.getDateTimeString(filter.dateTo);
+    // } else {
+    //   dateToString = filter.dateTo.toString();
+    // }
 
-    console.log(dateFromString + ' ------------ ' + dateToString);
+    // console.log(dateFromString + ' ------------ ' + dateToString);
 
-    const httpParams = new HttpParams({
-      fromObject: {
-        creatorName: filter.creatorName,
-        dateFrom: dateFromString,
-        dateTo: dateToString,
-      },
-    });
+    // const httpParams = new HttpParams({
+    //   fromObject: {
+    //     creatorName: filter.creatorName,
+    //     dateFrom: dateFromString,
+    //     dateTo: dateToString,
+    //   },
+    // });
 
-    console.log(httpParams);
+    // console.log(httpParams);
 
-    return this.http.get<ExhibitionVM[]>(this.url + '/GetByFilter', {
-      params: httpParams,
-    });
+    // return this.http.get<ExhibitionVM[]>(this.url + '/GetByFilter', {
+    //   params: httpParams,
+    // });
+
+    return this.http.post(this.url + '/GetByFilter', filter, this.options);
   }
 
   getDateTimeString(dateTime: Date): string {

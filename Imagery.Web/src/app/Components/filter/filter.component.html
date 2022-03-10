@@ -49,7 +49,20 @@
                     <div class="collapse" id="collapseCreator">
                         <div >
                             <label>Name</label>
-                            <input type="text" class="nameInput"><br>
+                            <input type="text" class="nameInput" formControlName="creatorName"><br>
+                        </div>
+                    </div>
+                </div>
+                <div class="botomLine">
+                    <div class="category">
+                        <span>Description</span>
+                        <a class="expandCategory" data-toggle="collapse" href="#collapseDescription" role="button" aria-expanded="false" aria-controls="collapseDescription">                    
+                        </a>
+                    </div>
+                    <div class="collapse" id="collapseDescription">
+                        <div >
+                            <label>Content</label>
+                            <input type="text" class="nameInput" formControlName="description"><br>
                         </div>
                     </div>
                 </div>
@@ -61,9 +74,9 @@
                         </a>
                     </div>
                     <div class="collapse" id="collapseTopics">
-                        <div >
-                            <label *ngFor="let topic of topics" class="check-box" >
-                                <input type="checkbox" (click)="test(topic)">
+                        <div>
+                            <label *ngFor="let topic of topics" class="check-box" [ngClass]='{"checked":topic.isAssigned, "unchecked": !topic.isAssigned}'>
+                                <input type="checkbox" class="form-class" (click)="addTopic(topic)">
                                 <span>{{topic.name}}</span>
                             </label>
                         </div>
@@ -71,7 +84,7 @@
                 </div>
                
             </div>
-            <button type="submit" class="btn btn-secondary filterBtn">Filter</button>
+            <button type="submit" class="btn btn-secondary filterBtn">Apply filters</button>
         </form>
     </div>
 </div>

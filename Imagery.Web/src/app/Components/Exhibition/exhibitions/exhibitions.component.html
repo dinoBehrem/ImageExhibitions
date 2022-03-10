@@ -1,30 +1,57 @@
-<div  id="main">
-    <app-filter 
-    (filters)="setFilters($event)"></app-filter>
-    <div id="exhibitionFeed">
-        <div id="searchBar">
-            <input type="text" [(ngModel)]="filter" value="{{filter}}" (change)="filterByExhibitionName()" placeholder="Search">
-        </div>
-        <div class="card mt-2 mb-2 exhibitionCard" *ngFor="let exhibition of filterExhibitions()">
-            <img class="card-img-top w-25" src="{{exhibition.cover}}" alt="Card image cap">
-            <div class="card-body">
-                <div class="cardHeader">
-                    <div>
-                        <h5 class="card-title" style="margin: 0;">{{exhibition.title}}</h5>
-                        <p style="margin: 0; color: #d3d3d3;">by {{exhibition.organizer.firstname}} {{exhibition.organizer.lastname}}</p>
-                    </div>
-                   <p>{{exhibition.date}}</p>
-                </div>
-                <p class="card-text">{{exhibition.description}}</p>
-                <!-- <input type="datetime-local" value="{{exhibition.date}}" disabled><br> -->
-                <div>
-                    <span *ngFor="let topic of exhibition.topics" class="topic">{{topic.name}}</span>
-                </div>
-                <div class="cardFooter">
-                    <button class="btn btn-primary sub-btn" *ngIf="!hasStarted(exhibition.date)">Subscribe</button>
-                    <a routerLink='/Exhibition/{{exhibition.id}}' class="btn btn-primary sub-btn" *ngIf="hasStarted(exhibition.date)">Join</a>
-                </div>
-            </div>
-        </div>
+<div id="main">
+  <app-filter (filters)="setFilters($event)"></app-filter>
+  <div id="exhibitionFeed">
+    <div id="searchBar">
+      <input
+        type="text"
+        [(ngModel)]="filter"
+        value="{{ filter }}"
+        (change)="filterByExhibitionName()"
+        placeholder="Search"
+      />
     </div>
+    <div
+      class="card mt-2 mb-2 exhibitionCard"
+      *ngFor="let exhibition of filterExhibitions()"
+    >
+      <img
+        class="card-img-top w-25"
+        src="{{ exhibition.cover }}"
+        alt="Card image cap"
+      />
+      <div class="card-body">
+        <div class="cardHeader">
+          <div>
+            <h5 class="card-title" style="margin: 0">{{ exhibition.title }}</h5>
+            <a style="margin: 0; color: #d3d3d3" routerLink="/Profile/{{exhibition.organizer.username}}">
+              by {{ exhibition.organizer.firstname }}
+              {{ exhibition.organizer.lastname }}
+            </a>
+          </div>
+          <p>{{ exhibition.date }}</p>
+        </div>
+        <p class="card-text">{{ exhibition.description }}</p>
+        <!-- <input type="datetime-local" value="{{exhibition.date}}" disabled><br> -->
+        <div>
+          <span *ngFor="let topic of exhibition.topics" class="topic">{{
+            topic.name
+          }}</span>
+        </div>
+        <div class="cardFooter">
+          <button
+            class="btn btn-primary sub-btn"
+            *ngIf="!hasStarted(exhibition.date)"
+          >
+            Subscribe
+          </button>
+          <a
+            routerLink="/Exhibition/{{ exhibition.id }}"
+            class="btn btn-primary sub-btn"
+            *ngIf="hasStarted(exhibition.date)"
+            >Join</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

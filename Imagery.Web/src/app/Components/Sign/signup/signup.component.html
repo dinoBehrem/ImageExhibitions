@@ -4,27 +4,34 @@
             <div class="main-div">
                 <div class="panel">
                     <h2>Sign up</h2>
+                    <p>Please enter your credentials</p>
                 </div>
                 <form id="Login" [formGroup]= "registrationDetails" (ngSubmit)="Register()">
                     <div class="form-group">
                         <input type="text" class="form-control" id="inputFirstname" placeholder="First name" formControlName="firstname">
+                        <span class="errorSpan" *ngIf="registrationDetails.get('firstname')?.invalid && registrationDetails.get('firstname')?.touched">Firstname is required!</span>
                     </div>
                     <div class="form-group">
                         <input type="text" class="form-control" id="inputLastname" placeholder="Last name" formControlName="lastname">
+                        <span class="errorSpan" *ngIf="registrationDetails.get('lastname')?.invalid && registrationDetails.get('lastname')?.touched">Firstname is required!</span>
                     </div>
                     <div class="form-group">
                         <input type="text" class="form-control" id="inputUsername" placeholder="Username" formControlName="username">
+                        <span class="errorSpan" *ngIf="registrationDetails.get('username')?.invalid && registrationDetails.get('username')?.touched">Firstname is required!</span>
                     </div>
                     <div class="form-group">
                         <input type="email" class="form-control" id="inputEmail" placeholder="Email Address" formControlName="email">
+                        <span class="errorSpan" *ngIf="registrationDetails.get('email')?.invalid && registrationDetails.get('email')?.touched">Firstname is required!</span>
                     </div>
                     <div class="form-group">
                         <input type="password" class="form-control" id="inputPassword" placeholder="Password" formControlName="password">
+                        <span class="errorSpan" *ngIf="registrationDetails.get('password')?.invalid && registrationDetails.get('password')?.touched">Firstname is required!</span>
                     </div>
                     <!-- <div class="forgot">
                         <a href="reset.html">Forgot password?</a>
                     </div> -->
-                    <button type="submit" class="btn btn-primary">Register</button>
+                    <button type="submit" class="btn btn-primary" [disabled]="!registrationDetails.valid">Create account</button>
+                    <div id="formFooter"><span>Already have an account?</span><a routerLink="/Login">Sign in</a></div>
                 </form>
             </div>
         </div>

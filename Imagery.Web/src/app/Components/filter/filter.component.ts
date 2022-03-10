@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ExhibitionService } from 'src/app/Services/Exhibition/exhibition.service';
 import { FilterVM } from 'src/app/ViewModels/FilterVM';
 import { TopicVM } from 'src/app/ViewModels/TopicVM';
@@ -17,6 +17,7 @@ export class FilterComponent implements OnInit {
   ) {}
 
   topics: TopicVM[] = [];
+  selectedTopics: TopicVM[] = [];
 
   ngOnInit(): void {
     this.loadTopics();
@@ -26,11 +27,14 @@ export class FilterComponent implements OnInit {
       dateTo: null,
       avgPriceMax: null,
       avgPriceMin: null,
+      description: '',
     });
   }
   @Output() filters = new EventEmitter<FilterVM>();
 
   sendFilters() {
+    this.params.addControl('topics', new FormControl(this.selectedTopics));
+
     this.filters.emit(this.params.value as FilterVM);
   }
 
@@ -41,8 +45,11 @@ export class FilterComponent implements OnInit {
       dateTo: null,
       avgPriceMax: null,
       avgPriceMin: null,
+      description: '',
     });
-
+    // this.topics.forEach((topic) => (topic.isAssigned = false));
+    this.loadTopics();
+    this.selectedTopics = [];
     this.sendFilters();
   }
 
@@ -52,7 +59,23 @@ export class FilterComponent implements OnInit {
     });
   }
 
-  test(topic: TopicVM) {
-    console.log(topic.name);
+  addTopic(topic: TopicVM) {
+    if (!topic.isAssigned) {
+      topic.isAssigned = !topic.isAssigned;
+      if (this.selectedTopics.includes(topic)) {
+        return;
+      }
+
+      this.selectedTopics.push(topic);
+    } else {
+      let index = this.selectedTopics.indexOf(topic);
+
+      if (index === -1) {
+        return;
+      }
+
+      topic.isAssigned = !topic.isAssigned;
+      this.selectedTopics.splice(index, 1);
+    }
   }
 }

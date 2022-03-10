@@ -92,3 +92,23 @@
   background-color: #078d86;
   width: 80px;
 } */
+
+#formFooter {
+  margin-top: 10px;
+}
+
+#formFooter > span {
+  font-size: 14px;
+  margin-right: 7px;
+  color: #908f8f;
+}
+
+#formFooter > a {
+  color: #ee4e34;
+  font-weight: 500;
+}
+
+.panel > h2 {
+  font-size: 25px;
+  font-weight: 500;
+}

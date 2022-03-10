@@ -81,3 +81,28 @@
   font-size: 13px;
   text-decoration: none;
 }
+.form-group {
+  text-align: left;
+  font-size: 12px;
+  color: red;
+}
+
+#formFooter {
+  margin-top: 10px;
+}
+
+#formFooter > span {
+  font-size: 14px;
+  margin-right: 7px;
+  color: #908f8f;
+}
+
+#formFooter > a {
+  color: #ee4e34;
+  font-weight: 500;
+}
+
+.panel > h2 {
+  font-size: 25px;
+  font-weight: 500;
+}

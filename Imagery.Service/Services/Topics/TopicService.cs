@@ -49,7 +49,7 @@ namespace Imagery.Service.Services.Topics
 
         public List<TopicVM> GetExhibitionTopics(int exhibitionId)
         {
-            var topics = TopicsExhibitionRepository.GetAll().Where(top => top.ExhibitionId == exhibitionId).Select(topic => new TopicVM() { Id = topic.TopicId, Name = GetTopic(topic.TopicId).Name }).ToList();
+            var topics = TopicsExhibitionRepository.GetAll().Where(top => top.ExhibitionId == exhibitionId).Select(topic => new TopicVM() { Id = topic.TopicId, Name = GetTopic(topic.TopicId).Name, isAssigned = true }).ToList();
 
             return topics;
         }

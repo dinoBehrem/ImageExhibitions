@@ -55,14 +55,15 @@
   justify-content: flex-end;
 }
 .topic {
-  border-radius: 20px;
   background-color: #783937;
   color: #fcedda;
   font-size: 14px;
   line-height: 20px;
-  padding: 3px;
   margin-right: 7px;
   text-align: center;
+  padding: 3px 5px;
+  border-radius: 5px;
+  /* margin-bottom: 3px; */
 }
 .sub-btn {
   background-color: #ee4e34;

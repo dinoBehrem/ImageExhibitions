@@ -82,6 +82,8 @@
 .filterBtn {
   background-color: #ee4e34;
   color: #fcedda;
+  width: 95%;
+  align-self: center;
 }
 
 #collapseBudget > label {
@@ -117,6 +119,7 @@
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   margin-right: 10px;
 }
+
 label {
   margin-right: 5px;
   font-size: 14px;
@@ -127,4 +130,34 @@ label {
 .category > span {
   color: #ee4e34;
   font-weight: 500;
+}
+
+.check-box {
+  background-color: #fcedda;
+  color: #783937;
+  padding: 3px 5px;
+  border-radius: 5px;
+  margin-bottom: 3px;
+}
+.check-box:hover {
+  background-color: #783937;
+  color: #fcedda;
+}
+
+.check-box > input {
+  margin-right: 3px;
+}
+
+.unchecked {
+  background-color: #fcedda;
+  color: #783937;
+}
+
+.checked {
+  background-color: #783937;
+  color: #fcedda;
+}
+
+.botomLine:last-child {
+  border-bottom: none;
 }

@@ -1,18 +1,19 @@
-<div id="main">
-    <div id="navigation">
-        <div id="profilePicture">
-            <img src="" alt="Profile picture">
-            <h3>User name</h3>
-        </div>
-        <div>
-            <ul>
-                <li>Account</li>
-                <li>Password</li>
-                <li>Exhibitions</li>
-            </ul>
-        </div>
+<div class="m-4">
+    <div class="form-group mb-3">
+        <img [src]="imageURL" style="width: 250px; height: 200px;">
+        <input class="form-control"  type="file" id="file" aria-describedby="file" (change)="fileInput($event)" required>
     </div>
-    <div id="settings">
+    <div>
+        <button type="submit" (click)="saveImage()">Save</button>
+    </div>
+</div>
 
-    </div>
+<div>
+    <p>{{user.username}}</p>
+    <p>{{user.firstname}}</p>
+    <p>{{user.lastname}}</p>
+    <p>{{user.email}}</p>
+    <ul>
+        <li *ngFor="let roles of user.roles">{{roles}}</li>
+    </ul>
 </div>

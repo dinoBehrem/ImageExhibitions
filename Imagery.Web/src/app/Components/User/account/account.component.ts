@@ -1,15 +1,68 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { ImageServiceService } from 'src/app/Services/Image/image-service.service';
+import { SignService } from 'src/app/Services/Sign/sign.service';
+import { UserVM } from 'src/app/ViewModels/UserVM';
 
 @Component({
   selector: 'app-account',
   templateUrl: './account.component.html',
-  styleUrls: ['./account.component.css']
+  styleUrls: ['./account.component.css'],
 })
 export class AccountComponent implements OnInit {
-
-  constructor() { }
+  user!: UserVM;
+  image!: File;
+  imageURL: string = '';
+  imageData: FormData = new FormData();
+  constructor(
+    private signServices: SignService,
+    private imageService: ImageServiceService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
+    this.loadUser();
   }
 
+  loadUser() {
+    const prop: string =
+      'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name';
+    const userName = this.signServices.GetJWTData(prop);
+
+    if (userName === '') {
+      this.router.navigateByUrl('Login');
+    }
+
+    return this.signServices.GetUser(userName).subscribe((res: any) => {
+      if (res !== null) {
+        this.user = res;
+        this.imageURL = res.picture;
+      } else {
+        alert('User is not found!');
+      }
+    });
+  }
+
+  fileInput(item: any) {
+    if (item?.target?.files.length > 0) {
+      this.image = item?.target?.files[0];
+
+      var reader = new FileReader();
+      reader.onload = (event: any) => {
+        this.imageURL = event.target.result;
+      };
+      reader.readAsDataURL(this.image);
+      console.log(this.image);
+    }
+  }
+
+  saveImage() {
+    this.imageData.append('image', this.image, this.image.name);
+    this.imageService
+      .UploadProfilePicture(this.user.username, this.imageData)
+      .subscribe((res: any) => {
+        this.user.picture = res;
+        this.imageURL = res;
+      });
+  }
 }
