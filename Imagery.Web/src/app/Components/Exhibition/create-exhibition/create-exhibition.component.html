@@ -1,4 +1,4 @@
-<div id="container">
+<!-- <div id="container">
     <div id="exhbitionDetails">
         <h3 style="text-align: center;">Organize exhibition</h3>
         <hr>
@@ -22,55 +22,30 @@
             <a routerLink="/MyExhibitions">My exhibitions</a>
         </form>
     </div>
-    <!-- <div id="imageDisplay">
-        <div id="toggleModal">
-            <img src="../../../../assets/plus-icon.png" data-toggle="modal" data-target="#exampleModal" />
-        </div>
-
-       Modal ---
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Upload image</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form id="exhbitionForm" (ngSubmit)="saveImage()"> ---
-                            <div id="modalImage">
-                                <img [src]="imageURL">
-                            </div>
-
-                            <input class="form-control" type="file" id="file" aria-describedby="file"
-                                (change)="fileInput($event)" required>
-                                <hr>
-                            <label>Name</label>
-                            <input class="form-control" type="text" [(ngModel)]="name" required>
-                            <label>Description</label>
-                            <input class="form-control" type="text" [(ngModel)]="imageDescription" required>
-                            <label>Artist</label>
-                            <input class="form-control" type="text" [(ngModel)]="creator" required>
-                            <div id="priceDimensions">
-                                <div class="itemPrice">
-                                    <label>Price</label>
-                                    <input class="form-control" type="number" [(ngModel)]="price" required>
-                                </div>
-                                <div class="itemPrice">
-                                    <label>Dimensions</label>
-                                    <input class="form-control" type="text" [(ngModel)]="dimensions" required>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary" (click)="saveImage()">Save changes</button>
-                            </div>
-                        </form> ---
-                    </div>
+</div> -->
+<div id="LoginForm" >
+    <div class="container">
+        <div class="login-form">
+            <div class="main-div">
+                <div class="panel">
+                    <h3 style="text-align: center;">Organize exhibition</h3>
+                    <hr>
                 </div>
+                <form id="Login" [formGroup]="exhibitionDetails" (ngSubmit)="save()">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="title" placeholder="Enter title" formControlName="title" required>
+                        <span class="errorSpan" *ngIf="exhibitionDetails.get('title')?.invalid && exhibitionDetails.get('title')?.touched">Title is required!</span>
+                    </div>
+                    <div class="form-group">
+                        <textarea type="text" class="form-control" id="description" placeholder="Enter description" formControlName="description"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <input type="datetime-local" class="form-control" id="startingDate" formControlName="startingDate" required>
+                                            </div>
+                    <button type="submit" class="btn btn-primary loginButton" [disabled]="!exhibitionDetails.valid">Create</button>
+                    <div id="formFooter"><span>Check your other </span><a routerLink="/MyExhibitions">exhibitions</a></div>
+                </form>
             </div>
         </div>
-    </div> -->
+    </div>
 </div>

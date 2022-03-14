@@ -1,59 +1,116 @@
 <div id="editContainer">
     <div id="exhbitionDetails">
-        <h3>Organize exhibition</h3>
-        <hr>
+        <div class="detailsHeader">
+            <h3 class="detailsTitle">Exhibition details</h3>
+            <hr>
+        </div>
         <div id="exhbitionForm">
-            <div id="exhibitionCover">
-                <div id="cover">
-                    <img [src]="exhibition?.cover">
+            <div class="exhibitionCover">
+                <div class="cover">
+                    <div *ngIf="exhibition?.cover == null; then nocover else cover"></div>
+                    <ng-template #cover>
+                        <img [src]="exhibition.cover">
+                    </ng-template>
+                    <ng-template #nocover>
+                        <img [src]="imagePlaceholder">
+                    </ng-template>
                 </div>
             </div>
             <div class="form-group">
-                <label for="title">Title</label>
+                <label for="title" class="field">Title</label>
                 <input type="text" class="form-control" id="title" aria-describedby="title" placeholder="Enter title"
                     [(ngModel)]="exhibition.title" value="{{exhibition?.title}}">
             </div>
             <div class="form-group">
-                <label for="description">Description</label>
+                <label for="description" class="field">Description</label>
                 <textarea type="text" class="form-control" id="description" placeholder="Description" [(ngModel)]="exhibition.description"
-                   value="{{exhibition?.description}}"></textarea>
+                   value="{{exhibition?.description}}" maxlength="450"></textarea>
             </div>
             <div class="form-group">
-                <label for="startingDate">Starting date:</label>
+                <label for="startingDate" class="field">Starting date</label>
                 <input type="datetime-local" class="form-control" id="startingDate" [(ngModel)]="exhibition.date" [value]="exhibition.date">
             </div>
-            <div>
-                <div>
-                    <select [(ngModel)]="topicVM.topicId">
+            <div id="detailsTopics">
+                <label for="startingDate" class="field">Select tags</label><br>
+                <!-- <div>
+                    <select [(ngModel)]="topicVM.id">
                         <option *ngFor="let topic of topics" value="{{topic.id}}">{{topic.name}}</option>
                     </select>
-                    <button type="button" class="btn" (click)="addTopic()">Add topic</button>
-                </div>
-                <div>
-                    <label *ngFor="let selectedTopic of exhibition.topics">
-                        <input type="checkbox"  checked="{{selectedTopic.isAssigned}}">
-                        <span>{{selectedTopic.name}}</span>
+                    <button type="button" class="btn btn-topic" (click)="addTopic()">Add topic</button>
+                </div> -->
+                    <label *ngFor="let topic of exhibition.topics" class="check-box" [ngClass]='{"checked":topic.isAssigned}'>
+                        <input type="checkbox" class="form-class" >
+                        <span>{{topic.name}}</span>
                     </label>
                 </div>
-            </div>
-            <button type="submit" class="btn btn-primary" (click)="editDetails()">Save changes</button>
+                <div id="detailsFooter">
+                    <button type="submit" class="btn btn-primary" (click)="editDetails()">Save changes</button>
+                </div>
         </div>
     </div>
     <div id="imageDisplay">
-        <div class="toggleModal" (click)="newItem()">
-            <img src="../../../../assets/plus-icon.png" data-toggle="modal" data-target="#exampleModal" />
-        </div>
         <div *ngFor="let item of exhibition.items" class="toggleModal" (click)="setItem(item)">
-            <img src="{{item.image}}" data-toggle="modal" data-target="#exampleModal" />
+            <img src="{{item.image}}" />
         </div>
-       <!-- Modal -->
+    </div>
+    <div id="editItem">
+        <div class="detailsHeader" style="display: flex; flex-direction: row; justify-content: space-between;">
+            <h3 class="detailsTitle">Image details</h3>
+            <button class="btn btn-success" (click)="newItem()">New</button>
+        </div>
+        <div id="itemDetails">
+        <div class="exhibitionCover">
+            <div class="cover">
+                <img [src]="imageURL" data-toggle="modal" data-target="#exampleModal" >
+            </div>
+        </div>
+
+            <input class="form-control btn btn-upload" type="file" id="file" aria-describedby="file" (change)="fileInput($event)"
+            required>
+            <hr>
+            <div class="form-group">
+                <label class="field">Name</label>
+                <input class="form-control" type="text" [(ngModel)]="itemVM.name" value="{{itemVM.name}}" required>
+            </div>
+            <div class="form-group">
+                <label class="field">Description</label>
+                <input class="form-control" type="text" [(ngModel)]="itemVM.description" value="{{itemVM.description}}">
+            </div>
+            <label class="field">Artist</label>
+            <input class="form-control" type="text" [(ngModel)]="itemVM.creator" required>
+            <div id="priceDimensions" *ngIf="!itemStatus()">
+                <div>
+                    <select>
+                        <option *ngFor="let dimension of itemVM.dimensions">{{dimension.dimension}} {{dimension.price}}</option>
+                    </select>
+                </div>
+                <div>
+                    <div class="itemPrice">
+                        <label>Price</label>
+                        <input class="form-control" type="number" [(ngModel)]="dimensionVM.price" required>
+                    </div>
+                    <div class="itemPrice">
+                        <label>Dimensions</label>
+                        <input class="form-control" type="text" [(ngModel)]="dimensionVM.dimension" required>
+                    </div>
+                    <button type="button" class="btn" (click)="addDimensions()">Add dimensions</button>
+                </div>
+            </div>
+            <a (click)="setCover()" *ngIf="!itemStatus()">set as cover...</a>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary" (click)="saveImage()">Save changes</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="removeItem()">Delete</button>
+            </div>
+        </div>
+        </div>
+        <!-- Modal -->
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Upload image</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="clearModal()">
+                        <h5 class="modal-title" id="exampleModalLabel">Image preview</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -62,43 +119,9 @@
                             <div id="modalImage">
                                 <img [src]="imageURL">
                             </div>
-
-                            <input class="form-control" type="file" id="file" aria-describedby="file"
-                                (change)="fileInput($event)" required>
-                                <hr>
-                            <label>Name</label>
-                            <input class="form-control" type="text" [(ngModel)]="itemVM.name" value="{{itemVM.name}}" required>
-                            <label>Description</label>
-                            <input class="form-control" type="text" [(ngModel)]="itemVM.description" value="{{itemVM.description}}" required>
-                            <label>Artist</label>
-                            <input class="form-control" type="text" [(ngModel)]="itemVM.creator" required>
-                            <div id="priceDimensions" *ngIf="!itemVM.newItem">
-                                <div>
-                                    <select>
-                                        <option *ngFor="let dimension of itemVM.dimensions">{{dimension.dimension}} {{dimension.price}}</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <div class="itemPrice">
-                                        <label>Price</label>
-                                        <input class="form-control" type="number" [(ngModel)]="dimensionVM.price" required>
-                                    </div>
-                                    <div class="itemPrice">
-                                        <label>Dimensions</label>
-                                        <input class="form-control" type="text" [(ngModel)]="dimensionVM.dimension" required>
-                                    </div>
-                                    <button type="button" class="btn" (click)="addDimensions()">Add dimensions</button>
-                                </div>
-                            </div>
-                            <a (click)="setCover()" *ngIf="!itemVM.newItem">set as cover...</a>
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary" (click)="saveImage()">Save changes</button>
-                                <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="clearModal()">Delete</button>
-                            </div>
                         </div>
-                    </div>
+                    </div> 
                 </div>
             </div>
         </div>
-    </div>
 </div>

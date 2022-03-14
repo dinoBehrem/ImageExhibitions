@@ -79,5 +79,38 @@ namespace Imagery.API.Controllers
 
             return Ok(result);
         }
+
+        [HttpPut("{id}")]
+        [Authorize]
+        public ActionResult<EditItemVM> ItemUpdate(int id, [FromForm]EditItemVM editItem)
+        {
+            if (editItem == null)
+            {
+                return BadRequest("Invalid data!");
+            }
+
+            var result = ImageService.UpdateExponentItem(id, editItem);
+
+            if (result == null)
+            {
+                return BadRequest("Error, something went wrong!");
+            }
+
+            return Ok(result);
+        }
+
+        [HttpDelete("{id}")]
+        [Authorize]
+        public ActionResult DeleteItem(int id)
+        {
+            var result = ImageService.RemoveItem(id);
+
+            if (!result)
+            {
+                return BadRequest(new { Message = "Deletion failed, try again!", isSuccess = false });
+            }
+
+            return Ok(new { Message = "Deletion successfull!", isSuccess = true });
+        }
     }
 }

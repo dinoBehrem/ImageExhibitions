@@ -13,6 +13,8 @@ namespace Imagery.Repository.Repository
         RepositoryResponse<TEntity> Add(TEntity entity);
         RepositoryResponse<TEntity> GetSingleOrDefault(int id);
         RepositoryResponse<TEntity> Update(TEntity entity);
+        RepositoryResponse<TEntity> Remove(TEntity entity);
+        RepositoryResponse<TEntity> RemoveRange(List<TEntity> entity);
         void SaveChanges();
     }
 }

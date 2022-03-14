@@ -132,7 +132,7 @@ namespace Imagery.Service.Services.Exhbition
             return cover.CoverImage;
         }
 
-        public ExhibitionVM UpdateExhibition(ExhibitionVM input)
+        public EditExhibitionVM UpdateExhibition(EditExhibitionVM input)
         {
             var exhibition = ExhibitionRepository.GetSingleOrDefault(input.Id);
 
@@ -152,12 +152,11 @@ namespace Imagery.Service.Services.Exhbition
                 return null;
             }
 
-            var response = Mapper.MapExhibitionVM(exhibition.Content);
+            EditExhibitionVM editExhibition = new EditExhibitionVM() { Id = result.Content.Id, Title = result.Content.Title, Description = result.Content.Description, Date = result.Content.Date};
+            //response.Items = ExhbitionItems(response.Id);
+            //response.Organizer = toUserVM(exhibition.Content.OrganizerId);
 
-            response.Items = ExhbitionItems(response.Id);
-            response.Organizer = toUserVM(exhibition.Content.OrganizerId);
-
-            return response;
+            return editExhibition;
         }
 
         private UserVM toUserVM(string id)

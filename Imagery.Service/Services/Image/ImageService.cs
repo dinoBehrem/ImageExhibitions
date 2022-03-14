@@ -183,5 +183,64 @@ namespace Imagery.Service.Services.Image
 
             return dimensionsVM;
         }
+
+        public EditItemVM UpdateExponentItem(int id, EditItemVM editItem)
+        {
+            var itemExist = ItemRepository.GetSingleOrDefault(id);
+
+            if (!itemExist.IsSuccess)
+            {
+                return null;
+            }
+
+            itemExist.Content.Name = editItem.Name;
+            itemExist.Content.Description = editItem.ImageDescription;
+            itemExist.Content.Creator = editItem.Creator;
+
+            if (editItem.Image != null)
+            {
+                const string folder = "ExponentItems";
+
+                itemExist.Content.Image = EditImage(folder, editItem.Image, itemExist.Content.Image);
+
+            }
+
+            var response = ItemRepository.Update(itemExist.Content);
+
+            if (!response.IsSuccess)
+            {
+                return null;
+            }
+            editItem.ImagePath = response.Content.Image;
+
+            return editItem;
+        }
+
+        public bool RemoveItem(int id)
+        {
+            var itemExist = ItemRepository.GetSingleOrDefault(id);
+
+            if (!itemExist.IsSuccess)
+            {
+                return false;
+            }
+
+            var itemDimensions = DimensionsRepository.GetAll().Where(dimensions => dimensions.ExponentItemId == id).ToList();
+
+            var dimensionsRespone = DimensionsRepository.RemoveRange(itemDimensions);
+
+            const string folder = "ExponentItems";
+
+            DeleteImage(folder, itemExist.Content.Image);
+
+            var response = ItemRepository.Remove(itemExist.Content);
+
+            if (!response.IsSuccess)
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
 }

@@ -31,8 +31,6 @@ namespace Imagery.Repository.Repository
             try
             {
                 Entities.Add(entity);
-
-                ImageryContext.SaveChanges();
                
                 response.Status = "Success";
                 response.Message = "Entity successfully added!";
@@ -47,6 +45,8 @@ namespace Imagery.Repository.Repository
                 response.IsSuccess = false;
                 response.Content = null;
             }
+            
+            SaveChanges();
 
             return response;
         }
@@ -87,7 +87,6 @@ namespace Imagery.Repository.Repository
             try
             {
                 ImageryContext.Entry(entity).State = EntityState.Modified;
-                SaveChanges();
 
                 response.Status = "Success";
                 response.Message = "Entity successfully added!";
@@ -102,6 +101,62 @@ namespace Imagery.Repository.Repository
                 response.IsSuccess = false;
                 response.Content = null;
             }
+            
+            SaveChanges();
+
+            return response;
+        }
+
+        public RepositoryResponse<TEntity> Remove(TEntity entity)
+        {
+            RepositoryResponse<TEntity> response = new RepositoryResponse<TEntity>();
+
+            try
+            {
+                Entities.Remove(entity);
+
+                response.Status = "Success";
+                response.Message = "Entity successfully removed!";
+                response.IsSuccess = true;
+                response.Content = null;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "Error";
+                response.Message = ex.Message;
+                response.InnerMessage = ex.InnerException?.Message;
+                response.IsSuccess = false;
+                response.Content = null;
+            }
+            
+            SaveChanges();
+
+            return response;
+        }
+
+        public RepositoryResponse<TEntity> RemoveRange(List<TEntity> entities)
+        {
+            RepositoryResponse<TEntity> response = new RepositoryResponse<TEntity>();
+
+            try
+            {
+                Entities.RemoveRange(entities);
+
+                response.Status = "Success";
+                response.Message = "Entity successfully removed!";
+                response.IsSuccess = true;
+                response.Content = null;
+            }
+            catch (Exception ex)
+            {
+                response.Status = "Error";
+                response.Message = ex.Message;
+                response.InnerMessage = ex.InnerException?.Message;
+                response.IsSuccess = false;
+                response.Content = null;
+            }
+
+            SaveChanges();
 
             return response;
         }

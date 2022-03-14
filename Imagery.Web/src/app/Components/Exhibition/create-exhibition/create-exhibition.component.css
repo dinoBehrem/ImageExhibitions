@@ -1,48 +1,113 @@
-#createContainer {
-  display: flex;
-  flex-direction: row;
-  height: calc(100% - 56px);
-}
-
-#exhbitionDetails {
-  width: 25%;
-  height: 100%;
-  background-color: rgba(197, 199, 200, 0.322);
-  padding: 5px;
-}
-
-#imageDisplay {
-  width: 75%;
-  height: 100%;
+#LoginForm {
+  background-color: #fcedda;
   padding: 10px;
-}
-
-#exhbitionForm {
-  padding: 8px;
-}
-
-#toggleModal {
-  width: 250px;
-  height: 250px;
-  background-color: rgba(197, 199, 200, 0.322);
-  border-radius: 10px;
-}
-
-img {
   height: 100%;
+}
+
+.form-heading {
+  color: #fff;
+  font-size: 23px;
+}
+.panel h2 {
+  color: #444444;
+  font-size: 18px;
+  margin: 0 0 8px 0;
+}
+.panel p {
+  color: #777777;
+  font-size: 14px;
+  margin-bottom: 30px;
+  line-height: 24px;
+}
+.login-form .form-control {
+  background: #f7f7f7 none repeat scroll 0 0;
+  border: 1px solid #d4d4d4;
+  border-radius: 4px;
+  font-size: 14px;
+  height: 50px;
+  line-height: 50px;
+}
+.main-div {
+  background: #ffffff none repeat scroll 0 0;
+  border-radius: 2px;
+  margin: 10px auto 30px;
+  max-width: 65%;
+  padding: 50px 70px 70px 71px;
+}
+
+.login-form .form-group {
+  margin-bottom: 10px;
+}
+.login-form {
+  text-align: center;
+}
+.forgot a {
+  color: #777777;
+  font-size: 14px;
+  text-decoration: underline;
+}
+.login-form .btn.btn-primary {
+  background: #783937 none repeat scroll 0 0;
+  border-color: #783937;
+  color: #ffffff;
+  font-size: 14px;
   width: 100%;
+  height: 50px;
+  line-height: 50px;
+  padding: 0;
+}
+.forgot {
+  text-align: left;
+  margin-bottom: 30px;
+}
+.botto-text {
+  color: #ffffff;
+  font-size: 14px;
+  margin: auto;
+}
+.login-form .btn.btn-primary.reset {
+  background: #078d86 none repeat scroll 0 0;
+}
+.back {
+  text-align: left;
+  margin-top: 10px;
+}
+.back a {
+  color: #444444;
+  font-size: 13px;
+  text-decoration: none;
 }
 
-#priceDimensions {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+.form-group {
+  text-align: left;
+  font-size: 12px;
+  color: red;
+}
+/* 
+.loginButton {
+  background-color: #078d86;
+  width: 80px;
+} */
+
+#formFooter {
+  margin-top: 10px;
 }
 
-.itemPrice {
-  width: 45%;
+#formFooter > span {
+  font-size: 14px;
+  color: #908f8f;
 }
 
-#modalImage {
-  width: 100%;
+#formFooter > a {
+  color: #ee4e34;
+  font-weight: 500;
+}
+
+.panel > h2 {
+  font-size: 25px;
+  font-weight: 500;
+}
+
+#description {
+  height: 150px;
 }

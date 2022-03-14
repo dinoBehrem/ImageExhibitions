@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AssignTopicVM } from 'src/app/ViewModels/AssignTopicVM';
 import { CoverImageVM } from 'src/app/ViewModels/CoverImageVM';
+import { EditExhibitionVM } from 'src/app/ViewModels/EditExhibitionVM';
 import { ExhibitionCreationVM } from 'src/app/ViewModels/ExhibitionCreationVM';
 import { ExhibitionVM } from 'src/app/ViewModels/ExhibitionVM';
 import { FilterVM } from 'src/app/ViewModels/FilterVM';
@@ -22,50 +23,21 @@ export class ExhibitionService {
   constructor(private http: HttpClient, private signServices: SignService) {}
 
   GetAll(): Observable<ExhibitionVM[]> {
-    let options = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
-    return this.http.get<ExhibitionVM[]>(this.url + '/GetAll', options);
+    return this.http.get<ExhibitionVM[]>(this.url + '/GetAll', this.options);
   }
 
   GetSingle(id: number): Observable<ExhibitionVM> {
-    let options = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
     return this.http.get<ExhibitionVM>(
       this.url + '/GetExhbition/' + id,
-      options
+      this.options
     );
   }
 
   Create(exhibition: ExhibitionCreationVM): any {
-    let options = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
     return this.http.post<ExhibitionCreationVM>(
       this.url + '/Create',
       exhibition,
-      options
-    );
-  }
-
-  ItemUpload(title: string, item: ItemUploadVM): any {
-    let options = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authentication-token': this.signServices.GetToken() + '',
-      }),
-    };
-    return this.http.post<ItemUploadVM>(
-      this.url + '/ItemUpload' + `?title=${title}`,
-      item,
-      options
+      this.options
     );
   }
 
@@ -144,25 +116,19 @@ export class ExhibitionService {
   }
 
   UpdateCover(cover: CoverImageVM): any {
-    let options = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
-    return this.http.post<CoverImageVM>(
+    return this.http.put<CoverImageVM>(
       this.url + '/UpadteCoverImage',
       cover,
-      options
+      this.options
     );
   }
 
-  Update(exhibition: ExhibitionVM): any {
-    let options = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
-    return this.http.post(this.url + '/Update', exhibition, options);
+  Update(exhibition: EditExhibitionVM): any {
+    return this.http.put(
+      this.url + '/Update/' + exhibition.id,
+      exhibition,
+      this.options
+    );
   }
 
   AssignTopic(assignTopic: AssignTopicVM) {

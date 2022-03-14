@@ -30,7 +30,10 @@ namespace Imagery.Service.Services.Topics
         {
             var topicExist = TopicsRepository.GetSingleOrDefault(topicId);
 
-            if (!topicExist.IsSuccess)
+            var topicExhibirionExist = TopicsExhibitionRepository.GetAll().Where(et => et.ExhibitionId == exhbitionId && et.TopicId == topicId).FirstOrDefault();
+
+
+            if (topicExist.IsSuccess)
             {
                 return null;
             }
@@ -52,6 +55,25 @@ namespace Imagery.Service.Services.Topics
             var topics = TopicsExhibitionRepository.GetAll().Where(top => top.ExhibitionId == exhibitionId).Select(topic => new TopicVM() { Id = topic.TopicId, Name = GetTopic(topic.TopicId).Name, isAssigned = true }).ToList();
 
             return topics;
+        }
+
+        public string RemoveExhibitionTopic(Exhibition exhbition, int topicId)
+        {
+            var topicExhibirionExist = TopicsExhibitionRepository.GetAll().Where(et => et.ExhibitionId == exhbition.Id && et.TopicId == topicId).FirstOrDefault();
+
+            if (topicExhibirionExist == null)
+            {
+                return "Exhbition doesn't have this topic!";
+            }
+
+            var response = TopicsExhibitionRepository.Remove(topicExhibirionExist);
+
+            if (!response.IsSuccess)
+            {
+                return "Error, not removed";
+            }
+
+            return response.Message;
         }
 
         private Topic GetTopic(int topicId)

@@ -24,6 +24,7 @@ import { ExhibitionComponent } from './Components/Exhibition/exhibition/exhibiti
 import { UserAccessGuard } from './Guards/user-access.guard';
 import { AccountComponent } from './Components/User/account/account.component';
 import { MyExhibitionsComponent } from './Components/Exhibition/my-exhibitions/my-exhibitions.component';
+import { EditItemComponent } from './Components/Exhibition/edit-exhibition/edit-item/edit-item.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { MyExhibitionsComponent } from './Components/Exhibition/my-exhibitions/m
     ExhibitionComponent,
     AccountComponent,
     MyExhibitionsComponent,
+    EditItemComponent,
   ],
   imports: [
     BrowserModule,

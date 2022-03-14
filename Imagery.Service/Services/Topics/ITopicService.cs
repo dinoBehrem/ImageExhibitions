@@ -1,4 +1,5 @@
-﻿using Imagery.Service.ViewModels.Exhbition;
+﻿using Imagery.Core.Models;
+using Imagery.Service.ViewModels.Exhbition;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +13,6 @@ namespace Imagery.Service.Services.Topics
         TopicVM SetExhibitionTopic(int exhbitionId, int topicId);
         List<TopicVM> GetAllTopics();
         List<TopicVM> GetExhibitionTopics(int exhibitionId);
+        string RemoveExhibitionTopic(Exhibition exhbition, int topicId);
     }
 }

@@ -14,5 +14,7 @@ namespace Imagery.Service.Services.Image
         ExponentItemVM UploadItem(int id, ItemUploadVM itemUpload);
         List<ExponentItemVM> GetExhibitionItems(int id);
         DimensionsVM AddDimensions(int id, DimensionsVM dimensions);
+        EditItemVM UpdateExponentItem(int id, EditItemVM editItem);
+        bool RemoveItem(int id);
     }
 }

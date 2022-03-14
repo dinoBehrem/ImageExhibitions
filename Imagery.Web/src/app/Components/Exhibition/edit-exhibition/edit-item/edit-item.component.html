@@ -1,0 +1,58 @@
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Upload image</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeModal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="exhbitionForm">
+                    
+                    <div id="modalImage">
+                        <img [src]="imageDisplay()">
+                    </div>
+
+                    <input class="form-control" type="file" id="file" aria-describedby="file"
+                        (change)="fileInput($event)" required>
+                    <hr> 
+                    <label>Name</label>
+                    <input class="form-control" type="text" value="{{editItem?.name}}" required>
+                    <label>Description</label>
+                    <input class="form-control" type="text" value="{{editItem?.description}}" required>
+                    <label>Artist</label>
+                    <input class="form-control" type="text" value="{{editItem?.description}}" required>
+                    <div id="priceDimensions" *ngIf="newItem()">
+                        <div>
+                            <select>
+                                <option *ngFor="let dimension of editItem.dimensions">{{dimension.dimension}}
+                                    {{dimension.price}}</option>
+                                </select>
+                            </div>
+<!--                             
+                            <div>
+                                <div class="itemPrice">
+                                    <label>Price</label>
+                                    <input class="form-control" type="number" [(ngModel)]="dimensionVM.price" required>
+                                </div>
+                                <div class="itemPrice">
+                                    <label>Dimensions</label>
+                                    <input class="form-control" type="text" [(ngModel)]="dimensionVM.dimension" required>
+                                </div>
+                                <button type="button" class="btn" (click)="addDimensions()">Add dimensions</button>
+                            </div> -->
+                        </div>
+                        <!--
+                    <a (click)="setCover()" *ngIf="!itemVM.newItem">set as cover...</a>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" (click)="saveImage()">Save changes</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal"
+                            (click)="removeItem()">Delete</button>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

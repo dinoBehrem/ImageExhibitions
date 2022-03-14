@@ -14,7 +14,8 @@ namespace Imagery.Service.Services.Exhbition
         Task<ExhibitionVM> Create(ExhbitionCreationVM exhibitionCreationVM);
         List<ExhibitionVM> Exhibitions();
         ExhibitionVM GetById(int id);
-        ExhibitionVM UpdateExhibition(ExhibitionVM exhibition);
+        EditExhibitionVM UpdateExhibition(EditExhibitionVM exhibition);
+        //ExhibitionVM UpdateExhibition(ExhibitionVM exhibition);
         string SetExhibitionCover(CoverImageVM cover);
         List<ExhibitionVM> UserExhibitions(string username);
         TopicVM AssignTopic(AssignTopicVM assignTopic);

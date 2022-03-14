@@ -7,7 +7,11 @@ import { DimensionsVM } from 'src/app/ViewModels/DimensionsVM';
 })
 export class ImageServiceService {
   url: string = 'https://localhost:44395/Image';
-
+  options = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+    }),
+  };
   constructor(private http: HttpClient) {}
 
   UploadProfilePicture(username: string, picture: FormData) {
@@ -22,15 +26,18 @@ export class ImageServiceService {
   }
 
   AddDimensions(id: number, dimensions: DimensionsVM) {
-    let options = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
     return this.http.post(
       this.url + '/AddDimension/' + id,
       dimensions,
-      options
+      this.options
     );
+  }
+
+  EditItem(id: number, itemData: FormData) {
+    return this.http.put(this.url + '/ItemUpdate/' + id, itemData);
+  }
+
+  DeleteItem(id: number) {
+    return this.http.delete(this.url + '/DeleteItem/' + id, this.options);
   }
 }

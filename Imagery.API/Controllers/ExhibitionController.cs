@@ -47,13 +47,13 @@ namespace Imagery.API.Controllers
             return Ok(response.Id);
         }
 
-        [HttpPost]
+        [HttpPut("{id}")]
         [Authorize]
-        public ActionResult<ExhibitionVM> Update([FromBody] ExhibitionVM exhbitionVM)
+        public ActionResult<EditExhibitionVM> Update(int id, [FromBody] EditExhibitionVM exhbitionVM)
         {
             if (exhbitionVM == null)
             {
-                return BadRequest("Error, inavlid data!");
+                return BadRequest("Error, invalid data!");
             }
 
             var response = ExhibitionService.UpdateExhibition(exhbitionVM);
@@ -92,7 +92,7 @@ namespace Imagery.API.Controllers
             return Ok(serviceresponse);
         }
 
-        [HttpPost]
+        [HttpPut]
         [Authorize]
         public ActionResult<CoverImageVM> UpadteCoverImage([FromBody]CoverImageVM coverImage)
         {
