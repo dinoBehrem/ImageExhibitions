@@ -82,7 +82,8 @@ namespace Imagery.Service.Helpers
             DimensionsVM dimensionsVM = new DimensionsVM()
             {
                 Dimension = dimensions.Dimension,
-                Price = dimensions.Price
+                Price = dimensions.Price,
+                Id = dimensions.Id
             };
 
             return dimensionsVM;

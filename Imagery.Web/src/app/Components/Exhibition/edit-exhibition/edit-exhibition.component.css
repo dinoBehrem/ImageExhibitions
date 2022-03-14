@@ -64,14 +64,32 @@ img {
 
 #priceDimensions {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
 }
 
-.itemPrice {
-  width: 45%;
+.priceDimensionContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
 }
 
+.itemPrice {
+  width: 40%;
+}
+
+#priceSelect {
+  height: 38px;
+  margin: 0;
+  font-size: 23px;
+  text-align: center;
+}
+
+#priceSelect > span {
+  color: red;
+  font-weight: 400;
+}
 #modalImage {
   width: 100%;
   height: 80%;
@@ -103,6 +121,7 @@ textarea {
   color: #fcedda;
   width: 95%;
   align-self: center;
+  border: none;
 }
 
 .modal-dialog {
@@ -159,4 +178,10 @@ textarea {
   height: auto;
   padding: 0;
   width: auto;
+}
+
+.btn-dimensions {
+  height: calc(2.25rem + 2px);
+  background-color: #783937;
+  color: #ffffff;
 }

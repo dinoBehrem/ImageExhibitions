@@ -27,9 +27,9 @@ export class EditExhibitionComponent implements OnInit {
   topics: TopicVM[] = [];
   selectedTopics: TopicVM[] = [];
 
-  dimensionVM = { price: 0, dimension: '' };
-
-  edit_Item: any = null;
+  dimensionVM: any;
+  newDimensions: any = { price: 0, dimension: '', id: 0 };
+  dimensionId: number = -1;
 
   imageFile: any = File;
 
@@ -81,8 +81,6 @@ export class EditExhibitionComponent implements OnInit {
       this.exhibition = res;
       this.selectedTopics = res.topics;
     });
-
-    console.log('exh loaded!');
   }
 
   loadTopics() {
@@ -179,6 +177,8 @@ export class EditExhibitionComponent implements OnInit {
     this.itemVM = event;
     this.imageURL = event.image;
     this.isNewItem = false;
+    this.newDimensions = { price: 0, dimension: '', id: 0 };
+    this.dimensionVM = { price: 0, dimension: '', id: 0 };
   }
 
   editItem() {
@@ -205,7 +205,8 @@ export class EditExhibitionComponent implements OnInit {
       description: '',
       dimensions: [],
     };
-
+    this.newDimensions = { price: 0, dimension: '', id: 0 };
+    this.dimensionVM = { price: 0, dimension: '', id: 0 };
     this.isNewItem = true;
   }
 
@@ -220,6 +221,8 @@ export class EditExhibitionComponent implements OnInit {
           if (index != -1) {
             this.exhibition.items.splice(index, 1);
           }
+
+          this.newItem();
         }
 
         console.log(res.isSuccess);
@@ -256,21 +259,41 @@ export class EditExhibitionComponent implements OnInit {
   }
 
   addDimensions() {
-    if (this.dimensionVM.dimension === '' || this.dimensionVM.price < 0) {
+    if (this.newDimensions.dimension === '' || this.newDimensions.price < 0) {
       alert('Dimensions value are incorrect!');
     }
     if (
       this.itemVM.dimensions.length > 0 &&
-      this.itemVM.dimensions.includes(this.dimensionVM)
+      this.itemVM.dimensions.includes(this.newDimensions as DimensionsVM)
     ) {
       alert('Dimensions already exist!');
       return;
     }
 
     this.imageService
-      .AddDimensions(this.itemVM.id, this.dimensionVM as DimensionsVM)
+      .AddDimensions(this.itemVM.id, this.newDimensions as DimensionsVM)
       .subscribe((res: any) => {
         this.itemVM.dimensions.push(res);
+      });
+  }
+
+  removeDimensions() {
+    if (this.dimensionId == -1) {
+      alert("Dimensions doesn't exist!");
+    }
+
+    this.imageService
+      .DeleteDimensions(this.dimensionId)
+      .subscribe((res: any) => {
+        if (res.isSuccess) {
+          let index = this.itemVM.dimensions.indexOf(this.dimensionVM);
+
+          if (index != -1) {
+            this.itemVM.dimensions.splice(index, 1);
+          }
+          this.dimensionId = -1;
+          this.dimensionVM = null;
+        }
       });
   }
 
@@ -329,5 +352,13 @@ export class EditExhibitionComponent implements OnInit {
       console.log('---+---');
       this.exhibition.topics[index].isAssigned = false;
     }
+  }
+
+  dimensionsPrice() {
+    this.itemVM?.dimensions.forEach((dimen: any) => {
+      if (dimen.id == this.dimensionId) {
+        this.dimensionVM = dimen as DimensionsVM;
+      }
+    });
   }
 }

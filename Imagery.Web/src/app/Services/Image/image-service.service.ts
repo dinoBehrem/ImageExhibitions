@@ -33,6 +33,10 @@ export class ImageServiceService {
     );
   }
 
+  DeleteDimensions(id: number) {
+    return this.http.delete(this.url + '/DeleteDimension/' + id, this.options);
+  }
+
   EditItem(id: number, itemData: FormData) {
     return this.http.put(this.url + '/ItemUpdate/' + id, itemData);
   }

@@ -156,7 +156,8 @@ namespace Imagery.Service.Services.Image
             List<DimensionsVM> dimensions = DimensionsRepository.GetAll().Where(dimension => dimension.ExponentItemId == itemId).Select(dimension => new DimensionsVM()
             { 
                 Dimension = dimension.Dimension,
-                Price = dimension.Price
+                Price = dimension.Price,
+                Id = dimension.Id
             }).ToList();
 
             return dimensions;
@@ -234,6 +235,25 @@ namespace Imagery.Service.Services.Image
             DeleteImage(folder, itemExist.Content.Image);
 
             var response = ItemRepository.Remove(itemExist.Content);
+
+            if (!response.IsSuccess)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public bool RemoveDimensions(int id)
+        {
+            var dimensionsExist = DimensionsRepository.GetSingleOrDefault(id);
+
+            if (!dimensionsExist.IsSuccess)
+            {
+                return false;
+            }
+
+            var response = DimensionsRepository.Remove(dimensionsExist.Content);
 
             if (!response.IsSuccess)
             {

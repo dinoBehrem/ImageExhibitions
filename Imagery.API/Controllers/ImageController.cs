@@ -80,6 +80,20 @@ namespace Imagery.API.Controllers
             return Ok(result);
         }
 
+        [HttpDelete("{id}")]
+        [Authorize]
+        public ActionResult<DimensionsVM> DeleteDimension(int id)
+        {
+            var result = ImageService.RemoveDimensions(id);
+
+            if (!result)
+            {
+                return BadRequest(new { Message = "Deletion failed, try again!", isSuccess = false });
+            }
+
+            return Ok(new { Message = "Deletion successfull!", isSuccess = true });
+        }
+
         [HttpPut("{id}")]
         [Authorize]
         public ActionResult<EditItemVM> ItemUpdate(int id, [FromForm]EditItemVM editItem)
