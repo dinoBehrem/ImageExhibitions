@@ -1,22 +1,78 @@
-<h2>{{username}}'s exhibitions</h2>
-<table class="table table-striped">
-    <thead class="thead-dark">
-      <tr>
-        <th scope="col">Title</th>
-        <th scope="col">Date</th>
-        <th scope="col">Expired</th>
-        <th scope="col">View</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let exhibition of exhibitions">
-        <td>{{exhibition.title}}</td>
-        <td>{{exhibition.date}}</td>
-        
-        <div *ngIf="exhibition.expired; then expired else active"></div>
-        <ng-template #active><td >No</td></ng-template>
-        <ng-template #expired><td >Yes</td></ng-template>
-        <td><a routerLink='/EditExhibition/{{exhibition.id}}' class="btn btn-warning">Details</a></td>
-      </tr>
-    </tbody>
-  </table>
+<div id="exhibitionContainer">
+  <div id="exhbitionDetails">
+    <div class="detailsHeader">
+      <h3 class="detailsTitle">Exhibition details</h3>
+      <hr>
+    </div>
+    <div id="exhbitionForm">
+      <div class="exhibitionCover">
+        <div class="cover">
+          <div *ngIf="exhibitionVM?.cover == null; then nocover else cover"></div>
+          <ng-template #cover>
+            <img [src]="exhibitionVM.cover">
+          </ng-template>
+          <ng-template #nocover>
+            <img [src]="imagePlaceholder">
+          </ng-template>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="title" class="field">Title</label>
+        <p class="form-control" id="title" aria-describedby="title">{{exhibitionVM?.title}}</p>
+      </div>
+      <div class="form-group">
+        <label for="description" class="field">Description</label>
+        <p type="text" class="form-control" style="height: auto; min-height: 38px;">{{exhibitionVM?.description}}</p>
+      </div>
+      <div class="form-group">
+        <label for="startingDate" class="field">Starting date</label>
+        <input type="datetime-local" class="form-control" id="startingDate"
+          [value]="exhibitionVM?.date" readonly>
+      </div>
+      <div id="detailsTopics">
+        <label for="startingDate" class="field">Selected tags</label><br>
+        <!-- <div>
+                <select [(ngModel)]="topicVM.id">
+                    <option *ngFor="let topic of topics" value="{{topic.id}}">{{topic.name}}</option>
+                </select>
+                <button type="button" class="btn btn-topic" (click)="addTopic()">Add topic</button>
+            </div> -->
+        <label *ngFor="let topic of exhibitionVM?.topics" class="check-box" [ngClass]='{"checked":topic.isAssigned}'>
+          <input type="checkbox" class="form-class">
+          <span>{{topic.name}}</span>
+        </label>
+      </div>
+      <div id="detailsFooter" *ngIf="!exhibitionVM?.expired && exhibitionVM != null">
+        <a routerLink='/EditExhibition/{{exhibitionVM?.id}}' class="btn btn-edit">Edit</a><button
+        class="btn btn-danger" (click)="deleteExhbition(exhibitionVM)">Delete</button>
+      </div>
+    </div>
+  </div>
+  <div id="exhibitionTable">
+    <h4 id="exhibitionHeader">My exhibitions</h4>
+    <table class="table table-striped">
+      <thead class="thead">
+        <tr>
+          <th scope="col">Title</th>
+          <th scope="col">Date</th>
+          <th scope="col">Expired</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let exhibition of exhibitions" >
+          <td>{{exhibition.title}}</td>
+          <td>{{exhibition.date}}</td>
+          <td>
+            <div *ngIf="exhibition.expired; then expired else active"></div>
+            <ng-template #active>No</ng-template>
+            <ng-template #expired>Yes</ng-template>
+          </td>
+          <td>
+            <button class="btn btn-details" (click)="setExhibition(exhibition)">Details</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -122,7 +122,6 @@ export class EditExhibitionComponent implements OnInit {
     this.imageData.append('name', this.itemVM.name);
     this.imageData.append('creator', this.itemVM.creator);
     this.imageData.append('imageDescription', this.itemVM.description);
-    // this.imageData.append('image', this.itemVM?.image, this.itemVM.image.name);
 
     this.itemStatus();
 
@@ -132,6 +131,7 @@ export class EditExhibitionComponent implements OnInit {
         .UploadItemImage(this.id, this.imageData)
         .subscribe((res: any) => {
           this.exhibition.items.push(res);
+          this.setItem(res as ExponentItemVM);
           this.isNewItem = false;
         });
       console.log('New image');
@@ -259,12 +259,14 @@ export class EditExhibitionComponent implements OnInit {
   }
 
   addDimensions() {
+    console.log(this.itemVM);
+
     if (this.newDimensions.dimension === '' || this.newDimensions.price < 0) {
       alert('Dimensions value are incorrect!');
     }
     if (
-      this.itemVM.dimensions.length > 0 &&
-      this.itemVM.dimensions.includes(this.newDimensions as DimensionsVM)
+      this.itemVM?.dimensions.length > 0 &&
+      this.itemVM?.dimensions.includes(this.newDimensions as DimensionsVM)
     ) {
       alert('Dimensions already exist!');
       return;

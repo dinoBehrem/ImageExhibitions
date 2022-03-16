@@ -23,12 +23,13 @@
             </div>
             <div class="form-group">
                 <label for="description" class="field">Description</label>
-                <textarea type="text" class="form-control" id="description" placeholder="Description" [(ngModel)]="exhibition.description"
-                   value="{{exhibition?.description}}" maxlength="450"></textarea>
+                <textarea type="text" class="form-control" id="description" placeholder="Description"
+                    [(ngModel)]="exhibition.description" value="{{exhibition?.description}}" maxlength="450"></textarea>
             </div>
             <div class="form-group">
                 <label for="startingDate" class="field">Starting date</label>
-                <input type="datetime-local" class="form-control" id="startingDate" [(ngModel)]="exhibition.date" [value]="exhibition.date">
+                <input type="datetime-local" class="form-control" id="startingDate" [(ngModel)]="exhibition.date"
+                    [value]="exhibition.date">
             </div>
             <div id="detailsTopics">
                 <label for="startingDate" class="field">Select tags</label><br>
@@ -38,14 +39,15 @@
                     </select>
                     <button type="button" class="btn btn-topic" (click)="addTopic()">Add topic</button>
                 </div> -->
-                    <label *ngFor="let topic of exhibition.topics" class="check-box" [ngClass]='{"checked":topic.isAssigned}'>
-                        <input type="checkbox" class="form-class" >
-                        <span>{{topic.name}}</span>
-                    </label>
-                </div>
-                <div id="detailsFooter">
-                    <button type="submit" class="btn btn-primary" (click)="editDetails()">Save changes</button>
-                </div>
+                <label *ngFor="let topic of exhibition.topics" class="check-box"
+                    [ngClass]='{"checked":topic.isAssigned}'>
+                    <input type="checkbox" class="form-class">
+                    <span>{{topic.name}}</span>
+                </label>
+            </div>
+            <div id="detailsFooter">
+                <button type="submit" class="btn btn-new" (click)="editDetails()">Save changes</button>
+            </div>
         </div>
     </div>
     <div id="imageDisplay">
@@ -54,22 +56,22 @@
         </div>
     </div>
     <div id="editItem">
-        <div class="detailsHeader" >
+        <div class="detailsHeader">
             <div style="display: flex; flex-direction: row; justify-content: space-between;">
                 <h3 class="detailsTitle">Image details</h3>
-                <button class="btn btn-success" (click)="newItem()">New</button>
+                <button class="btn btn-new" (click)="newItem()">New</button>
             </div>
             <hr>
         </div>
         <div id="itemDetails">
-        <div class="exhibitionCover">
-            <div class="cover">
-                <img [src]="imageURL" data-toggle="modal" data-target="#exampleModal" >
+            <div class="exhibitionCover">
+                <div class="cover">
+                    <img [src]="imageURL" data-toggle="modal" data-target="#exampleModal">
+                </div>
             </div>
-        </div>
 
-            <input class="form-control btn btn-upload" type="file" id="file" aria-describedby="file" (change)="fileInput($event)"
-            required>
+            <input class="form-control btn btn-upload" type="file" id="file" aria-describedby="file"
+                (change)="fileInput($event)" required>
             <hr>
             <div class="form-group">
                 <label class="field">Name</label>
@@ -77,7 +79,8 @@
             </div>
             <div class="form-group">
                 <label class="field">Description</label>
-                <textarea type="text" class="form-control" [(ngModel)]="itemVM.description" value="{{itemVM.description}}" maxlength="450"></textarea>
+                <textarea type="text" class="form-control" [(ngModel)]="itemVM.description"
+                    value="{{itemVM.description}}" maxlength="450"></textarea>
             </div>
             <div class="form-group">
                 <label class="field">Artist</label>
@@ -97,40 +100,42 @@
                         <button type="button" class="btn btn-dimensions" (click)="addDimensions()">Add</button>
                     </div>
                     <div class="priceDimensionContainer">
-                        <select [(ngModel)]="dimensionId" (change)="dimensionsPrice()" class="form-control" style="width: auto;">
-                            <option *ngFor="let dimension of itemVM.dimensions" value="{{dimension.id}}" >{{dimension.dimension}}</option>
+                        <select [(ngModel)]="dimensionId" (change)="dimensionsPrice()" class="form-control"
+                            style="width: auto;">
+                            <option *ngFor="let dimension of itemVM.dimensions" value="{{dimension.id}}">
+                                {{dimension.dimension}}</option>
                         </select>
                         <p id="priceSelect">{{dimensionVM?.price}} <span>$</span></p>
-                        <button type="button" class="btn btn-dimensions" (click)="removeDimensions()" style="background-color: #dc3545;">Remove</button>
+                        <button type="button" class="btn btn-danger" (click)="removeDimensions()">Remove</button>
                     </div>
                 </div>
             </div>
-            <a (click)="setCover()" *ngIf="!itemStatus()">set as cover...</a>
+            <span (click)="setCover()" *ngIf="!isNewItem" class="set-cover-link">set as cover...</span>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-dimensions" (click)="saveImage()">Save changes</button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="removeItem()">Delete</button>
             </div>
         </div>
-        </div>
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Image preview</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div id="exhbitionForm">
-                            <div id="modalImage">
-                                <img [src]="imageURL">
-                            </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Image preview</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="exhbitionForm">
+                        <div id="modalImage">
+                            <img [src]="imageURL">
                         </div>
-                    </div> 
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
 </div>

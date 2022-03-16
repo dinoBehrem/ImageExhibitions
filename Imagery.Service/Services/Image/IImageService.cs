@@ -17,5 +17,6 @@ namespace Imagery.Service.Services.Image
         bool RemoveDimensions(int id);
         EditItemVM UpdateExponentItem(int id, EditItemVM editItem);
         bool RemoveItem(int id);
+        bool RemoveItems(int exhbitionId);
     }
 }

@@ -205,5 +205,25 @@ namespace Imagery.Service.Services.Exhbition
 
             return exhibitions;
         }
+
+        public bool RemoveExhbition(int exhbitionId)
+        {
+            var exhbitionExist = ExhibitionRepository.GetSingleOrDefault(exhbitionId);
+
+            if (!exhbitionExist.IsSuccess)
+            {
+                return false;
+            }
+
+            ImageService.RemoveItems(exhbitionId);
+            var result = ExhibitionRepository.Remove(exhbitionExist.Content);
+
+            if (!result.IsSuccess)
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
 }

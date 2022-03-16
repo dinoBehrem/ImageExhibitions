@@ -1,0 +1,118 @@
+#exhibitionContainer {
+  display: flex;
+  flex-direction: row;
+  height: calc(100% - 56px);
+}
+
+#exhbitionDetails {
+  width: 20%;
+  height: 100%;
+  background-color: #ffffff;
+  /* padding: 5px; */
+  overflow-y: scroll;
+}
+
+.detailsHeader {
+  height: 65px;
+  background-color: #f7f8fb;
+  padding: 10px;
+  text-align: center;
+}
+
+.detailsTitle {
+  color: #000000;
+  font-size: 25px;
+  font-weight: 500;
+  padding-left: 10px;
+}
+
+#detailsFooter {
+  padding: 5px 0 10px;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+#detailsFooter > button {
+  margin-left: 8px;
+}
+
+#exhbitionForm {
+  padding: 8px;
+  height: 90%;
+  padding-bottom: 10px;
+}
+
+.exhibitionCover {
+  height: 40%;
+  margin-bottom: 10px;
+}
+
+.cover {
+  height: 100%;
+  width: 100%;
+}
+img {
+  height: 100%;
+  width: 100%;
+}
+
+.field {
+  color: #ee4e34;
+  font-weight: 500;
+}
+
+#exhibitionTable {
+  width: 80%;
+  padding: 15px;
+}
+
+.thead {
+  background-color: #783937;
+  color: #fcedda;
+}
+
+.table-striped > tbody > tr:nth-child(odd) > td,
+.table-striped > tbody > tr:nth-child(odd) > th {
+  background-color: #fcedda;
+}
+
+.btn-details {
+  background-color: #ee4e34;
+  color: #fcedda;
+}
+
+.btn-edit {
+  background-color: #fcedda;
+  color: #783937;
+}
+
+tr td {
+  color: #783937;
+}
+
+#exhibitionHeader {
+  padding: 5px 7px;
+  color: #783937;
+  width: fit-content;
+  position: relative;
+}
+
+#exhibitionHeader::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 100%;
+  background-color: #fcedda;
+}
+
+.check-box {
+  background-color: #783937;
+  color: #fcedda;
+  padding: 3px 5px;
+  border-radius: 5px;
+  margin-bottom: 4px;
+  margin-right: 4px;
+}

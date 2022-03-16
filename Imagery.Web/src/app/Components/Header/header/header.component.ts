@@ -9,12 +9,12 @@ import { SignService } from 'src/app/Services/Sign/sign.service';
 })
 export class HeaderComponent implements OnInit {
   constructor(private signService: SignService, private router: Router) {}
-  isLogged?: boolean;
+  isLogged: boolean = false;
   isAdmin: boolean = false;
 
   ngOnInit(): void {
-    this.userIsLogged();
     this.adminPermission();
+    this.userIsLogged();
   }
 
   Logout() {
@@ -47,5 +47,8 @@ export class HeaderComponent implements OnInit {
 
   userIsLogged() {
     this.isLogged = this.signService.isAuthenticated();
+    console.log('Logged ---> ' + this.isLogged);
+
+    return this.signService.isAuthenticated();
   }
 }

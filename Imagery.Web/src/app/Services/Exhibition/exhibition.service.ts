@@ -150,4 +150,8 @@ export class ExhibitionService {
       this.options
     );
   }
+
+  RemoveExhbition(id: number) {
+    return this.http.delete(this.url + '/DeleteExhbition/' + id, this.options);
+  }
 }

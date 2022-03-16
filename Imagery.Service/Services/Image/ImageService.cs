@@ -82,11 +82,11 @@ namespace Imagery.Service.Services.Image
             return imageURL;
         }
 
-        private void DeleteImage(string folder, string imagepath)
+        private bool DeleteImage(string folder, string imagepath)
         {
             if (string.IsNullOrEmpty(imagepath))
             {
-                return;
+                return false;
             }
 
             string imageName = Path.GetFileName(imagepath);
@@ -96,6 +96,8 @@ namespace Imagery.Service.Services.Image
             {
                 File.Delete(filePath);
             }
+
+            return true;
         }
 
         private string EditImage(string folder, IFormFile image, string path)
@@ -146,6 +148,7 @@ namespace Imagery.Service.Services.Image
             }
 
             ExponentItemVM exponentItem = Mapper.MapExponentItemVM(repoResponse.Content);
+            exponentItem.Dimensions = new List<DimensionsVM>();
 
             return exponentItem;
             
@@ -212,9 +215,16 @@ namespace Imagery.Service.Services.Image
             {
                 return null;
             }
-            editItem.ImagePath = response.Content.Image;
 
-            return editItem;
+            var newEditItem = new EditItemVM()
+            {
+                Name = response.Content.Name,
+                Creator = response.Content.Creator,
+                ImageDescription = response.Content.Description,
+                ImagePath = response.Content.Image
+            };
+
+            return newEditItem;;
         }
 
         public bool RemoveItem(int id)
@@ -258,6 +268,22 @@ namespace Imagery.Service.Services.Image
             if (!response.IsSuccess)
             {
                 return false;
+            }
+
+            return true;
+        }
+
+        public bool RemoveItems(int exhbitionId)
+        {
+            var itemsToRemove = GetExhibitionItems(exhbitionId);
+            const string folder = "ExponentItems";
+
+            foreach (var item in itemsToRemove)
+            {
+                if(!DeleteImage(folder, item.Image))
+                {
+                    return false;
+                }
             }
 
             return true;

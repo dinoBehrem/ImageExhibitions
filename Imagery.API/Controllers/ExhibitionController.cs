@@ -163,6 +163,19 @@ namespace Imagery.API.Controllers
 
             return result;
         }
+
+        [HttpDelete("{id}")]
+        public ActionResult DeleteExhbition(int id)
+        {
+            var response = ExhibitionService.RemoveExhbition(id);
+
+            if (!response)
+            {
+                return BadRequest(new { Message = "Error while deleting exhbition!", isSuccess = false });
+            }
+
+                return Ok(new { Message = "Exhibition successfully deleted!", isSuccess = true });
+        }
         
     }
 }

@@ -34,6 +34,7 @@
   height: 90%;
   padding-bottom: 10px;
 }
+
 #exhbitionForm {
   padding: 8px;
   height: 90%;
@@ -115,14 +116,15 @@ textarea {
 #detailsFooter {
   padding: 5px 0 10px;
   height: auto;
+  display: flex;
+  justify-content: flex-end;
 }
-#detailsFooter > button {
+
+/* #detailsFooter > button {
   background-color: #ee4e34;
   color: #fcedda;
-  width: 95%;
-  align-self: center;
   border: none;
-}
+} */
 
 .modal-dialog {
   position: relative;
@@ -182,6 +184,27 @@ textarea {
 
 .btn-dimensions {
   height: calc(2.25rem + 2px);
-  background-color: #783937;
-  color: #ffffff;
+  background-color: #fcedda;
+  color: #783937;
+}
+
+.modal-footer {
+  border: none;
+}
+
+.set-cover-link {
+  color: #783937;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.set-cover-link:hover {
+  font-weight: 500;
+}
+
+.btn-new {
+  background-color: #ee4e34;
+  color: #fcedda;
+  border: none;
+  align-self: flex-end;
 }

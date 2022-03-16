@@ -1,46 +1,57 @@
 <nav id="navigation" class="navbar navbar-expand-lg">
-    <a class="navbar-brand" routerLink="Home">Imagery</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-  
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul  id="mainNav">
-        <li class="navItem">
-          <a routerLink="Home" routerLinkActive="activeLink">Home</a>
+  <a class="navbar-brand" routerLink="Home">Imagery</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul id="mainNav">
+      <li class="navItem">
+        <a routerLink="Home" routerLinkActive="activeLink">Home</a>
+      </li>
+      <li class="navItem">
+        <a routerLink="Create" routerLinkActive="activeLink">Create</a>
+      </li>
+      <!-- <div *ngIf="isLogged; showLinks"></div> -->
+      <ng-container *ngIf="isLogged">
+        <li class="navItem" *ngIf="isLogged">
+          <a routerLink="MyExhibitions" routerLinkActive="activeLink">My exhibitions</a>
         </li>
-        <li class="navItem">
-          <a  routerLink="Create" routerLinkActive="activeLink">Create</a>
+        <li class="navItem" *ngIf="isLogged">
+          <a routerLink="Collection" routerLinkActive="activeLink">Collection</a>
         </li>
-        <!-- <div *ngIf="isLogged; showLinks"></div> -->
-          <li class="navItem" *ngIf="isLogged">
-            <a routerLink="MyExhibitions" routerLinkActive="activeLink">My exhibitions</a>
-          </li>
-          <li class="navItem"*ngIf="isLogged">
-            <a routerLink="Collection" routerLinkActive="activeLink">Collection</a>
-          </li>
-      </ul>
-      
-        <app-header-status>
-          <ng-container authorized>
-            <div class="dropdown">
-              <button class="btn signIn dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {{getUsername()}}
-              </button>
-              <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser1" id="profileMenu">
-                <li><a class="dropdown-item dropwonItem" routerLink="Account">Account</a></li>
-                <li><a class="dropdown-item dropwonItem" *ngIf="isAdmin" routerLink="Users">Users</a></li>
-                <!-- <li><a class="dropdown-item dropwonItem" routerLink="Account">Account</a></li> -->
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item dropwonItem" routerLink="" (click)="Logout()">Sign out</a></li>
-              </ul>
-            </div>
-          </ng-container>
-          <ng-container unauthorized>
-           <button class="btn signIn" routerLink="Login">Sign in</button>
-          </ng-container>
-        </app-header-status>
-      
-    </div>
-  </nav>
-  <router-outlet></router-outlet>
+      </ng-container>
+    </ul>
+
+    <app-header-status>
+      <ng-container authorized>
+        <div class="dropdown">
+          <button class="btn signIn dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">
+            {{getUsername()}}
+          </button>
+          <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser1" id="profileMenu">
+            <li><a class="dropdown-item dropwonItem" routerLink="Account">Account</a></li>
+            <li><a class="dropdown-item dropwonItem" *ngIf="isAdmin" routerLink="Users">Users</a></li>
+            <li>
+              <a class="dropdown-item dropwonItem" routerLink="MyExhibitions" *ngIf="isLogged"
+                routerLinkActive="activeLink">My
+                exhibitions</a>
+            </li>
+            <!-- <li><a class="dropdown-item dropwonItem" routerLink="Account">Account</a></li> -->
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item dropwonItem" routerLink="" (click)="Logout()">Sign out</a></li>
+          </ul>
+        </div>
+      </ng-container>
+      <ng-container unauthorized>
+        <button class="btn signIn" routerLink="Login">Sign in</button>
+      </ng-container>
+    </app-header-status>
+
+  </div>
+</nav>
+<router-outlet></router-outlet>

@@ -14,8 +14,11 @@ export class MyExhibitionsComponent implements OnInit {
     private signService: SignService
   ) {}
 
+  exhibitionVM!: ExhibitionVM;
   exhibitions: ExhibitionVM[] = [];
   username: string = '';
+  imagePlaceholder: string = '../../../../assets/imagePlaceholder.png';
+
   ngOnInit(): void {
     this.username = this.getUsername();
     this.loadExhibitions();
@@ -38,5 +41,31 @@ export class MyExhibitionsComponent implements OnInit {
       return '';
     }
     return username;
+  }
+
+  deleteExhbition(exhibition: ExhibitionVM) {
+    if (!exhibition.expired) {
+      alert("Can't delete expired exhibition!");
+      return;
+    }
+
+    console.log(this.exhibitions.indexOf(exhibition) + ' ' + exhibition.id);
+
+    this.exhibitnioService
+      .RemoveExhbition(exhibition.id)
+      .subscribe((res: any) => {
+        if (res.isSuccess) {
+          let index = this.exhibitions.indexOf(exhibition);
+          if (index != -1) {
+            this.exhibitions.splice(index, 1);
+          }
+        }
+
+        alert(res.message);
+      });
+  }
+
+  setExhibition(exhibition: ExhibitionVM) {
+    this.exhibitionVM = exhibition;
   }
 }
