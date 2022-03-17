@@ -1,14 +1,123 @@
-<div id="imageDisplay">
-    <div *ngFor="let item of exhibition?.items" class="toggleModal" (click)="setItem(item)">
-        <img src="{{item.image}}" data-toggle="modal" data-target="#exampleModal" />
+<div id="editContainer">
+    <div id="exhbitionDetails">
+        <div class="detailsHeader">
+            <h3 class="detailsTitle">Exhibition details</h3>
+            <hr>
+        </div>
+        <div id="exhbitionForm">
+            <!-- <div class="exhibitionCover">
+                <div class="cover">
+                    <div *ngIf="exhibition?.cover == null; then nocover else cover"></div>
+                    <ng-template #cover>
+                        <img [src]="exhibition?.cover">
+                    </ng-template>
+                    <ng-template #nocover>
+                        <img [src]="exhibition?.cover">
+                    </ng-template>
+                </div>
+            </div> -->
+            <!-- <div class="form-group">
+                <label for="title" class="field">Title</label>
+                <p type="text" class="form-control" id="title">{{exhibition?.title}}</p>
+            </div>
+            <div class="form-group">
+                <label for="description" class="field">Description</label>
+                <p type="text" class="form-control" id="description">{{exhibition?.description}}</p>
+            </div>
+            <div class="form-group">
+                <label for="startingDate" class="field">Starting date</label>
+                <input type="datetime-local" class="form-control" id="startingDate" [value]="exhibition?.date" readonly>
+            </div>
+            <div id="detailsTopics">
+                <label for="startingDate" class="field">Tags</label><br>
+                <label *ngFor="let topic of exhibition?.topics" class="check-box"
+                    [ngClass]='{"checked":topic.isAssigned}'>
+                    <span>{{topic.name}}</span>
+                </label>
+            </div>
+        </div> -->
+
+            <div>
+                <h5 class="card-title" style="margin: 0">{{ exhibition?.title }}</h5>
+                <a style="margin: 0; color: #d3d3d3" routerLink="/Profile/{{exhibition.organizer.username}}">
+                    by {{ exhibition.organizer?.firstname }}
+                    {{ exhibition.organizer?.lastname }}
+                </a>
+            </div>
+            <p class="card-text">{{ exhibition?.description }}</p>
+            <div>
+                <label *ngFor="let topic of exhibition?.topics" class="check-box"
+                [ngClass]='{"checked":topic.isAssigned}'>
+                <span>{{topic.name}}</span>
+            </label>
+            </div>
+        </div>
     </div>
-   <!-- Modal -->
+    <div id="imageDisplay">
+        <div class="toggleModal" *ngFor="let item of exhibition?.items" (click)="setItem(item)">
+            <img src="{{item?.image}}" />
+        </div>
+    </div>
+    <div id="editItem">
+        <div class="detailsHeader">
+            <h3 class="detailsTitle">Image details</h3>
+            <hr>
+        </div>
+        <div id="itemDetails">
+            <div class="exhibitionCover">
+                <div class="cover">
+                    <img [src]="imageURL" data-toggle="modal" data-target="#exampleModal">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="field">Name</label>
+                <p class="form-control">{{itemVM?.name}}</p>
+            </div>
+            <div class="form-group">
+                <label class="field">Description</label>
+                <p class="form-control">{{itemVM?.description}}</p>
+            </div>
+            <div class="form-group">
+                <label class="field">Artist</label>
+                <p class="form-control">{{itemVM?.creator}}</p>
+            </div>
+            <div class="form-group">
+                <div id="priceDimensions">
+                    <!-- <div class="priceDimensionContainer" style="margin-bottom: 8px;">
+                    <div class="itemPrice">
+                        <label class="field">Dimensions</label>
+                        <input class="form-control" type="text" [(ngModel)]="newDimensions.dimension" required>
+                    </div>
+                    <div class="itemPrice">
+                        <label class="field">Price</label>
+                        <input class="form-control" type="number" [(ngModel)]="newDimensions.price" required>
+                    </div>
+                </div> -->
+                    <div class="priceDimensionContainer">
+                        <div class="itemPrice">
+                            <label class="field">Dimensions</label>
+                            <select [(ngModel)]="dimensionId" (change)="dimensionsPrice()" class="form-control"
+                                style="width: auto;">
+                                <option *ngFor="let dimension of itemVM?.dimensions" value="{{dimension.id}}">
+                                    {{dimension.dimension}}</option>
+                            </select>
+                        </div>
+                        <p id="priceSelect">{{dimensionVM?.price}} <span>$</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-dimensions" (click)="addToCart()">Purchase</button>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
-        <div class="modal-dialog" role="document" style="width: 800px;">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">{{itemVM.name}}</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Image preview</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -16,26 +125,7 @@
                 <div class="modal-body">
                     <div id="exhbitionForm">
                         <div id="modalImage">
-                            <img [src]="itemVM.image">
-                        </div>
-                        <!-- <label>Name</label>
-                        <input class="form-control" type="text" [(ngModel)]="itemVM.name" value="{{itemVM.name}}" required> -->
-                        <label>Description</label>
-                        <input class="form-control" type="text" [(ngModel)]="itemVM.description" value="{{itemVM.description}}" required>
-                        <label>Artist</label>
-                        <input class="form-control" type="text" [(ngModel)]="itemVM.creator" required>
-                        <div id="priceDimensions">
-                            <div class="itemPrice">
-                                <label>Price</label>
-                                <input class="form-control" type="number" [(ngModel)]="itemVM.price" required>
-                            </div>
-                            <div class="itemPrice">
-                                <label>Dimensions</label>
-                                <input class="form-control" type="text" [(ngModel)]="itemVM.dimensions" required>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary" (click)="addToCart()">Add to cart</button>
+                            <img [src]="imageURL">
                         </div>
                     </div>
                 </div>

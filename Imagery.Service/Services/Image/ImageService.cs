@@ -22,14 +22,16 @@ namespace Imagery.Service.Services.Image
         private readonly IHttpContextAccessor ContextAccessor;
         private readonly IRepository<ExponentItem> ItemRepository;
         private readonly IRepository<Dimensions> DimensionsRepository;
+        private readonly IRepository<CollectionItem> CollectionRepository;
 
-        public ImageService(UserManager<User> userManager, IWebHostEnvironment hostEnviroment, IHttpContextAccessor contextAccessor, IRepository<ExponentItem> itemRepository, IRepository<Dimensions> dimensionsRepository)
+        public ImageService(UserManager<User> userManager, IWebHostEnvironment hostEnviroment, IHttpContextAccessor contextAccessor, IRepository<ExponentItem> itemRepository, IRepository<Dimensions> dimensionsRepository, IRepository<CollectionItem> collectionRepository)
         {
             UserManager = userManager;
             HostEnviroment = hostEnviroment;
             ContextAccessor = contextAccessor;
             ItemRepository = itemRepository;
             DimensionsRepository = dimensionsRepository;
+            this.CollectionRepository = collectionRepository;
         }
 
         public async Task<string> UploadProfilePicture(string username, IFormFile file)
@@ -287,6 +289,60 @@ namespace Imagery.Service.Services.Image
             }
 
             return true;
+        }
+
+        public async Task<bool> AddColectionItem(CollectionItemVM collectionItem)
+        {
+            var userExist = await UserManager.FindByNameAsync(collectionItem.Customer);
+
+            if (userExist == null)
+            {
+                return false;
+            }
+
+            var response = CollectionRepository.Add(new CollectionItem()
+            {
+                Name = collectionItem.Name,
+                Image = collectionItem.Image,
+                Description = collectionItem.Description,
+                Creator = collectionItem.Creator,
+                Dimensions = collectionItem.Dimensions,
+                Price = collectionItem.Price,
+                ExhibitionTitle = collectionItem.Exhibition,
+                Organizer = collectionItem.Organizer,
+                UserId = userExist.Id,
+            });
+
+            if(!response.IsSuccess)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public async  Task<List<CollectionItemVM>> GetCollection(string username)
+        {
+            var userExist = await UserManager.FindByNameAsync(username);
+
+            if (userExist == null)
+            {
+                return null;
+            }
+
+            var response = CollectionRepository.GetAll().Where(item => item.UserId == userExist.Id).Select(item => new CollectionItemVM()
+            {
+                Name = item.Name,
+                Image = item.Image,
+                Description = item.Description,
+                Creator = item.Creator,
+                Dimensions = item.Dimensions,
+                Price = item.Price,
+                Exhibition = item.ExhibitionTitle,
+                Organizer = item.Organizer
+            }).ToList();
+
+            return response;
         }
     }
 }

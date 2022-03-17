@@ -126,5 +126,37 @@ namespace Imagery.API.Controllers
 
             return Ok(new { Message = "Deletion successfull!", isSuccess = true });
         }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<ActionResult> BuyItem([FromBody] CollectionItemVM collectionItem)
+        {
+            if (collectionItem == null)
+            {
+                return BadRequest(new { Message = "Error, item doesn't exist!", isSuccess = false });
+            }
+
+            var response = await ImageService.AddColectionItem(collectionItem);
+
+            if (!response)
+            {
+                return BadRequest(new { Message = "Error, while buying item!", isSuccess = false });
+            }
+
+            return Ok(new { Message = "Purchase sucessfull!", isSuccess = true });
+        }
+
+        [HttpGet("{username}")]
+        public async Task<ActionResult<List<CollectionItemVM>>> GetCollection(string username)
+        {
+            if (string.IsNullOrEmpty(username))
+            {
+                return null;
+            }
+
+            var result = await ImageService.GetCollection(username);
+
+            return result;
+        }
     }
 }

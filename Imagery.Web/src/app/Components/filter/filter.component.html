@@ -76,8 +76,8 @@
                     <div class="collapse" id="collapseTopics">
                         <div>
                             <label *ngFor="let topic of topics" class="check-box" [ngClass]='{"checked":topic.isAssigned, "unchecked": !topic.isAssigned}'>
-                                <input type="checkbox" class="form-class" (click)="addTopic(topic)">
-                                <span>{{topic.name}}</span>
+                                <!-- <input type="checkbox" class="form-class" > -->
+                                <span (click)="addTopic(topic)">{{topic.name}}</span>
                             </label>
                         </div>
                     </div>

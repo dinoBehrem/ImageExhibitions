@@ -48,7 +48,5 @@ export class HeaderComponent implements OnInit {
   userIsLogged() {
     this.isLogged = this.signService.isAuthenticated();
     console.log('Logged ---> ' + this.isLogged);
-
-    return this.signService.isAuthenticated();
   }
 }

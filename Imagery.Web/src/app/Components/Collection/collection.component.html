@@ -1,0 +1,80 @@
+<div id="collectionContainer">
+    <div id="imageDisplay">
+        <div class="toggleModal" *ngFor="let item of collectionItems" (click)="setItem(item)">
+            <img src="{{item?.image}}" />
+        </div>
+    </div>
+    <div id="viewItem">
+        <div class="detailsHeader">
+                <h3 class="detailsTitle">Image details</h3>
+                <hr>
+        </div>
+        <div id="itemDetails">
+            <div class="exhibitionCover">
+                <div class="cover">
+                    <img [src]="collectionItem?.image" data-toggle="modal" data-target="#exampleModal">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="field">Name</label>
+                <p class="form-control">{{collectionItem?.name}}</p>
+            </div>
+            <div class="form-group">
+                <label class="field">Description</label>
+                <p class="form-control">{{collectionItem?.description}}</p>
+            </div>
+            <div class="form-group">
+                <label class="field">Artist</label>
+                <p class="form-control">{{collectionItem?.creator}}</p>
+            </div>
+            <div class="form-group">
+                <label class="field">Exhibition</label>
+                <p class="form-control">{{collectionItem?.exhibition}}</p>
+            </div>
+            <div class="form-group">
+                <label class="field">Organizer</label>
+                <a class="form-control"
+                    routerLink="/Profile/{{collectionItem?.organizer}}">{{collectionItem?.organizer}}</a>
+            </div>
+            <div class="form-group">
+                <div id="priceDimensions">
+                    <div class="priceDimensionContainer" style="margin-bottom: 8px;">
+                        <div class="itemPrice">
+                            <label class="field">Dimensions</label>
+                            <p class="form-control" type="text">{{collectionItem?.dimensions}}</p>
+                        </div>
+                        <div class="itemPrice">
+                            <label class="field">Price</label>
+                            <p class="form-control">{{collectionItem?.price}} <span>$</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--  <div class="modal-footer">
+            <button type="submit" class="btn btn-dimensions" (click)="addToCart()">Buy</button>
+        </div>
+    </div> -->
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Image preview</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div id="exhbitionForm">
+                                <div id="modalImage">
+                            <img [src]="collectionItem?.image">
+                        </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { CollectionItemVM } from 'src/app/ViewModels/CollectionItemVM';
 import { DimensionsVM } from 'src/app/ViewModels/DimensionsVM';
 
 @Injectable({
@@ -43,5 +44,13 @@ export class ImageServiceService {
 
   DeleteItem(id: number) {
     return this.http.delete(this.url + '/DeleteItem/' + id, this.options);
+  }
+
+  GetCollectionItems(username: string) {
+    return this.http.get(this.url + '/GetCollection/' + username, this.options);
+  }
+
+  AddCollectionItem(collectionItem: CollectionItemVM) {
+    return this.http.post(this.url + '/BuyItem', collectionItem, this.options);
   }
 }

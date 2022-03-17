@@ -16,17 +16,15 @@ export class MyExhibitionsComponent implements OnInit {
 
   exhibitionVM!: ExhibitionVM;
   exhibitions: ExhibitionVM[] = [];
-  username: string = '';
   imagePlaceholder: string = '../../../../assets/imagePlaceholder.png';
 
   ngOnInit(): void {
-    this.username = this.getUsername();
     this.loadExhibitions();
   }
 
   loadExhibitions() {
     this.exhibitnioService
-      .GetUserExhibitions(this.username)
+      .GetUserExhibitions(this.getUsername())
       .subscribe((res: any) => {
         this.exhibitions = res;
       });

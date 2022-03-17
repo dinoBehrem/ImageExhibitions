@@ -1,0 +1,87 @@
+#collectionContainer {
+  display: flex;
+  flex-direction: row;
+  height: calc(100% - 56px);
+}
+
+#imageDisplay {
+  width: 75%;
+  height: 100%;
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  background-color: lightgray;
+}
+
+#viewItem {
+  width: 25%;
+  height: 100%;
+  background-color: #ffffff;
+  /* padding: 5px; */
+  overflow-y: scroll;
+}
+
+#itemDetails {
+  padding: 8px;
+  padding-bottom: 10px;
+}
+
+.toggleModal {
+  width: 250px;
+  height: 250px;
+  background-color: rgba(197, 199, 200, 0.322);
+  border-radius: 10px;
+  margin: 5px;
+}
+
+img {
+  height: 100%;
+  width: 100%;
+}
+
+.form-control {
+  height: auto;
+  min-height: 38px;
+}
+
+.field {
+  color: #ee4e34;
+  font-weight: 500;
+}
+
+.detailsHeader {
+  height: 65px;
+  background-color: #f7f8fb;
+  padding: 10px;
+}
+
+.detailsTitle {
+  color: #783937;
+  font-size: 25px;
+  font-weight: 500;
+  padding-left: 10px;
+}
+
+.exhibitionCover {
+  height: 40%;
+  margin-bottom: 10px;
+}
+
+.cover {
+  height: 100%;
+  width: 100%;
+}
+
+.modal-dialog {
+  position: relative;
+  margin: 0 auto;
+  pointer-events: none;
+  width: 800px;
+}
+
+@media (min-width: 576px) {
+  .modal-dialog {
+    max-width: 1000px;
+    min-width: 750px;
+  }
+}

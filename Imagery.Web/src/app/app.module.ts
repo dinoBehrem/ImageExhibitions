@@ -24,6 +24,7 @@ import { ExhibitionComponent } from './Components/Exhibition/exhibition/exhibiti
 import { UserAccessGuard } from './Guards/user-access.guard';
 import { AccountComponent } from './Components/User/account/account.component';
 import { MyExhibitionsComponent } from './Components/Exhibition/my-exhibitions/my-exhibitions.component';
+import { CollectionComponent } from './Components/Collection/collection.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { MyExhibitionsComponent } from './Components/Exhibition/my-exhibitions/m
     ExhibitionComponent,
     AccountComponent,
     MyExhibitionsComponent,
+    CollectionComponent,
   ],
   imports: [
     BrowserModule,
@@ -72,6 +74,11 @@ import { MyExhibitionsComponent } from './Components/Exhibition/my-exhibitions/m
         canActivate: [UserAccessGuard],
       },
       { path: 'MyExhibitions', component: MyExhibitionsComponent },
+      {
+        path: 'Collection',
+        component: CollectionComponent,
+        canActivate: [UserAccessGuard],
+      },
     ]),
   ],
   providers: [

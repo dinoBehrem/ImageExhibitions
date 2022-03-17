@@ -19,6 +19,47 @@ namespace Imagery.Repository.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.0");
 
+            modelBuilder.Entity("Imagery.Core.Models.CollectionItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Creator")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Dimensions")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ExhibitionTitle")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Organizer")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("CollectionItems");
+                });
+
             modelBuilder.Entity("Imagery.Core.Models.Dimensions", b =>
                 {
                     b.Property<int>("Id")
@@ -341,6 +382,15 @@ namespace Imagery.Repository.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Imagery.Core.Models.CollectionItem", b =>
+                {
+                    b.HasOne("Imagery.Core.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Imagery.Core.Models.Dimensions", b =>

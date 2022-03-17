@@ -28,5 +28,6 @@ namespace Imagery.Repository.Context
         public DbSet<Dimensions> Dimensions { get; set; }
         public DbSet<Topic> Topics { get; set; }
         public DbSet<ExhibitionTopics> ExhibitionTopics { get; set; }
+        public DbSet<CollectionItem> CollectionItems { get; set; }
     }
 }

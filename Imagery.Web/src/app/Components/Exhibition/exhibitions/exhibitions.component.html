@@ -31,7 +31,6 @@
           <p>{{ exhibition.date }}</p>
         </div>
         <p class="card-text">{{ exhibition.description }}</p>
-        <!-- <input type="datetime-local" value="{{exhibition.date}}" disabled><br> -->
         <div>
           <span *ngFor="let topic of exhibition.topics" class="topic">{{
             topic.name

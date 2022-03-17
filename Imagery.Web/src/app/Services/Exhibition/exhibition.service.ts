@@ -7,7 +7,6 @@ import { EditExhibitionVM } from 'src/app/ViewModels/EditExhibitionVM';
 import { ExhibitionCreationVM } from 'src/app/ViewModels/ExhibitionCreationVM';
 import { ExhibitionVM } from 'src/app/ViewModels/ExhibitionVM';
 import { FilterVM } from 'src/app/ViewModels/FilterVM';
-import { ItemUploadVM } from 'src/app/ViewModels/ItemUploadVM';
 import { SignService } from '../Sign/sign.service';
 
 @Injectable({
