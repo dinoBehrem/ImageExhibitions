@@ -36,6 +36,7 @@ namespace Imagery.Repository.Repository
                 response.Message = "Entity successfully added!";
                 response.IsSuccess = true;
                 response.Content = entity;
+                SaveChanges();
             }
             catch (Exception ex)
             {
@@ -46,7 +47,6 @@ namespace Imagery.Repository.Repository
                 response.Content = null;
             }
             
-            SaveChanges();
 
             return response;
         }
@@ -119,6 +119,7 @@ namespace Imagery.Repository.Repository
                 response.Message = "Entity successfully removed!";
                 response.IsSuccess = true;
                 response.Content = null;
+                SaveChanges();
             }
             catch (Exception ex)
             {
@@ -129,7 +130,6 @@ namespace Imagery.Repository.Repository
                 response.Content = null;
             }
             
-            SaveChanges();
 
             return response;
         }

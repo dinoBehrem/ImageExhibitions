@@ -14,5 +14,9 @@ namespace Imagery.Service.Services.Authentication
         Task<Response> SignUp(RegisterVM register);
         Task<AuthResponse> SignIn(LoginVM login);
         Task<UserVM> GetUser(string username);
+        Task<ProfileVM> GetUserProfile(string username);
+
+        Task<bool> Subscribe(SubscribeVM subscription);
+        Task<bool> Unsubscribe(SubscribeVM subscription);
     }
 }

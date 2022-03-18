@@ -115,6 +115,19 @@ namespace Imagery.Repository.Migrations
                     b.ToTable("Exhibitions");
                 });
 
+            modelBuilder.Entity("Imagery.Core.Models.ExhibitionSubscription", b =>
+                {
+                    b.Property<int>("ExhibitionId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("ExhibitionId", "UserId");
+
+                    b.ToTable("ExhibitionSubscriptions");
+                });
+
             modelBuilder.Entity("Imagery.Core.Models.ExhibitionTopics", b =>
                 {
                     b.Property<int>("ExhibitionId")
@@ -170,6 +183,19 @@ namespace Imagery.Repository.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Topics");
+                });
+
+            modelBuilder.Entity("Imagery.Core.Models.UserSubscription", b =>
+                {
+                    b.Property<string>("SubscriberId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("CreatorId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("SubscriberId", "CreatorId");
+
+                    b.ToTable("UserSubscriptions");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -371,6 +397,10 @@ namespace Imagery.Repository.Migrations
             modelBuilder.Entity("Imagery.Core.Models.User", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
+
+                    b.Property<string>("Biography")
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");

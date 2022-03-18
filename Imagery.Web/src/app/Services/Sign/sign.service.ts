@@ -95,4 +95,30 @@ export class SignService {
       this.options
     );
   }
+
+  GetProfile(username: string) {
+    return this.http.get(this.url + '/GetProfile/' + username, this.options);
+  }
+
+  Subscribre(creator: string) {
+    const claim = 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name';
+    const subscriber: string = this.GetJWTData(claim);
+
+    return this.http.post(
+      this.url + '/Subscribe',
+      { creator, subscriber },
+      this.options
+    );
+  }
+
+  Unsubscribre(creator: string) {
+    const claim = 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name';
+    const subscriber: string = this.GetJWTData(claim);
+
+    return this.http.post(
+      this.url + '/Unsubscribe',
+      { creator, subscriber },
+      this.options
+    );
+  }
 }

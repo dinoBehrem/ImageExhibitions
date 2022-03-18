@@ -1,5 +1,8 @@
 ﻿using Imagery.Core.Models;
 using Imagery.Repository.Repository;
+using Imagery.Service.Helpers;
+using Imagery.Service.Services.Exhbition;
+using Imagery.Service.ViewModels.Exhbition;
 using Imagery.Service.ViewModels.User;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -17,14 +20,16 @@ namespace Imagery.Service.Services.Authentication
         private readonly UserManager<User> UserManager;
         private readonly SignInManager<User> SignInManager;
         private readonly ITokenService TokenService;
-        private readonly RoleManager<IdentityRole> RoleManager;
+        private readonly IExhibitionService ExhibitionService;
+        private readonly IRepository<UserSubscription> SubscriptionRepository;
 
-        public UserService(UserManager<User> userManager, SignInManager<User> signInManager, ITokenService tokenService, RoleManager<IdentityRole> roleManager)
+        public UserService(UserManager<User> userManager, SignInManager<User> signInManager, ITokenService tokenService, IExhibitionService exhibitionService, IRepository<UserSubscription> subscriptionRepository)
         {
             UserManager = userManager;
             SignInManager = signInManager;
             TokenService = tokenService;
-            RoleManager = roleManager;
+            ExhibitionService = exhibitionService;
+            SubscriptionRepository = subscriptionRepository;
         }
 
         public async Task<AuthResponse> SignIn(LoginVM login)
@@ -73,7 +78,7 @@ namespace Imagery.Service.Services.Authentication
 
             if (!result.Succeeded)
             {
-               return new Response()
+                return new Response()
                 {
                     Status = "Error",
                     Message = "Invalid credenitals!",
@@ -112,6 +117,90 @@ namespace Imagery.Service.Services.Authentication
             };
 
             return user;
+        }
+
+        public async Task<ProfileVM> GetUserProfile(string username)
+        {
+            var userExist = await UserManager.FindByNameAsync(username);
+
+            if (userExist == null)
+            {
+                return null;
+            }
+
+            ProfileVM profile = new ProfileVM()
+            {
+                FirstName = userExist.FirstName,
+                LastName = userExist.LastName,
+                UserName = userExist.UserName,
+                ProfilePicture = userExist.ProfilePicture,
+                Email = userExist.Email,
+                Phone = userExist.PhoneNumber,
+                Biography = userExist.Biography,
+                Exhibitions = ExhibitionService.UserExhibitions(username).Select(exhibition => new ExhibitionProfileVM() { Id = exhibition.Id, Title = exhibition.Title, Date = exhibition.Date, Description = exhibition.Description, Expired = exhibition.Expired, Started = DateTime.Now > exhibition.Date }).ToList(),
+                Followers = GetSubs(SubscriptionRepository.GetAll().Where(sub => sub.CreatorId == userExist.Id).ToList(), "followers"),
+                Following = GetSubs(SubscriptionRepository.GetAll().Where(sub => sub.SubscriberId == userExist.Id).ToList(), "following")
+            };
+
+            return profile;
+        }
+
+        private List<UserVM> GetSubs(List<UserSubscription> userSubscriptions, string subsType)
+        {
+            List<Task<User>> users = new List<Task<User>>();
+            if(subsType == "followers")
+            {
+                users = userSubscriptions.Select(async sub => await UserManager.FindByIdAsync(sub.SubscriberId)).ToList();
+            }
+
+            if(subsType == "following")
+            {
+                users = userSubscriptions.Select(async sub => await UserManager.FindByIdAsync(sub.CreatorId)).ToList();
+            }
+
+            var subs = users.Select(user => Mapper.MapUserVM(user.Result)).ToList();
+
+            return subs;
+        }
+
+        public async Task<bool> Subscribe(SubscribeVM subscription)
+        {
+            var userExist = await UserManager.FindByNameAsync(subscription.Creator);
+            var subscriber = await UserManager.FindByNameAsync(subscription.Subscriber);
+
+            if (userExist == null)
+            {
+                return false;
+            }
+
+            var response = SubscriptionRepository.Add(new UserSubscription() { CreatorId = userExist.Id, SubscriberId = subscriber.Id});
+
+            if (!response.IsSuccess)
+            {
+                return false;
+            }
+
+            return true;
+        }
+        
+        public async Task<bool> Unsubscribe(SubscribeVM subscription)
+        {
+            var userExist = await UserManager.FindByNameAsync(subscription.Creator);
+            var subscriber = await UserManager.FindByNameAsync(subscription.Subscriber);
+
+            if (userExist == null)
+            {
+                return false;
+            }
+
+            var response = SubscriptionRepository.Remove(new UserSubscription() { CreatorId = userExist.Id, SubscriberId = subscriber.Id});
+
+            if (!response.IsSuccess)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

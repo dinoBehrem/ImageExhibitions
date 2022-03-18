@@ -1,4 +1,69 @@
-<p>Profile component</p>
+<div id="profileContainer">
+    <div id="profile">
+        <div class="cover">
+            <img [src]="profile?.profilePicture" alt="Profile picture">
+        </div>
+        <div id="userInfo">
+            <h2>{{profile?.firstName}} {{profile?.lastName}}</h2>
+            <h4>{{profile?.userName}}</h4>
+        </div>
+        <div id="contactInfo">
+            <span class="infoType">Email:</span>
+            <p>{{profile?.email}}</p><br>
+            <span class="infoType">Phone:</span>
+            <p>{{profile?.phone}}</p>
+        </div>
+        <div id="profile-footer">
+            <button type="button" class="btn btn-details" (click)="subscribe()">Follow</button>
+            <button type="button" class="btn btn-danger" (click)="unsubscribe()">Unfollow</button>
+        </div>
+    </div>
+    <div id="feed" style="width: 80%;">
+        <div class="feedNavBar">
+            <button class="btn btn-subs" type="button" data-toggle="collapse" data-target=".multi-collapse"
+                aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2">Exhibitions</button>
+            <button class="btn btn-subs" type="button" data-toggle="collapse" data-target=".multi-collapse"
+                aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2"
+                (click)="setUsers('followers')">Subscritpions</button>
 
+        </div>
+        <div id="exhibitionTable">
+            <div class="collapse multi-collapse show" id="multiCollapseExample1">
+                <table class="table table-striped">
+                    <thead class="thead">
+                        <tr>
+                            <th scope="col">Title</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Expired</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let exhibition of profile?.exhibitions">
+                            <td>{{exhibition.title}}</td>
+                            <td>{{exhibition.date}}</td>
+                            <td>
+                                <div *ngIf="exhibition.expired; then expired else active"></div>
+                                <ng-template #active>No</ng-template>
+                                <ng-template #expired>Yes</ng-template>
+                            </td>
+                            <td>
+                                <div *ngIf="exhibition.started; then join else subscribe"></div>
+                                <ng-template #subscribe>Subscribe</ng-template>
+                                <ng-template #join>Join</ng-template>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
 
-
+            </div>
+            <div class="collapse multi-collapse" id="multiCollapseExample2">
+                <div class="followerBar">
+                    <p (click)="setUsers('followers')">Followers</p>
+                    <p (click)="setUsers('following')">Following</p>
+                </div>
+                <app-subscriptions [subscriptions]="users"></app-subscriptions>
+            </div>
+        </div>
+    </div>
+</div>

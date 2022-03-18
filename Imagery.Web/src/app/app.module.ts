@@ -25,6 +25,7 @@ import { UserAccessGuard } from './Guards/user-access.guard';
 import { AccountComponent } from './Components/User/account/account.component';
 import { MyExhibitionsComponent } from './Components/Exhibition/my-exhibitions/my-exhibitions.component';
 import { CollectionComponent } from './Components/Collection/collection.component';
+import { SubscriptionsComponent } from './Components/User/profile/subscriptions/subscriptions.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { CollectionComponent } from './Components/Collection/collection.componen
     AccountComponent,
     MyExhibitionsComponent,
     CollectionComponent,
+    SubscriptionsComponent,
   ],
   imports: [
     BrowserModule,

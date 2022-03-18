@@ -1,0 +1,14 @@
+<div id="exhibitionFeed">
+    <div class="card mt-2 mb-2 sub-card" *ngFor="let sub of subscriptions">
+        <img src="{{ sub?.picture }}" alt="" class="sub-img" />
+        <div class="card-body">
+            <div>
+                <h5 class="card-title" style="margin: 0">{{ sub?.firstname }} {{ sub?.lastname }}</h5>
+                <a style="margin: 0" routerLink="/Profile/{{sub?.username}}">
+                    {{ sub?.username }}
+                </a>
+            </div>   
+            <button class="btn btn-details" (click)="subscribe(sub.username)">Follow</button>
+        </div>
+    </div>
+</div>

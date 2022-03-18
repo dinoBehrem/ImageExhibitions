@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { SignService } from 'src/app/Services/Sign/sign.service';
+import { UserService } from 'src/app/Services/User/user.service';
+import { ProfileVM } from 'src/app/ViewModels/ProfileVM';
+import { UserVM } from 'src/app/ViewModels/UserVM';
 
 @Component({
   selector: 'app-profile',
@@ -6,7 +11,49 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./profile.component.css'],
 })
 export class ProfileComponent implements OnInit {
-  constructor() {}
+  profile?: ProfileVM;
+  users?: UserVM[];
 
-  ngOnInit(): void {}
+  constructor(
+    private signService: SignService,
+    private route: ActivatedRoute
+  ) {}
+  sub: any;
+  username: string = '';
+
+  ngOnInit(): void {
+    this.sub = this.route.params.subscribe((param) => {
+      this.username = param['username'];
+      if (this.username != '') {
+        this.loadProfile();
+      }
+    });
+    this.users = this.profile?.following;
+  }
+
+  loadProfile() {
+    this.signService.GetProfile(this.username).subscribe((res: any) => {
+      this.profile = res;
+    });
+  }
+
+  subscribe() {
+    this.signService.Subscribre(this.username).subscribe((res: any) => {
+      alert(res.message);
+    });
+  }
+
+  unsubscribe() {
+    this.signService.Unsubscribre(this.username).subscribe((res: any) => {
+      alert(res.message);
+    });
+  }
+
+  setUsers(type: string) {
+    if (type === 'following') {
+      this.users = this.profile?.following;
+    } else if (type === 'followers') {
+      this.users = this.profile?.followers;
+    }
+  }
 }

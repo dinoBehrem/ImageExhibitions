@@ -71,5 +71,68 @@ namespace Imagery.API.Controllers
 
             return Ok(user);
         }
+
+        [HttpGet("{username}")]
+        public async Task<ActionResult<ProfileVM>> GetProfile(string username)
+        {
+            if (string.IsNullOrEmpty(username))
+            {
+                return BadRequest($"Username {username} doesn't exist!");
+            }
+
+            var result = await UserService.GetUserProfile(username);
+
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult Subscribe([FromBody] SubscribeVM subscription)
+        {
+            if (string.IsNullOrEmpty(subscription.Creator) || string.IsNullOrEmpty(subscription.Subscriber))
+            {
+                return BadRequest(new { Message = "Invalid username!", isSuccess = false });
+            }
+
+            if (subscription.Creator == subscription.Subscriber)
+            {
+                return BadRequest(new { Message = "Can't subscribe to yourself!", isSuccess = false });
+            }
+
+            var result = UserService.Subscribe(subscription);
+
+            if (!result.Result)
+            {
+                return BadRequest(new { Message = "Subscription failed, try again!", isSuccess = false });
+            }
+
+            return Ok(new { Message = "Subscription successfull!", isSuccess = true });
+
+        }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult Unsubscribe([FromBody] SubscribeVM subscription)
+        {
+            if (string.IsNullOrEmpty(subscription.Creator) || string.IsNullOrEmpty(subscription.Subscriber))
+            {
+                return BadRequest(new { Message = "Invalid username!", isSuccess = false });
+            }
+
+            if (subscription.Creator == subscription.Subscriber)
+            {
+                return BadRequest(new { Message = "Can't unsubscribe to yourself!", isSuccess = false });
+            }
+
+            var result = UserService.Unsubscribe(subscription);
+
+            if (!result.Result)
+            {
+                return BadRequest(new { Message = "Subscription failed, try again!", isSuccess = false });
+            }
+
+            return Ok(new { Message = "Subscription successfull!", isSuccess = true });
+
+        }
     }
 }

@@ -1,0 +1,154 @@
+#profileContainer {
+  display: flex;
+  flex-direction: row;
+  height: calc(100% - 56px);
+}
+
+#profile {
+  width: 20%;
+  height: 100%;
+  background-color: #f7f8fb;
+  padding: 5px;
+  overflow-y: scroll;
+}
+
+.cover {
+  width: 90%;
+  height: 300px;
+  margin: 0 auto;
+  padding: 5px;
+}
+
+.cover > img {
+  min-width: 100px;
+  min-height: 80px;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+#userInfo {
+  padding: 5px;
+}
+
+#userInfo > h2 {
+  color: #ee4e34;
+  font-weight: 500;
+  margin: 8px 0 0;
+}
+#userInfo > h4 {
+  color: #783937;
+  font-weight: 300;
+}
+
+.btn-details {
+  background-color: #ee4e34;
+  color: #fcedda;
+}
+.btn-details:hover {
+  background-color: #783937;
+  color: #fcedda;
+}
+
+.btn-subs {
+  height: calc(2.25rem + 2px);
+  background-color: #fcedda;
+  color: #783937;
+}
+.btn-subs:hover {
+  height: calc(2.25rem + 2px);
+  color: #fcedda;
+  background-color: #783937;
+}
+.btn {
+  margin-right: 8px;
+}
+#contactInfo {
+  padding: 3px;
+  margin-top: 5px;
+}
+
+#contactInfo > p {
+  margin: 0;
+  display: inline-block;
+  color: #783937;
+  font-family: monospace;
+}
+
+#contactInfo > p:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.infoType {
+  color: #ee4e34;
+  font-weight: 400;
+  margin-right: 8px;
+}
+.collapse:not(.show) {
+  display: none;
+}
+.collapsing {
+  height: 0;
+  overflow: hidden;
+  transition: height 0.35s ease;
+}
+.collapsing.collapse-horizontal {
+  width: 0;
+  height: auto;
+  transition: width 0.35s ease;
+}
+
+#feed {
+  width: 60%;
+  height: 100%;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+#exhibitionTable {
+  width: 100%;
+  padding: 15px;
+}
+
+.feedNavBar {
+  margin-bottom: 10px;
+}
+.followerBar {
+  display: flex;
+}
+
+.followerBar > p {
+  color: #783937;
+  margin-right: 15px;
+  transition: transform 0.2s;
+}
+
+.followerBar > p:hover {
+  margin-right: 5px;
+  text-decoration: underline;
+  cursor: pointer;
+  transform: scale(1.2);
+  margin-right: 15px;
+}
+
+.thead {
+  background-color: #783937;
+  color: #fcedda;
+}
+
+.table-striped > tbody > tr:nth-child(odd) > td,
+.table-striped > tbody > tr:nth-child(odd) > th {
+  background-color: #fcedda;
+}
+
+tr td {
+  color: #783937;
+}
+
+#profile-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 15px;
+}
