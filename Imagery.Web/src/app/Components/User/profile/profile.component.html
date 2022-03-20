@@ -48,9 +48,8 @@
                                 <ng-template #expired>Yes</ng-template>
                             </td>
                             <td>
-                                <div *ngIf="exhibition.started; then join else subscribe"></div>
-                                <ng-template #subscribe>Subscribe</ng-template>
-                                <ng-template #join>Join</ng-template>
+                                <button *ngIf="exhibition.started && !exhibition.expired">Join</button>
+                                <button *ngIf="!exhibition.started && !exhibition.expired">Subscribe</button>
                             </td>
                         </tr>
                     </tbody>

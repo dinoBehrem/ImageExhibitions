@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ImageServiceService } from 'src/app/Services/Image/image-service.service';
 import { SignService } from 'src/app/Services/Sign/sign.service';
+import { ProfileVM } from 'src/app/ViewModels/ProfileVM';
 import { UserVM } from 'src/app/ViewModels/UserVM';
 
 @Component({
@@ -10,10 +11,22 @@ import { UserVM } from 'src/app/ViewModels/UserVM';
   styleUrls: ['./account.component.css'],
 })
 export class AccountComponent implements OnInit {
-  user!: UserVM;
+  user!: ProfileVM;
   image!: File;
-  imageURL: string = '';
+  oldImage: string = '';
   imageData: FormData = new FormData();
+  imageFile: any = File;
+  users?: UserVM[];
+  userVM: any = {
+    firstName: '',
+    lastName: '',
+    profilePicture: '',
+    email: '',
+    phone: '',
+    biography: '',
+  };
+  change: boolean = false;
+
   constructor(
     private signServices: SignService,
     private imageService: ImageServiceService,
@@ -22,6 +35,7 @@ export class AccountComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadUser();
+    this.users = this.user?.following;
   }
 
   loadUser() {
@@ -33,10 +47,10 @@ export class AccountComponent implements OnInit {
       this.router.navigateByUrl('Login');
     }
 
-    return this.signServices.GetUser(userName).subscribe((res: any) => {
+    this.signServices.GetUser(userName).subscribe((res: any) => {
       if (res !== null) {
         this.user = res;
-        this.imageURL = res.picture;
+        this.userVM = res;
       } else {
         alert('User is not found!');
       }
@@ -45,24 +59,49 @@ export class AccountComponent implements OnInit {
 
   fileInput(item: any) {
     if (item?.target?.files.length > 0) {
-      this.image = item?.target?.files[0];
+      this.imageFile = item?.target?.files[0];
 
       var reader = new FileReader();
       reader.onload = (event: any) => {
-        this.imageURL = event.target.result;
+        this.oldImage = this.user.profilePicture;
+        this.user.profilePicture = event.target.result;
+        this.change = true;
       };
-      reader.readAsDataURL(this.image);
-      console.log(this.image);
+      reader.readAsDataURL(this.imageFile);
     }
   }
 
-  saveImage() {
-    this.imageData.append('image', this.image, this.image.name);
-    this.imageService
-      .UploadProfilePicture(this.user.username, this.imageData)
+  edit() {
+    this.imageData.append('firstname', this.userVM.firstName);
+    this.imageData.append('lastname', this.userVM.lastName);
+    this.imageData.append('email', this.userVM.email);
+    this.imageData.append('phone', this.userVM.phone);
+    this.imageData.append('biography', this.userVM.biography);
+
+    this.signServices
+      .EditProfile(this.user.userName, this.imageData)
       .subscribe((res: any) => {
-        this.user.picture = res;
-        this.imageURL = res;
+        this.user.profilePicture = res.image;
+        this.user.firstName = res.firstname;
+        this.user.lastName = res.lastname;
+        this.user.email = res.email;
+        this.user.phone = res.phone;
+        this.user.biography = res.biography;
+      });
+  }
+
+  discardImage() {
+    this.user.profilePicture = this.oldImage;
+    this.change = false;
+  }
+
+  saveImage() {
+    this.imageData.append('image', this.imageFile, this.imageFile.name);
+
+    this.imageService
+      .UploadProfilePicture(this.user.userName, this.imageData)
+      .subscribe((res: any) => {
+        this.user.profilePicture = res;
       });
   }
 }

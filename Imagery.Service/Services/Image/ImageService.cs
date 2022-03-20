@@ -111,7 +111,7 @@ namespace Imagery.Service.Services.Image
 
         public List<ExponentItemVM> GetExhibitionItems(int id)
         {
-            List<ExponentItemVM> items = ItemRepository.GetAll().Where(item => item.ExhibitionId == id).Select(item => new ExponentItemVM() 
+            List<ExponentItemVM> items = ItemRepository.Find(item => item.ExhibitionId == id).Select(item => new ExponentItemVM() 
             {
                 Id = item.Id,
                 Name = item.Name,
@@ -158,7 +158,7 @@ namespace Imagery.Service.Services.Image
 
         private List<DimensionsVM> GetItemDimensions(int itemId)
         {
-            List<DimensionsVM> dimensions = DimensionsRepository.GetAll().Where(dimension => dimension.ExponentItemId == itemId).Select(dimension => new DimensionsVM()
+            List<DimensionsVM> dimensions = DimensionsRepository.Find(dimension => dimension.ExponentItemId == itemId).Select(dimension => new DimensionsVM()
             { 
                 Dimension = dimension.Dimension,
                 Price = dimension.Price,
@@ -238,7 +238,7 @@ namespace Imagery.Service.Services.Image
                 return false;
             }
 
-            var itemDimensions = DimensionsRepository.GetAll().Where(dimensions => dimensions.ExponentItemId == id).ToList();
+            var itemDimensions = DimensionsRepository.Find(dimensions => dimensions.ExponentItemId == id).ToList();
 
             var dimensionsRespone = DimensionsRepository.RemoveRange(itemDimensions);
 
@@ -330,7 +330,7 @@ namespace Imagery.Service.Services.Image
                 return null;
             }
 
-            var response = CollectionRepository.GetAll().Where(item => item.UserId == userExist.Id).Select(item => new CollectionItemVM()
+            var response = CollectionRepository.Find(item => item.UserId == userExist.Id).Select(item => new CollectionItemVM()
             {
                 Name = item.Name,
                 Image = item.Image,

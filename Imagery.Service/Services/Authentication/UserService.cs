@@ -127,6 +127,7 @@ namespace Imagery.Service.Services.Authentication
             {
                 return null;
             }
+            var roles = await UserManager.GetRolesAsync(userExist);
 
             ProfileVM profile = new ProfileVM()
             {
@@ -138,8 +139,9 @@ namespace Imagery.Service.Services.Authentication
                 Phone = userExist.PhoneNumber,
                 Biography = userExist.Biography,
                 Exhibitions = ExhibitionService.UserExhibitions(username).Select(exhibition => new ExhibitionProfileVM() { Id = exhibition.Id, Title = exhibition.Title, Date = exhibition.Date, Description = exhibition.Description, Expired = exhibition.Expired, Started = DateTime.Now > exhibition.Date }).ToList(),
-                Followers = GetSubs(SubscriptionRepository.GetAll().Where(sub => sub.CreatorId == userExist.Id).ToList(), "followers"),
-                Following = GetSubs(SubscriptionRepository.GetAll().Where(sub => sub.SubscriberId == userExist.Id).ToList(), "following")
+                Followers = GetSubs(SubscriptionRepository.Find(sub => sub.CreatorId == userExist.Id).ToList(), "followers"),
+                Following = GetSubs(SubscriptionRepository.Find(sub => sub.SubscriberId == userExist.Id).ToList(), "following"),
+                Roles = roles.ToList()
             };
 
             return profile;
@@ -201,6 +203,31 @@ namespace Imagery.Service.Services.Authentication
             }
 
             return true;
+        }
+
+        public async Task<UserEditVM> EditProfile(string username, UserEditVM user)
+        {
+            var userExist = await UserManager.FindByNameAsync(username);
+
+            if (userExist == null)
+            {
+                return null;
+            }
+
+            userExist.FirstName = user.Firstname;
+            userExist.LastName = user.Lastname;
+            userExist.Email = user.Email;
+            userExist.PhoneNumber = user.Phone;
+            userExist.Biography = user.Biography;
+
+            var response = await UserManager.UpdateAsync(userExist);
+
+            if (!response.Succeeded)
+            {
+                return null;
+            }
+
+            return user;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Imagery.Service.Services.Authentication;
+using Imagery.Service.Services.Image;
 using Imagery.Service.ViewModels.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -15,10 +16,12 @@ namespace Imagery.API.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService UserService;
+        private readonly IImageService ImageService;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, IImageService imageService)
         {
             UserService = userService;
+            ImageService = imageService;
         }
 
         [HttpPost]
@@ -59,15 +62,16 @@ namespace Imagery.API.Controllers
             return Ok(authResponse);
         }
 
-        [HttpGet]
-        public async Task<ActionResult<UserVM>> GetUser(string username)
+        [HttpGet("{username}")]
+        [Authorize]
+        public async Task<ActionResult<ProfileVM>> GetUser(string username)
         {
             if (string.IsNullOrEmpty(username))
             {
                 return BadRequest("Invalid username!");
             }
 
-            UserVM user = await UserService.GetUser(username);
+            ProfileVM user = await UserService.GetUserProfile(username);
 
             return Ok(user);
         }
@@ -133,6 +137,25 @@ namespace Imagery.API.Controllers
 
             return Ok(new { Message = "Subscription successfull!", isSuccess = true });
 
+        }
+
+        [HttpPut("{username}")]
+        [Authorize]
+        public async Task<ActionResult<UserEditVM>> EditAccount(string username, [FromForm]UserEditVM userEdit)
+        {
+            if (string.IsNullOrEmpty(username) || userEdit == null)
+            {
+                return BadRequest("Invalid username or data!");
+            }
+
+            var result = await UserService.EditProfile(username, userEdit);
+
+            if (result == null)
+            {
+                return BadRequest("Profile not updated!");
+            }
+
+            return Ok(result);
         }
     }
 }

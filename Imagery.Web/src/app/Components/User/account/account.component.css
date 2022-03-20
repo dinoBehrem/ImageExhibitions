@@ -1,0 +1,99 @@
+#account {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+#accountDetails {
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid #e9ecef;
+  margin-bottom: 10px;
+}
+#itemDetails {
+  padding: 10px;
+}
+#exhbitionForm {
+  padding: 8px;
+  height: 90%;
+  padding-bottom: 10px;
+}
+
+.exhibitionCover {
+  height: 40%;
+  margin-bottom: 10px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.cover {
+  height: 100%;
+  width: 100%;
+}
+
+img {
+  height: 300px;
+  width: 350px;
+  border-radius: 50%;
+  margin-bottom: 20px;
+}
+
+.btn-upload {
+  height: auto;
+  padding: 0;
+  width: auto;
+}
+
+.field {
+  color: #ee4e34;
+  font-weight: 500;
+}
+
+#userInfo {
+  width: -webkit-fill-available;
+  padding: 45px;
+}
+
+h1,
+#biography {
+  color: #783937;
+}
+
+h4 {
+  color: #d3d3d3;
+}
+
+#contact,
+h4,
+#roles,
+#biography {
+  padding-left: 8px;
+}
+
+#contact > p {
+  margin: 0px;
+  font-size: 20px;
+  color: #ee4e34;
+}
+
+#contact > p:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.form-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.form-control {
+  width: 80%;
+}
+
+.btn-save {
+  background-color: #ee4e34;
+  color: #fcedda;
+  border: none;
+  align-self: flex-end;
+}

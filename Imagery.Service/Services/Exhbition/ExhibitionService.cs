@@ -82,7 +82,8 @@ namespace Imagery.Service.Services.Exhbition
                 Cover = exhibition.CoverImage,
                 Items = ExhbitionItems(exhibition.Id),
                 Topics = GetExhibitionTopics(exhibition.Id),
-                Expired = exhibition.ExpiringTime < DateTime.Now
+                Expired = exhibition.ExpiringTime <= DateTime.Now,
+                Started = exhibition.Date >= DateTime.Now
             }).ToList();
 
             return exhibitions;
@@ -106,7 +107,9 @@ namespace Imagery.Service.Services.Exhbition
                 Organizer = toUserVM(repoResponse.Content.OrganizerId),
                 Cover = repoResponse.Content.CoverImage,
                 Items = ExhbitionItems(id),
-                Topics = GetExhibitionTopics(id)
+                Topics = GetExhibitionTopics(id),
+                Expired = repoResponse.Content.ExpiringTime >= DateTime.Now,
+                Started = repoResponse.Content.Date >= DateTime.Now
             };
 
             return exhibition;
@@ -161,7 +164,7 @@ namespace Imagery.Service.Services.Exhbition
 
         private UserVM toUserVM(string id)
         {
-            User user = UserRepository.GetAll().Where(user => user.Id == id).Single();
+            User user = UserRepository.Find(user => user.Id == id).Single();
 
             return new UserVM()
             {

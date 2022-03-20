@@ -82,8 +82,7 @@
 .filterBtn {
   background-color: #ee4e34;
   color: #fcedda;
-  width: 95%;
-  align-self: center;
+  align-self: flex-end;
 }
 
 #collapseBudget > label {

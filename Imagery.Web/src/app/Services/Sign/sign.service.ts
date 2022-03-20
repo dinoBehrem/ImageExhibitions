@@ -89,17 +89,17 @@ export class SignService {
     return dataValue[prop];
   }
 
-  GetUser(username: string): Observable<UserVM> {
-    return this.http.get<UserVM>(
-      this.url + '/GetUser?username=' + username,
-      this.options
-    );
+  GetUser(username: string) {
+    return this.http.get(this.url + '/GetUser/' + username, this.options);
   }
 
   GetProfile(username: string) {
     return this.http.get(this.url + '/GetProfile/' + username, this.options);
   }
 
+  EditProfile(username: string, accountData: FormData) {
+    return this.http.put(this.url + '/EditAccount/' + username, accountData);
+  }
   Subscribre(creator: string) {
     const claim = 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name';
     const subscriber: string = this.GetJWTData(claim);
