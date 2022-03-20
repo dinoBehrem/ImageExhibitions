@@ -138,7 +138,7 @@ namespace Imagery.Service.Services.Authentication
                 Email = userExist.Email,
                 Phone = userExist.PhoneNumber,
                 Biography = userExist.Biography,
-                Exhibitions = ExhibitionService.UserExhibitions(username).Select(exhibition => new ExhibitionProfileVM() { Id = exhibition.Id, Title = exhibition.Title, Date = exhibition.Date, Description = exhibition.Description, Expired = exhibition.Expired, Started = DateTime.Now > exhibition.Date }).ToList(),
+                Exhibitions = ExhibitionService.UserExhibitions(username).Select(exhibition => new ExhibitionProfileVM() { Id = exhibition.Id, Title = exhibition.Title, Date = exhibition.Date, Description = exhibition.Description, Expired = exhibition.Expired, Started = DateTime.Now > exhibition.Date, Subscirbers = exhibition.Subscribers }).ToList(),
                 Followers = GetSubs(SubscriptionRepository.Find(sub => sub.CreatorId == userExist.Id).ToList(), "followers"),
                 Following = GetSubs(SubscriptionRepository.Find(sub => sub.SubscriberId == userExist.Id).ToList(), "following"),
                 Roles = roles.ToList()

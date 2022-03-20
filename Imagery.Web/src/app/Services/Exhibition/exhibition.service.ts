@@ -153,4 +153,25 @@ export class ExhibitionService {
   RemoveExhbition(id: number) {
     return this.http.delete(this.url + '/DeleteExhbition/' + id, this.options);
   }
+
+  Subscribre(exhibitionId: number) {
+    const claim = 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name';
+    const username: string = this.signServices.GetJWTData(claim);
+
+    return this.http.post(
+      this.url + '/Subscribe',
+      { exhibitionId, username },
+      this.options
+    );
+  }
+
+  // Unsubscribre(exhibitionId: number) {
+  //   const claim = 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name';
+  //   const username: string = this.signServices.GetJWTData(claim);
+
+  //   return this.http.delete(
+  //     this.url + '/Unsubscribe',
+  //     { exhibitionId, username }
+  //   );
+  // }
 }

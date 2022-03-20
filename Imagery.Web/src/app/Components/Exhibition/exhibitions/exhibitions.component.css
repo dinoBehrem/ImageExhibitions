@@ -49,10 +49,17 @@
 .cardHeader > p {
   color: #783937;
 }
+
 .cardFooter {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
+  align-items: baseline;
+}
+
+.cardFooter > span {
+  color: #783937;
+  margin-right: 10px;
 }
 .topic {
   background-color: #783937;

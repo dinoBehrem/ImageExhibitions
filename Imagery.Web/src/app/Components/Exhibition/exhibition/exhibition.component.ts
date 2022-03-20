@@ -64,7 +64,7 @@ export class ExhibitionComponent implements OnInit {
   }
 
   loadItem() {
-    this.itemVM = this.exhibition.items[0];
+    this.itemVM = this.exhibition?.items[0];
   }
 
   setItem(event: ExponentItemVM) {

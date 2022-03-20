@@ -18,6 +18,7 @@ namespace Imagery.Service.ViewModels.Exhbition
         public bool Started { get; set; }
         public UserVM Organizer { get; set; }
         public string Cover { get; set; }
+        public int Subscribers { get; set; }
         public List<ExponentItemVM> Items { get; set; }
         public List<TopicVM> Topics { get; set; }
 

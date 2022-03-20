@@ -176,6 +176,42 @@ namespace Imagery.API.Controllers
 
                 return Ok(new { Message = "Exhibition successfully deleted!", isSuccess = true });
         }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<ActionResult> Subscribe([FromBody] ExhibitionSubscriptionVM subscription)
+        {
+            if (subscription == null || string.IsNullOrEmpty(subscription.Username))
+            {
+                return BadRequest("Invalid data, try again!");
+            }
+
+            var result = await ExhibitionService.Subscribe(subscription);
+
+            if (!result)
+            {
+                return BadRequest("Subscription failed, try again!");
+            }
+            return Ok("Subscription successfull!");
+        }
         
+        [HttpPost]
+        [Authorize]
+        public async Task<ActionResult> Unsubscribe([FromBody] ExhibitionSubscriptionVM subscription)
+        {
+            if (subscription == null || string.IsNullOrEmpty(subscription.Username))
+            {
+                return BadRequest("Invalid data, try again!");
+            }
+
+            var result = await ExhibitionService.Unsubscribe(subscription);
+
+            if (!result)
+            {
+                return BadRequest("Subscription failed, try again!");
+            }
+
+            return Ok("Subscription successfull!");
+        }
     }
 }

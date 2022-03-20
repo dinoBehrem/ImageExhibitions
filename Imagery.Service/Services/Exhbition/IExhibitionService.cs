@@ -19,5 +19,7 @@ namespace Imagery.Service.Services.Exhbition
         string SetExhibitionCover(CoverImageVM cover);
         List<ExhibitionVM> UserExhibitions(string username);
         TopicVM AssignTopic(AssignTopicVM assignTopic);
+        Task<bool> Subscribe(ExhibitionSubscriptionVM exhibitionSubscription);
+        Task<bool> Unsubscribe(ExhibitionSubscriptionVM exhibitionSubscription);
     }
 }

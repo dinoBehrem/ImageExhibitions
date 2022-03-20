@@ -91,6 +91,11 @@ tr td {
   color: #783937;
 }
 
+th,
+td {
+  text-align: center;
+}
+
 #exhibitionHeader {
   padding: 5px 7px;
   color: #783937;

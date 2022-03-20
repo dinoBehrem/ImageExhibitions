@@ -8,8 +8,10 @@ export interface ExhibitionVM {
   description: string;
   date: Date;
   expired: boolean;
+  started: boolean;
   organizer: UserVM;
   cover: string;
+  subscribers: number;
   items: ExponentItemVM[];
   topics: TopicVM[];
   averagePrice: number;

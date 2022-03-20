@@ -21,14 +21,16 @@ namespace Imagery.Service.Services.Exhbition
         private readonly IRepository<User> UserRepository;
         private readonly IImageService ImageService;
         private readonly ITopicService TopicService;
+        private readonly IRepository<ExhibitionSubscription> ExhibitionSubsRepository;
 
-        public ExhibitionService(UserManager<User> userManager, IRepository<Exhibition> exhbitionRepository, IRepository<User> userRepository, IImageService imageService, ITopicService topicService)
+        public ExhibitionService(UserManager<User> userManager, IRepository<Exhibition> exhbitionRepository, IRepository<User> userRepository, IImageService imageService, ITopicService topicService, IRepository<ExhibitionSubscription> exhibitionSubsRepository)
         {
             UserManager = userManager;
             ExhibitionRepository = exhbitionRepository;
             UserRepository = userRepository;
             ImageService = imageService;
             TopicService = topicService;
+            ExhibitionSubsRepository = exhibitionSubsRepository;
         }
 
         public async Task<ExhibitionVM> Create(ExhbitionCreationVM exhibitionCreation)
@@ -67,6 +69,8 @@ namespace Imagery.Service.Services.Exhbition
                 Organizer = Mapper.MapUserVM(user),
                 Items = null,
                 Cover = result.Content.CoverImage,
+                Started = result.Content.Date > DateTime.Now,
+                Expired = result.Content.ExpiringTime < DateTime.Now
             };
         }
 
@@ -82,8 +86,9 @@ namespace Imagery.Service.Services.Exhbition
                 Cover = exhibition.CoverImage,
                 Items = ExhbitionItems(exhibition.Id),
                 Topics = GetExhibitionTopics(exhibition.Id),
-                Expired = exhibition.ExpiringTime <= DateTime.Now,
-                Started = exhibition.Date >= DateTime.Now
+                Started = exhibition.Date < DateTime.Now,
+                Expired = exhibition.ExpiringTime < DateTime.Now,
+                Subscribers = GetExibitionsSubscribers(exhibition.Id)
             }).ToList();
 
             return exhibitions;
@@ -109,7 +114,8 @@ namespace Imagery.Service.Services.Exhbition
                 Items = ExhbitionItems(id),
                 Topics = GetExhibitionTopics(id),
                 Expired = repoResponse.Content.ExpiringTime >= DateTime.Now,
-                Started = repoResponse.Content.Date >= DateTime.Now
+                Started = repoResponse.Content.Date >= DateTime.Now,
+                Subscribers = GetExibitionsSubscribers(repoResponse.Content.Id)
             };
 
             return exhibition;
@@ -202,6 +208,13 @@ namespace Imagery.Service.Services.Exhbition
             return topics;
         }
 
+        private int GetExibitionsSubscribers(int id)
+        {
+            int count = ExhibitionSubsRepository.Find(exh => exh.ExhibitionId == id).Count;
+
+            return count;
+        }
+
         public List<ExhibitionVM> UserExhibitions(string username)
         {
             List<ExhibitionVM> exhibitions = Exhibitions().Where(exhibition => exhibition.Organizer.Username == username).ToList();
@@ -222,6 +235,55 @@ namespace Imagery.Service.Services.Exhbition
             var result = ExhibitionRepository.Remove(exhbitionExist.Content);
 
             if (!result.IsSuccess)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public async Task<bool> Subscribe(ExhibitionSubscriptionVM exhibitionSubscription)
+        {
+            var userExist = await UserManager.FindByNameAsync(exhibitionSubscription.Username);
+
+            var exhibitionExist = ExhibitionRepository.GetSingleOrDefault(exhibitionSubscription.ExhibitionId);
+
+            if (exhibitionExist.Content == null || userExist == null)
+            {
+                return false;
+            }
+
+            var response = ExhibitionSubsRepository.Add(new ExhibitionSubscription() { ExhibitionId = exhibitionExist.Content.Id, UserId = userExist.Id });
+
+            if (!response.IsSuccess)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public async Task<bool> Unsubscribe(ExhibitionSubscriptionVM exhibitionSubscription)
+        {
+            var userExist = await UserManager.FindByNameAsync(exhibitionSubscription.Username);
+
+            var exhibitionExist = ExhibitionRepository.GetSingleOrDefault(exhibitionSubscription.ExhibitionId);
+
+            if (exhibitionExist.Content == null || userExist == null)
+            {
+                return false;
+            }
+
+            var exhSub = ExhibitionSubsRepository.Find(sub => sub.ExhibitionId == exhibitionExist.Content.Id && sub.UserId == userExist.Id).FirstOrDefault();
+
+            if (exhSub == null)
+            {
+                return false;
+            }
+
+            var response = ExhibitionSubsRepository.Remove(exhSub);
+
+            if (!response.IsSuccess)
             {
                 return false;
             }

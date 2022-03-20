@@ -105,11 +105,10 @@ export class ExhibitionsComponent implements OnInit {
     );
   }
 
-  hasStarted(date: Date) {
-    if (date > new Date()) {
-      return false;
-    }
-
-    return true;
+  subscription(id: number) {
+    console.log(id);
+    this.exhibitionService.Subscribre(id).subscribe((res: any) => {
+      alert(res);
+    });
   }
 }

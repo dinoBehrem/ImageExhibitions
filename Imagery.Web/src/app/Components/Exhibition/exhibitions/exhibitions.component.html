@@ -37,16 +37,18 @@
           }}</span>
         </div>
         <div class="cardFooter">
+          <span>{{exhibition?.subscribers}} intrested</span>
           <button
             class="btn btn-primary sub-btn"
-            *ngIf="!hasStarted(exhibition.date)"
+            *ngIf="!exhibition.started && !exhibition.expired"
+            (click)="subscription(exhibition.id)"
           >
             Subscribe
           </button>
           <a
             routerLink="/Exhibition/{{ exhibition.id }}"
             class="btn btn-primary sub-btn"
-            *ngIf="hasStarted(exhibition.date)"
+            *ngIf="exhibition.started && !exhibition.expired"
             >Join</a
           >
         </div>

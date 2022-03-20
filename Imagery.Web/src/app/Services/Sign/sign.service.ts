@@ -100,6 +100,7 @@ export class SignService {
   EditProfile(username: string, accountData: FormData) {
     return this.http.put(this.url + '/EditAccount/' + username, accountData);
   }
+
   Subscribre(creator: string) {
     const claim = 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name';
     const subscriber: string = this.GetJWTData(claim);

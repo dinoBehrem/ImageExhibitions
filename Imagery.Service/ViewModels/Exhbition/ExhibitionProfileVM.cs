@@ -14,5 +14,6 @@ namespace Imagery.Service.ViewModels.Exhbition
         public DateTime Date { get; set; }
         public bool Expired { get; set; }
         public bool Started { get; set; }
+        public int Subscirbers { get; set; }
     }
 }

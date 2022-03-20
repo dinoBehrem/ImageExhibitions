@@ -39,9 +39,9 @@
 
             <div>
                 <h5 class="card-title" style="margin: 0">{{ exhibition?.title }}</h5>
-                <a style="margin: 0; color: #d3d3d3" routerLink="/Profile/{{exhibition.organizer.username}}">
-                    by {{ exhibition.organizer?.firstname }}
-                    {{ exhibition.organizer?.lastname }}
+                <a style="margin: 0; color: #d3d3d3" routerLink="/Profile/{{exhibition?.organizer?.username}}">
+                    by {{ exhibition?.organizer?.firstname }}
+                    {{ exhibition?.organizer?.lastname }}
                 </a>
             </div>
             <p class="card-text">{{ exhibition?.description }}</p>
