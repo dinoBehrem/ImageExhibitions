@@ -28,7 +28,7 @@
               {{ exhibition.organizer.lastname }}
             </a>
           </div>
-          <p>{{ exhibition.date }}</p>
+          <p>{{ getDateTimeString(exhibition.date) }}</p>
         </div>
         <p class="card-text">{{ exhibition.description }}</p>
         <div>
@@ -37,7 +37,7 @@
           }}</span>
         </div>
         <div class="cardFooter">
-          <span>{{exhibition?.subscribers}} intrested</span>
+          <span *ngIf="!exhibition.started && !exhibition.expired">{{exhibition?.subscribers}} intrested</span>
           <button
             class="btn btn-primary sub-btn"
             *ngIf="!exhibition.started && !exhibition.expired"

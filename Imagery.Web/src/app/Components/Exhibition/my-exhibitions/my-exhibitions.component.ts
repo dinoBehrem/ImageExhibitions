@@ -17,6 +17,7 @@ export class MyExhibitionsComponent implements OnInit {
   exhibitionVM!: ExhibitionVM;
   exhibitions: ExhibitionVM[] = [];
   imagePlaceholder: string = '../../../../assets/imagePlaceholder.png';
+  dateString: string = '';
 
   ngOnInit(): void {
     this.loadExhibitions();
@@ -42,8 +43,13 @@ export class MyExhibitionsComponent implements OnInit {
   }
 
   deleteExhbition(exhibition: ExhibitionVM) {
-    if (!exhibition.expired) {
+    if (exhibition.expired) {
       alert("Can't delete expired exhibition!");
+      return;
+    }
+
+    if (exhibition.started) {
+      alert("Can't delete active exhibition!");
       return;
     }
 
@@ -64,6 +70,17 @@ export class MyExhibitionsComponent implements OnInit {
   }
 
   setExhibition(exhibition: ExhibitionVM) {
+    this.dateString = this.getDateTimeString(exhibition.date);
     this.exhibitionVM = exhibition;
+  }
+
+  getDateTimeString(dateTime: Date): string {
+    let dateString: string;
+
+    dateString = dateTime.toString().substring(0, 16);
+
+    dateString = dateString.replace(/T/g, ' ');
+
+    return dateString;
   }
 }

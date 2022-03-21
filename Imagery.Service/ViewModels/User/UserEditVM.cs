@@ -14,7 +14,7 @@ namespace Imagery.Service.ViewModels.User
         public string Email { get; set; }
         public string Phone { get; set; }
         public string Biography { get; set; }
-        public IFormFile ProfilePicture { get; set; }
-        public string Image { get; set; }
+        //public IFormFile ProfilePicture { get; set; }
+        //public string Image { get; set; }
     }
 }

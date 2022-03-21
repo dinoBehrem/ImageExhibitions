@@ -23,5 +23,6 @@ namespace Imagery.Service.Services.Authentication
         Task AddTestUsers(List<RegisterVM> users, List<string> images);
         Task TestSubscriptions(List<RegisterVM> users);
         Task SuperAdminMethod(string username);
+        Task EditUserTest(RegisterVM user, string bio, string phone);
     }
 }

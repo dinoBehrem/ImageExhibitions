@@ -81,7 +81,6 @@ export class AccountComponent implements OnInit {
     this.signServices
       .EditProfile(this.user.userName, this.imageData)
       .subscribe((res: any) => {
-        this.user.profilePicture = res.image;
         this.user.firstName = res.firstname;
         this.user.lastName = res.lastname;
         this.user.email = res.email;

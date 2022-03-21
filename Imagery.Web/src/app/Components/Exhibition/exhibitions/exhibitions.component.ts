@@ -111,4 +111,14 @@ export class ExhibitionsComponent implements OnInit {
       alert(res);
     });
   }
+
+  getDateTimeString(dateTime: Date): string {
+    let dateString: string;
+
+    dateString = dateTime.toString().substring(0, 16);
+
+    dateString = dateString.replace(/T/g, ' ');
+
+    return dateString;
+  }
 }

@@ -21,7 +21,20 @@
                     </div>
                 </ng-template>
             </div>
-            <div class="form-group">
+            <div id="userInfo">
+                <h4 style="margin: 0;">{{collectionItem?.name}}</h4>
+                <p style="margin: 0;">{{collectionItem?.creator}}</p>
+            </div>
+            <p class="description-text">{{collectionItem?.description}}</p>
+            <div *ngIf="collectionItem != null" class="item-details">
+                <p>{{collectionItem?.dimensions}}</p>
+                <p>{{collectionItem?.price}}<span>$</span></p>
+            </div>
+            <div *ngIf="collectionItem != null" class="item-details">
+                <p>{{collectionItem?.exhibition}} by</p>
+                <a routerLink="/Profile/{{collectionItem?.organizer}}" style="color: #ee4e34;">{{collectionItem?.organizer}}</a>
+            </div>
+            <!-- <div class="form-group">
                 <label class="field">Name</label>
                 <p class="form-control">{{collectionItem?.name}}</p>
             </div>
@@ -55,11 +68,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <!--  <div class="modal-footer">
-            <button type="submit" class="btn btn-dimensions" (click)="addToCart()">Buy</button>
-        </div>
-    </div> -->
+            </div> -->
             <!-- Modal -->
             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                 aria-hidden="true">

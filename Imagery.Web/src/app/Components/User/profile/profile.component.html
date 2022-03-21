@@ -11,8 +11,9 @@
             <span class="infoType">Email:</span>
             <p>{{profile?.email}}</p><br>
             <span class="infoType">Phone:</span>
-            <p>{{profile?.phone}}</p>
+            <p>{{profile?.phone}}</p><br>
         </div>
+        <p style="padding: 5px; color: #783937;">{{profile?.biography}}</p>
         <div id="profile-footer">
             <button type="button" class="btn btn-details" (click)="subscribe()">Follow</button>
             <button type="button" class="btn btn-danger" (click)="unsubscribe()">Unfollow</button>

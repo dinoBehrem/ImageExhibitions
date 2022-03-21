@@ -113,24 +113,44 @@ namespace Imagery.API.Controllers
                 "50x40",
                 "70x55"
             };
+        List<string> phoneNumbers = new List<string>()
+            {
+                "697-555-0142",
+                "819-555-0175",
+                "212-555-0187",
+                "612-555-0100",
+                "849-555-0139",
+                "122-555-0189",
+                "181-555-0156",
+                "815-555-0138",
+                "185-555-0186",
+                "330-555-2568",
+                "719-555-0181",
+                "168-555-0183",
+                "473-555-0117",
+                "465-555-0156",
+                "970-555-0138",
+                "913-555-0172"
+            };
+            
         List<RegisterVM> users = new List<RegisterVM>()
             {
-                new RegisterVM() { Firstname = "Michael", Lastname = "O'Leary", Email = "michael@emailcom", Username = "Michael", Password = "Michael1" },
-                new RegisterVM() { Firstname = "Fauzan", Lastname = "Muzzaky", Email = "fauzan@emailcom", Username = "Fauzan", Password = "Fauzan12" },
-                new RegisterVM() { Firstname = "Cheryl", Lastname = "Carson", Email = "cheryl@emailcom", Username = "Cheryl", Password = "Cheryl12" },
-                new RegisterVM() { Firstname = "Meander", Lastname = "Smith", Email = "meander@emailcom", Username = "Meander", Password = "Meander1" },
-                new RegisterVM() { Firstname = "Johnson", Lastname = "White", Email = "johnson@emailcom", Username = "Johnson", Password = "Johnson1" },
-                new RegisterVM() { Firstname = "Akiko", Lastname = "Yokomoto", Email = "akiko@emailcom", Username = "Akiko", Password = "Akiko123" },
-                new RegisterVM() { Firstname = "Dean", Lastname = "Straight", Email = "dean@emailcom", Username = "Dean", Password = "Dean1234" },
-                new RegisterVM() { Firstname = "Innes", Lastname = "del Castillo", Email = "innes@emailcom", Username = "Innes", Password = "Innes123" },
-                new RegisterVM() { Firstname = "Burt", Lastname = "Gringlesby", Email = "burt@emailcom", Username = "Burt", Password = "Burt1234" },
-                new RegisterVM() { Firstname = "Albert", Lastname = "Ringer", Email = "albert@emailcom", Username = "Albert", Password = "Albert12" },
-                new RegisterVM() { Firstname = "Livia", Lastname = "Karsen", Email = "livia@emailcom", Username = "Livia", Password = "Livia123" },
-                new RegisterVM() { Firstname = "Reginald", Lastname = "Blotchet-Halls", Email = "reginald@emailcom", Username = "Reginald", Password = "Reginald1" },
-                new RegisterVM() { Firstname = "Charlene", Lastname = "Locksley", Email = "charlene@emailcom", Username = "Charlene", Password = "Charlene1" },
-                new RegisterVM() { Firstname = "Sylvia", Lastname = "Panteley", Email = "sylvia@emailcom", Username = "Sylvia", Password = "Sylvia12" },
-                new RegisterVM() { Firstname = "Marjorie", Lastname = "Green", Email = "marjorie@emailcom", Username = "Marjorie", Password = "Marjorie1" },
-                new RegisterVM() { Firstname = "SuperAdmin", Lastname = "SuperAdmin", Email = "superAdmin@emailcom", Username = "SuperAdmin", Password = "SuperAdmin1" },
+                new RegisterVM() { Firstname = "Michael", Lastname = "O'Leary", Email = "michael@email.com", Username = "Michael", Password = "Michael1" },
+                new RegisterVM() { Firstname = "Fauzan", Lastname = "Muzzaky", Email = "fauzan@email.com", Username = "Fauzan", Password = "Fauzan12" },
+                new RegisterVM() { Firstname = "Cheryl", Lastname = "Carson", Email = "cheryl@email.com", Username = "Cheryl", Password = "Cheryl12" },
+                new RegisterVM() { Firstname = "Meander", Lastname = "Smith", Email = "meander@email.com", Username = "Meander", Password = "Meander1" },
+                new RegisterVM() { Firstname = "Johnson", Lastname = "White", Email = "johnson@email.com", Username = "Johnson", Password = "Johnson1" },
+                new RegisterVM() { Firstname = "Akiko", Lastname = "Yokomoto", Email = "akiko@email.com", Username = "Akiko", Password = "Akiko123" },
+                new RegisterVM() { Firstname = "Dean", Lastname = "Straight", Email = "dean@email.com", Username = "Dean", Password = "Dean1234" },
+                new RegisterVM() { Firstname = "Innes", Lastname = "del Castillo", Email = "innes@email.com", Username = "Innes", Password = "Innes123" },
+                new RegisterVM() { Firstname = "Burt", Lastname = "Gringlesby", Email = "burt@email.com", Username = "Burt", Password = "Burt1234" },
+                new RegisterVM() { Firstname = "Albert", Lastname = "Ringer", Email = "albert@email.com", Username = "Albert", Password = "Albert12" },
+                new RegisterVM() { Firstname = "Livia", Lastname = "Karsen", Email = "livia@email.com", Username = "Livia", Password = "Livia123" },
+                new RegisterVM() { Firstname = "Reginald", Lastname = "Blotchet-Halls", Email = "reginald@email.com", Username = "Reginald", Password = "Reginald1" },
+                new RegisterVM() { Firstname = "Charlene", Lastname = "Locksley", Email = "charlene@email.com", Username = "Charlene", Password = "Charlene1" },
+                new RegisterVM() { Firstname = "Sylvia", Lastname = "Panteley", Email = "sylvia@email.com", Username = "Sylvia", Password = "Sylvia12" },
+                new RegisterVM() { Firstname = "Marjorie", Lastname = "Green", Email = "marjorie@email.com", Username = "Marjorie", Password = "Marjorie1" },
+                new RegisterVM() { Firstname = "SuperAdmin", Lastname = "SuperAdmin", Email = "superAdmin@email.com", Username = "SuperAdmin", Password = "SuperAdmin1" },
             };
 
         public TestController(IUserService userService, IExhibitionService exhibitionService, IImageService imageService, ITopicService topicService, IAuthService authService)
@@ -145,6 +165,8 @@ namespace Imagery.API.Controllers
         [HttpPost]
         public async Task<ActionResult> GenerateExhibitions()
         {
+            var rand = new Random();
+
             // Generate user roles
 
             if (authService.GetRoles().Count == 0)
@@ -171,10 +193,18 @@ namespace Imagery.API.Controllers
             await userService.TestSubscriptions(users);
             await userService.SuperAdminMethod("SuperAdmin");
 
+            string phone;
+            string bio;
+
+            for (int i = 0; i < users.Count; i++)
+            {
+                phone = phoneNumbers[i];
+                bio = titles.Substring(rand.Next(0, 611), 150);
+                await userService.EditUserTest(users[i], bio, phone);
+            }
 
             // Generate exhibitions
 
-            var rand = new Random();
 
             HashSet<DimensionsVM> itemDimensions = new HashSet<DimensionsVM>();
 
@@ -191,7 +221,7 @@ namespace Imagery.API.Controllers
                         {
                             Organizer = user.Username,
                             Title = loremIpsum.Substring(rand.Next(0, 420), 25),
-                            Description = titles.Substring(rand.Next(0, 711), 130),
+                            Description = titles.Substring(rand.Next(0, 691), 150),
                             StartingDate = DateTime.Now.AddDays(rand.Next(0, 31))
                         };
 
@@ -230,5 +260,6 @@ namespace Imagery.API.Controllers
 
             return Ok("Data successfully generated!");
         }
+       
     }
 }

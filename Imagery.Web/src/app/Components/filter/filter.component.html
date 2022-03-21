@@ -13,12 +13,11 @@
                         </a>
                     </div>
                     <div class="collapse" id="collapseBudget">
-                        <!-- style="height: 70px;" -->
                         <div>
                             <label>From:</label>
-                            <input type="number" class="priceInput" formControlName="avgPriceMin">
+                            <input type="number" min="0" class="priceInput" formControlName="avgPriceMin">
                             <label>To:</label>
-                            <input type="number" class="priceInput" formControlName="avgPriceMax">
+                            <input type="number" min="0" class="priceInput" formControlName="avgPriceMax">
                         </div>
                     </div>
                 </div>
@@ -30,7 +29,6 @@
                         </a>
                     </div>
                     <div class="collapse" id="collapseDate">
-                        <!-- style="height: 70px;" -->
                         <div >
                             <label>From:</label>
                             <input type="datetime-local" class="form-control" formControlName="dateFrom"><br>
@@ -76,7 +74,6 @@
                     <div class="collapse" id="collapseTopics">
                         <div>
                             <label *ngFor="let topic of topics" class="check-box" [ngClass]='{"checked":topic.isAssigned, "unchecked": !topic.isAssigned}'>
-                                <!-- <input type="checkbox" class="form-class" > -->
                                 <span (click)="addTopic(topic)">{{topic.name}}</span>
                             </label>
                         </div>

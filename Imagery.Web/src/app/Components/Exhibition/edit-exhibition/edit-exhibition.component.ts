@@ -363,4 +363,14 @@ export class EditExhibitionComponent implements OnInit {
       }
     });
   }
+
+  getDateTimeString(dateTime: Date): string {
+    let dateString: string;
+
+    dateString = dateTime.toString().substring(0, 16);
+
+    // dateString = dateString.replace(/T/g, ' ');
+    let date = new Date(dateString).toDateString();
+    return date;
+  }
 }

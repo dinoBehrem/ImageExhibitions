@@ -76,7 +76,7 @@ namespace Imagery.Service.Services.Exhbition
 
         public List<ExhibitionVM> Exhibitions()
         {
-            var exhibitions = ExhibitionRepository.GetAll().Select(exhibition => new ExhibitionVM()
+            List<ExhibitionVM> exhibitions = ExhibitionRepository.Find(exhibition => exhibition.ExpiringTime >= DateTime.Now).Select(exhibition => new ExhibitionVM()
             {
                 Id = exhibition.Id,
                 Title = exhibition.Title,
@@ -90,6 +90,7 @@ namespace Imagery.Service.Services.Exhbition
                 Expired = exhibition.ExpiringTime < DateTime.Now,
                 Subscribers = GetExibitionsSubscribers(exhibition.Id)
             }).ToList();
+
 
             return exhibitions;
         }

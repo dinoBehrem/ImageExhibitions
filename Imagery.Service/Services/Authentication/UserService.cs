@@ -241,6 +241,18 @@ namespace Imagery.Service.Services.Authentication
                await SignUp(users[i]);
             }
         }
+        
+        public async Task EditUserTest(RegisterVM user, string bio, string phone)
+        {
+            await EditProfile(user.Username, new UserEditVM()
+            {
+                Firstname = user.Firstname,
+                Lastname = user.Lastname,
+                Email = user.Email,
+                Phone = phone,
+                Biography = bio
+            });
+        }
 
         public async Task TestSubscriptions(List<RegisterVM> users)
         {

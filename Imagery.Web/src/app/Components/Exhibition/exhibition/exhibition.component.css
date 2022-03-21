@@ -111,6 +111,7 @@ textarea {
   font-size: 25px;
   font-weight: 500;
   padding-left: 10px;
+  text-align: center;
 }
 
 #detailsFooter {
@@ -219,4 +220,13 @@ textarea {
 .form-control {
   height: auto;
   min-height: 38px;
+}
+
+#exhibitionHeader,
+#itemHeader {
+  padding: 8px;
+}
+
+h4 {
+  color: #ee4e34;
 }

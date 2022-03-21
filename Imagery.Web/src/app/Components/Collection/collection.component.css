@@ -85,3 +85,36 @@ img {
     min-width: 750px;
   }
 }
+
+h4 {
+  color: #ee4e34;
+}
+
+#userInfo {
+  padding: 8px;
+}
+
+.description-text {
+  padding: 5px;
+  margin-bottom: 0;
+}
+
+.item-details {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+}
+
+.item-details > p {
+  margin-right: 7px;
+}
+
+.item-details > a,
+p > span {
+  color: #ee4e34;
+  font-size: 20px;
+}
+
+p {
+  color: #783937;
+}

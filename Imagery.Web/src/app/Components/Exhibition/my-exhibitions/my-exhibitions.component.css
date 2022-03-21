@@ -52,6 +52,7 @@
   height: 100%;
   width: 100%;
 }
+
 img {
   height: 100%;
   width: 100%;
@@ -120,4 +121,17 @@ td {
   border-radius: 5px;
   margin-bottom: 4px;
   margin-right: 4px;
+}
+
+.description-text {
+  padding: 5px;
+}
+
+h4 {
+  color: #ee4e34;
+  padding: 8px;
+}
+
+#detailsTopics {
+  margin-bottom: 10px;
 }
