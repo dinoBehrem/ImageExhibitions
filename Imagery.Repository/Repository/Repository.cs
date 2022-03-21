@@ -147,6 +147,7 @@ namespace Imagery.Repository.Repository
                 response.Message = "Entity successfully removed!";
                 response.IsSuccess = true;
                 response.Content = null;
+                SaveChanges();
             }
             catch (Exception ex)
             {
@@ -157,7 +158,6 @@ namespace Imagery.Repository.Repository
                 response.Content = null;
             }
 
-            SaveChanges();
 
             return response;
         }
@@ -165,6 +165,32 @@ namespace Imagery.Repository.Repository
         public List<TEntity> Find(Expression<Func<TEntity, bool>> expression)
         {
             return  Entities.Where(expression).ToList();
+        }
+
+        public RepositoryResponse<TEntity> AddRange(List<TEntity> entities)
+        {
+            RepositoryResponse<TEntity> response = new RepositoryResponse<TEntity>();
+
+            try
+            {
+                Entities.AddRange(entities);
+
+                response.Status = "Success";
+                response.Message = "Entity successfully removed!";
+                response.IsSuccess = true;
+                response.Content = null;
+                SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                response.Status = "Error";
+                response.Message = ex.Message;
+                response.InnerMessage = ex.InnerException?.Message;
+                response.IsSuccess = false;
+                response.Content = null;
+            }
+
+            return response;
         }
     }
 }

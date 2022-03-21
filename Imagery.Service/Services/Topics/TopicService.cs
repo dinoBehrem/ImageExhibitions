@@ -33,7 +33,7 @@ namespace Imagery.Service.Services.Topics
             var topicExhibirionExist = TopicsExhibitionRepository.Find(et => et.ExhibitionId == exhbitionId && et.TopicId == topicId).FirstOrDefault();
 
 
-            if (topicExist.IsSuccess)
+            if (!topicExist.IsSuccess)
             {
                 return null;
             }
@@ -86,6 +86,34 @@ namespace Imagery.Service.Services.Topics
             }
 
             return topic.Content;
+        }
+
+
+        // Methods for generating test data
+        public void TestTopics(int exhibitionId)
+        {
+            List<TopicVM> topics = GetAllTopics();
+
+            Random random = new Random();
+
+            int topicCount = random.Next(1, 3);
+
+            List<int> exhibitionTopics = new List<int>();
+           
+            for (int i = 0; i < topicCount; i++)
+            {
+                int index = random.Next(0, topics.Count);
+
+                if (!exhibitionTopics.Contains(topics[index].Id))
+                {
+                    exhibitionTopics.Add(topics[index].Id);
+                    SetExhibitionTopic(exhibitionId, topics[index].Id);
+                }
+            }
+        }
+        public void Create(string name)
+        {
+            var response = TopicsRepository.Add(new Topic() { Name = name });
         }
     }
 }

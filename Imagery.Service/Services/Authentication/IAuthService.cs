@@ -14,5 +14,6 @@ namespace Imagery.Service.Services.Authentication
         Task<Response> AsignedToRole(RoleManagerVM roleManager);
         Task<Response> RemoveFromRole(RoleManagerVM roleManager);
         List<string> GetRoles();
+        Task CreateRole(string roleName);
     }
 }

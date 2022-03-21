@@ -21,5 +21,8 @@ namespace Imagery.Service.Services.Exhbition
         TopicVM AssignTopic(AssignTopicVM assignTopic);
         Task<bool> Subscribe(ExhibitionSubscriptionVM exhibitionSubscription);
         Task<bool> Unsubscribe(ExhibitionSubscriptionVM exhibitionSubscription);
+
+        Task<int> AddTestExhibitions(ExhbitionCreationVM exhbitionCreations, List<RegisterVM> registers);
+        void TestItems(int id, TestItemUploadVM testItem, List<DimensionsVM> dimensions);
     }
 }

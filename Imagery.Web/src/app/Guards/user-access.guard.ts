@@ -38,7 +38,14 @@ export class UserAccessGuard implements CanActivate {
     const userRole = 'User';
     const field = 'role';
 
-    let role: string[] = [...this.signService.GetJWTData(field)];
+    let role: string[] = [];
+    let userRoles = this.signService.GetJWTData(field);
+
+    if (userRoles instanceof Array) {
+      role = [...userRoles];
+    } else {
+      role.push(userRoles);
+    }
 
     if (role.includes(userRole)) {
       return true;

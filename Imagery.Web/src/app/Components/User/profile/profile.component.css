@@ -55,14 +55,29 @@
   background-color: #fcedda;
   color: #783937;
 }
+
 .btn-subs:hover {
   height: calc(2.25rem + 2px);
   color: #fcedda;
   background-color: #783937;
 }
+
+.btn-subs:focus {
+  height: calc(2.25rem + 2px);
+  color: #fcedda;
+  background-color: #783937;
+}
+
 .btn {
   margin-right: 8px;
 }
+
+.btn-sub {
+  color: #fcedda;
+  background-color: #ee4e34;
+  outline: none;
+}
+
 #contactInfo {
   padding: 3px;
   margin-top: 5px;
@@ -145,6 +160,11 @@
 
 tr td {
   color: #783937;
+}
+
+th,
+td {
+  text-align: center;
 }
 
 #profile-footer {

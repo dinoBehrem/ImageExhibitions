@@ -344,5 +344,33 @@ namespace Imagery.Service.Services.Image
 
             return response;
         }
+
+
+        // Methods for generating test data
+        public string TestItemUpload(IFormFile file)
+        {
+            const string folder = "ProfilePictures";
+
+           return EditImage(folder, file, null);
+        }
+
+        public void ExponentsUpload(int id, TestItemUploadVM testItemUpload, List<DimensionsVM> dimensions)
+        {
+            var repoResponse = ItemRepository.Add(new ExponentItem()
+            {
+                Name = testItemUpload.Name,
+                Description = testItemUpload.Description,
+                Creator = testItemUpload.Creator,
+                ExhibitionId = id,
+                Image = testItemUpload.Image
+            });
+
+            foreach (var dimension in dimensions)
+            {
+                AddDimensions(repoResponse.Content.Id, dimension);
+            }
+        }
+
+        
     }
 }

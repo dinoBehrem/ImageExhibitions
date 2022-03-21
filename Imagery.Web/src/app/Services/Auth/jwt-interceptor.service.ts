@@ -1,11 +1,12 @@
 import {
+  HttpErrorResponse,
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { catchError, Observable, retry, throwError } from 'rxjs';
 import { SignService } from '../Sign/sign.service';
 
 // @Injectable()
@@ -26,7 +27,19 @@ export class JwtInterceptorService implements HttpInterceptor {
         setHeaders: { Authorization: `Bearer ${token}` },
       });
     }
-
+    // .pipe(
+    //   retry(1),
+    //   catchError((err: HttpErrorResponse) => {
+    //     let errorMessage = '';
+    //     if (err.error instanceof ErrorEvent) {
+    //       errorMessage = `Error: ${err.error.message}`;
+    //     } else {
+    //       errorMessage = `Error Status: ${err.status}\nMessage: ${err.message}`;
+    //     }
+    //     // alert(errorMessage);
+    //     return throwError(errorMessage);
+    //   })
+    // )
     return next.handle(req);
   }
 }

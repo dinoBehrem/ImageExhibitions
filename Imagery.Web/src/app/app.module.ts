@@ -63,7 +63,10 @@ import { SubscriptionsComponent } from './Components/User/profile/subscriptions/
         component: EditExhibitionComponent,
         canActivate: [UserAccessGuard],
       },
-      { path: 'Exhibition/:id', component: ExhibitionComponent },
+      {
+        path: 'Exhibition/:id',
+        component: ExhibitionComponent,
+      },
       {
         path: 'Users',
         component: UsersComponent,

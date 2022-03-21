@@ -69,12 +69,13 @@ namespace Imagery.Service.Services.Authentication
                 FirstName = register.Firstname,
                 LastName = register.Lastname,
                 UserName = register.Username,
-                Email = register.Email
+                Email = register.Email,
+                ProfilePicture = register.Image
             };
 
             var result = await UserManager.CreateAsync(user, register.Password);
 
-            await UserManager.AddClaimAsync(user, new Claim("role", Roles.User));
+            await UserManager.AddToRoleAsync(user, Roles.User);
 
             if (!result.Succeeded)
             {
@@ -138,7 +139,7 @@ namespace Imagery.Service.Services.Authentication
                 Email = userExist.Email,
                 Phone = userExist.PhoneNumber,
                 Biography = userExist.Biography,
-                Exhibitions = ExhibitionService.UserExhibitions(username).Select(exhibition => new ExhibitionProfileVM() { Id = exhibition.Id, Title = exhibition.Title, Date = exhibition.Date, Description = exhibition.Description, Expired = exhibition.Expired, Started = DateTime.Now > exhibition.Date, Subscirbers = exhibition.Subscribers }).ToList(),
+                Exhibitions = ExhibitionService.UserExhibitions(username).Select(exhibition => new ExhibitionProfileVM() { Id = exhibition.Id, Title = exhibition.Title, Date = exhibition.Date, Description = exhibition.Description, Expired = exhibition.Expired, Started = DateTime.Now > exhibition.Date, Subscribers = exhibition.Subscribers }).ToList(),
                 Followers = GetSubs(SubscriptionRepository.Find(sub => sub.CreatorId == userExist.Id).ToList(), "followers"),
                 Following = GetSubs(SubscriptionRepository.Find(sub => sub.SubscriberId == userExist.Id).ToList(), "following"),
                 Roles = roles.ToList()
@@ -146,25 +147,7 @@ namespace Imagery.Service.Services.Authentication
 
             return profile;
         }
-
-        private List<UserVM> GetSubs(List<UserSubscription> userSubscriptions, string subsType)
-        {
-            List<Task<User>> users = new List<Task<User>>();
-            if(subsType == "followers")
-            {
-                users = userSubscriptions.Select(async sub => await UserManager.FindByIdAsync(sub.SubscriberId)).ToList();
-            }
-
-            if(subsType == "following")
-            {
-                users = userSubscriptions.Select(async sub => await UserManager.FindByIdAsync(sub.CreatorId)).ToList();
-            }
-
-            var subs = users.Select(user => Mapper.MapUserVM(user.Result)).ToList();
-
-            return subs;
-        }
-
+        
         public async Task<bool> Subscribe(SubscribeVM subscription)
         {
             var userExist = await UserManager.FindByNameAsync(subscription.Creator);
@@ -228,6 +211,86 @@ namespace Imagery.Service.Services.Authentication
             }
 
             return user;
+        }
+        
+        private List<UserVM> GetSubs(List<UserSubscription> userSubscriptions, string subsType)
+        {
+            List<Task<User>> users = new List<Task<User>>();
+            if(subsType == "followers")
+            {
+                users = userSubscriptions.Select(async sub => await UserManager.FindByIdAsync(sub.SubscriberId)).ToList();
+            }
+
+            if(subsType == "following")
+            {
+                users = userSubscriptions.Select(async sub => await UserManager.FindByIdAsync(sub.CreatorId)).ToList();
+            }
+
+            var subs = users.Select(user => Mapper.MapUserVM(user.Result)).ToList();
+
+            return subs;
+        }
+
+
+        // Methods for generating test data
+        public async Task AddTestUsers(List<RegisterVM> users, List<string> pictures)
+        {
+            for (int i = 0; i < users.Count; i++)
+            {
+                users[i].Image = pictures[i];
+               await SignUp(users[i]);
+            }
+        }
+
+        public async Task TestSubscriptions(List<RegisterVM> users)
+        {
+            Random random = new Random();
+            List<SubscribeVM> subscribes = new List<SubscribeVM>();
+
+            SubscribeVM subscribeVM = new SubscribeVM();
+
+            foreach (var user in users)
+            {
+                int subCount = random.Next(2, 5);
+
+
+                for (int i = 0; i < subCount; i++)
+                {
+                    int index = random.Next(0, users.Count);
+
+                    if (user.Username != users[index].Username)
+                    {
+                        subscribeVM.Creator = user.Username;
+                        subscribeVM.Subscriber = users[index].Username;
+
+                        if (!subscribes.Contains(subscribeVM))
+                        {
+                            subscribes.Add(subscribeVM);
+                        }
+                    }
+                }
+
+                foreach (var sub in subscribes)
+                {
+                    var success = await Subscribe(sub);
+                }
+
+                subscribes.Clear();
+            }
+        }
+
+        public async Task SuperAdminMethod(string username)
+        {
+            var userExists = await UserManager.FindByNameAsync(username);
+
+            var userRoles = await UserManager.GetRolesAsync(userExists);
+
+            if (!userRoles.Contains(Roles.SuperAdmin))
+            {
+                var result = await UserManager.AddToRoleAsync(userExists, Roles.SuperAdmin);
+            }
+
+
         }
     }
 }

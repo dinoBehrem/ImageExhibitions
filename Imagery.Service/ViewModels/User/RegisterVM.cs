@@ -26,5 +26,6 @@ namespace Imagery.Service.ViewModels.User
         [Required(ErrorMessage = "Password is required!")]
         [StringLength(40, MinimumLength = 8)]
         public string Password { get; set; }
+        public string Image { get; set; }
     }
 }

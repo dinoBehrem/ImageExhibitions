@@ -1,5 +1,6 @@
 ﻿using Imagery.Service.Services.Exhbition;
 using Imagery.Service.Services.Topics;
+using Imagery.Service.ViewModels;
 using Imagery.Service.ViewModels.Exhbition;
 using Imagery.Service.ViewModels.Image;
 using Microsoft.AspNetCore.Authorization;
@@ -190,12 +191,13 @@ namespace Imagery.API.Controllers
 
             if (!result)
             {
-                return BadRequest("Subscription failed, try again!");
+                return BadRequest("You already subscribed to this exhibition!");
             }
+
             return Ok("Subscription successfull!");
         }
         
-        [HttpPost]
+        [HttpDelete]
         [Authorize]
         public async Task<ActionResult> Unsubscribe([FromBody] ExhibitionSubscriptionVM subscription)
         {

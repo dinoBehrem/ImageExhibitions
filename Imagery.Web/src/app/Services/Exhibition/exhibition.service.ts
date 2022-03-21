@@ -169,7 +169,7 @@ export class ExhibitionService {
   //   const claim = 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name';
   //   const username: string = this.signServices.GetJWTData(claim);
 
-  //   return this.http.delete(
+  //   return this.http.post(
   //     this.url + '/Unsubscribe',
   //     { exhibitionId, username }
   //   );

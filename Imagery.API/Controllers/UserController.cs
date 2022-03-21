@@ -16,12 +16,10 @@ namespace Imagery.API.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService UserService;
-        private readonly IImageService ImageService;
 
-        public UserController(IUserService userService, IImageService imageService)
+        public UserController(IUserService userService)
         {
             UserService = userService;
-            ImageService = imageService;
         }
 
         [HttpPost]

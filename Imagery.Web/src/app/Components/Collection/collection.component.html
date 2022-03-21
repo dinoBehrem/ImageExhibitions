@@ -11,9 +11,15 @@
         </div>
         <div id="itemDetails">
             <div class="exhibitionCover">
-                <div class="cover">
-                    <img [src]="collectionItem?.image" data-toggle="modal" data-target="#exampleModal">
-                </div>
+                <div *ngIf="collectionItem == null; then nocover else cover"></div>
+                <ng-template #nocover><div class="cover">
+                    <img [src]="imagePlaceholder" data-toggle="modal" data-target="#exampleModal">
+                </div></ng-template>
+                <ng-template #cover>
+                    <div class="cover">
+                        <img [src]="collectionItem?.image" data-toggle="modal" data-target="#exampleModal">
+                    </div>
+                </ng-template>
             </div>
             <div class="form-group">
                 <label class="field">Name</label>

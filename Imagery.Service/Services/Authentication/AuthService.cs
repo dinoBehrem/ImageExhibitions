@@ -69,7 +69,12 @@ namespace Imagery.Service.Services.Authentication
                 IsSuccess = true
             };
         }
-        
+
+        public async Task CreateRole(string roleName)
+        {
+            await RoleManager.CreateAsync(new IdentityRole(roleName));
+        }
+
         public List<string> GetRoles()
         {
             return RoleManager.Roles.Select(role => role.Name).ToList();

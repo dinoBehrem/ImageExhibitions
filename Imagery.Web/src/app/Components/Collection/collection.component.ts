@@ -13,7 +13,7 @@ import { CollectionItemVM } from 'src/app/ViewModels/CollectionItemVM';
 export class CollectionComponent implements OnInit {
   collectionItems: CollectionItemVM[] = [];
   collectionItem!: CollectionItemVM;
-
+  imagePlaceholder: string = '../../assets/imagePlaceholder.png';
   constructor(
     private imageService: ImageServiceService,
     private signService: SignService

@@ -30,7 +30,7 @@ namespace Imagery.API.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "SuperAdmin,Admin")]
         public async Task<ActionResult<Response>> PromoteTo([FromBody]RoleManagerVM roleManager)
         {
             var result = await AuthService.AsignedToRole(roleManager);
@@ -44,7 +44,7 @@ namespace Imagery.API.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "SuperAdmin")]
+        [Authorize(Roles = "SuperAdmin,Admin")]
         public async Task<ActionResult<Response>> DemoteTo([FromBody] RoleManagerVM roleManager)
         {
             var result = await AuthService.RemoveFromRole(roleManager);

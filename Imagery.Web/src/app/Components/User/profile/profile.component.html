@@ -50,8 +50,13 @@
                             </td>
                             <td>{{exhibition.subscribers}}</td>
                             <td>
-                                <button *ngIf="exhibition.started && !exhibition.expired">Join</button>
-                                <button *ngIf="!exhibition.started && !exhibition.expired">Subscribe</button>
+                                <button class="btn btn-primary btn-sub"
+                                    *ngIf="!exhibition.started && !exhibition.expired"
+                                    (click)="exhibitionSubscription(exhibition.id)">
+                                    Subscribe
+                                </button>
+                                <a routerLink="/Exhibition/{{ exhibition.id }}" class="btn btn-primary btn-sub"
+                                    *ngIf="exhibition.started && !exhibition.expired">Join</a>
                             </td>
                         </tr>
                     </tbody>
@@ -60,8 +65,8 @@
             </div>
             <div class="collapse multi-collapse" id="multiCollapseExample2">
                 <div class="followerBar">
-                    <p (click)="setUsers('followers')">Followers</p>
-                    <p (click)="setUsers('following')">Following</p>
+                    <p (click)="setUsers('followers')">Followers - {{profile?.followers?.length}}</p>
+                    <p (click)="setUsers('following')">Following - {{profile?.following?.length}}</p>
                 </div>
                 <app-subscriptions [subscriptions]="users"></app-subscriptions>
             </div>

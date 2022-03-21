@@ -20,5 +20,8 @@ namespace Imagery.Service.Services.Image
         bool RemoveItems(int exhbitionId);
         Task<bool> AddColectionItem(CollectionItemVM collectionItem);
         Task<List<CollectionItemVM>> GetCollection(string username);
+
+        string TestItemUpload(IFormFile file);
+        void ExponentsUpload(int id, TestItemUploadVM testItemUpload, List<DimensionsVM> dimensions);
     }
 }

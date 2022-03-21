@@ -18,5 +18,10 @@ namespace Imagery.Service.Services.Authentication
         Task<UserEditVM> EditProfile(string username, UserEditVM user);
         Task<bool> Subscribe(SubscribeVM subscription);
         Task<bool> Unsubscribe(SubscribeVM subscription);
+        
+        
+        Task AddTestUsers(List<RegisterVM> users, List<string> images);
+        Task TestSubscriptions(List<RegisterVM> users);
+        Task SuperAdminMethod(string username);
     }
 }

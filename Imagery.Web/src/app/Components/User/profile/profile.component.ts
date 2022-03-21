@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ExhibitionService } from 'src/app/Services/Exhibition/exhibition.service';
 import { SignService } from 'src/app/Services/Sign/sign.service';
 import { UserService } from 'src/app/Services/User/user.service';
 import { ProfileVM } from 'src/app/ViewModels/ProfileVM';
@@ -16,6 +17,7 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     private signService: SignService,
+    private exhibitionService: ExhibitionService,
     private route: ActivatedRoute
   ) {}
   sub: any;
@@ -55,5 +57,11 @@ export class ProfileComponent implements OnInit {
     } else if (type === 'followers') {
       this.users = this.profile?.followers;
     }
+  }
+
+  exhibitionSubscription(id: number) {
+    this.exhibitionService.Subscribre(id).subscribe((res: any) => {
+      alert(res);
+    });
   }
 }

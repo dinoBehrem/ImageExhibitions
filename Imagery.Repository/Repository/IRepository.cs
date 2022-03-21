@@ -16,6 +16,7 @@ namespace Imagery.Repository.Repository
         RepositoryResponse<TEntity> Update(TEntity entity);
         RepositoryResponse<TEntity> Remove(TEntity entity);
         RepositoryResponse<TEntity> RemoveRange(List<TEntity> entity);
+        RepositoryResponse<TEntity> AddRange(List<TEntity> entity);
         List<TEntity> Find(Expression<Func<TEntity, bool>> expression);
         void SaveChanges();
     }

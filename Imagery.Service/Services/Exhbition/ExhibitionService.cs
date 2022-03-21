@@ -136,7 +136,9 @@ namespace Imagery.Service.Services.Exhbition
             }
 
             response.Content.CoverImage = cover.CoverImage;
+
             ExhibitionRepository.SaveChanges();
+
 
             return cover.CoverImage;
         }
@@ -168,25 +170,6 @@ namespace Imagery.Service.Services.Exhbition
             return editExhibition;
         }
 
-        private UserVM toUserVM(string id)
-        {
-            User user = UserRepository.Find(user => user.Id == id).Single();
-
-            return new UserVM()
-            {
-                Firstname = user.FirstName,
-                Lastname = user.LastName,
-                Username = user.UserName,
-                Email = user.Email,
-                Picture = user.ProfilePicture
-            };
-        }
-
-        private List<ExponentItemVM> ExhbitionItems(int id)
-        {
-            return ImageService.GetExhibitionItems(id).ToList();
-        }
-
         public TopicVM AssignTopic(AssignTopicVM assignTopic)
         {
             var exhibitionExist = ExhibitionRepository.GetSingleOrDefault(assignTopic.ExhibitionId);
@@ -199,20 +182,6 @@ namespace Imagery.Service.Services.Exhbition
             var assignedTopic = TopicService.SetExhibitionTopic(assignTopic.ExhibitionId, assignTopic.TopicId);
 
             return assignedTopic;
-        }
-
-        private List<TopicVM> GetExhibitionTopics(int id)
-        {
-            var topics = TopicService.GetExhibitionTopics(id);
-
-            return topics;
-        }
-
-        private int GetExibitionsSubscribers(int id)
-        {
-            int count = ExhibitionSubsRepository.Find(exh => exh.ExhibitionId == id).Count;
-
-            return count;
         }
 
         public List<ExhibitionVM> UserExhibitions(string username)
@@ -289,6 +258,98 @@ namespace Imagery.Service.Services.Exhbition
             }
 
             return true;
+        }
+      
+        private UserVM toUserVM(string id)
+        {
+            User user = UserRepository.Find(user => user.Id == id).Single();
+
+            return new UserVM()
+            {
+                Firstname = user.FirstName,
+                Lastname = user.LastName,
+                Username = user.UserName,
+                Email = user.Email,
+                Picture = user.ProfilePicture
+            };
+        }
+
+        private List<ExponentItemVM> ExhbitionItems(int id)
+        {
+            return ImageService.GetExhibitionItems(id).ToList();
+        }
+       
+        private List<TopicVM> GetExhibitionTopics(int id)
+        {
+            var topics = TopicService.GetExhibitionTopics(id);
+
+            return topics;
+        }
+
+        private int GetExibitionsSubscribers(int id)
+        {
+            int count = ExhibitionSubsRepository.Find(exh => exh.ExhibitionId == id).Count;
+
+            return count;
+        }
+
+
+
+
+        // Methods for generating test data
+        public async Task<int> AddTestExhibitions(ExhbitionCreationVM exhbitionCreation, List<RegisterVM> registers)
+        {
+            // Create exhibition
+            var response =  await Create(exhbitionCreation);
+
+            // Assign topics to exhibition
+            Random random = new Random();
+
+            List<TopicVM> topics = TopicService.GetAllTopics();
+
+            int topicCount = random.Next(1, 3);
+
+            List<int> exhibitionTopics = new List<int>();
+
+            for (int i = 0; i < topicCount; i++)
+            {
+                int index = random.Next(0, topics.Count);
+
+                if (!exhibitionTopics.Contains(topics[index].Id))
+                {
+                    exhibitionTopics.Add(topics[index].Id);
+                    AssignTopic(new AssignTopicVM() { ExhibitionId = response.Id, TopicId = topics[index].Id });
+                }
+            }
+
+            // Subscribe to exhibition
+            int subCount = random.Next(1, 5);
+
+            List<ExhibitionSubscriptionVM> subscribes = new List<ExhibitionSubscriptionVM>();
+
+            ExhibitionSubscriptionVM subscribeVM = new ExhibitionSubscriptionVM();
+
+            for (int i = 0; i < subCount; i++)
+            {
+                subscribeVM.ExhibitionId = response.Id;
+                int index = random.Next(0, registers.Count);
+
+                subscribeVM.Username = registers[index].Username;
+
+                if (!subscribes.Contains(subscribeVM))
+                {
+                    subscribes.Add(subscribeVM);
+                    await Subscribe(subscribeVM);
+                }
+            }
+
+            return response.Id;
+        }
+
+        public void TestItems(int id, TestItemUploadVM testItem, List<DimensionsVM> dimensions)
+        {
+            ImageService.ExponentsUpload(id, testItem, dimensions);
+            SetExhibitionCover(new CoverImageVM() { ExhibitionId = id, CoverImage = testItem.Image });
         }
     }
 }
