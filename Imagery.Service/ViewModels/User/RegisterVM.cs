@@ -12,7 +12,7 @@ namespace Imagery.Service.ViewModels.User
         [Required(ErrorMessage = "First name is required!")]
         public string Firstname { get; set; }
 
-        [Required(ErrorMessage = "LAst name is required!")]
+        [Required(ErrorMessage = "Last name is required!")]
         public string Lastname { get; set; }
 
         [Required(ErrorMessage = "Username is required!")]

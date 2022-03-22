@@ -19,6 +19,9 @@ export class SigninComponent implements OnInit {
     username: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required),
   });
+
+  errorMessage?: string;
+
   constructor(
     private signServices: SignService,
     private formBuilder: FormBuilder,
@@ -33,11 +36,14 @@ export class SigninComponent implements OnInit {
   }
 
   Login() {
-    return this.signServices
-      .SignIn(this.loginDetails.value as SignInVM)
-      .subscribe((data: any) => {
+    this.signServices.SignIn(this.loginDetails.value as SignInVM).subscribe(
+      (data: any) => {
         this.signServices.SaveToken(data);
         this.router.navigateByUrl('');
-      });
+      },
+      (err: any) => {
+        this.errorMessage = err.error.message;
+      }
+    );
   }
 }

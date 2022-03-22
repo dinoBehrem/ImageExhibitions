@@ -15,14 +15,16 @@ import { SignUpVM } from 'src/app/ViewModels/SignUpVM';
   styleUrls: ['./signup.component.css'],
 })
 export class SignupComponent implements OnInit {
-  registrationDetails!: FormGroup;
-  loginDetails: FormGroup = new FormGroup({
+  registrationDetails: FormGroup = new FormGroup({
     firstname: new FormControl('', Validators.required),
     lastname: new FormControl('', Validators.required),
     username: new FormControl('', Validators.required),
     email: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required),
   });
+
+  errorMessage?: string;
+
   constructor(
     private signServices: SignService,
     private formBuilder: FormBuilder,
@@ -40,10 +42,28 @@ export class SignupComponent implements OnInit {
   }
 
   Register() {
-    this.registrationDetails = this.signServices
+    this.signServices
       .SignUp(this.registrationDetails.value as SignUpVM)
-      .subscribe((data: any) => {
-        this.router.navigateByUrl('Login');
-      });
+      .subscribe(
+        (data: any) => {
+          alert(data.message);
+          this.router.navigateByUrl('Login');
+        },
+        (err: any) => {
+          let error = err.error;
+
+          if (error.errors != null) {
+            if (error.errors.hasOwnProperty('Email')) {
+              this.errorMessage = error.errors.Email[0];
+            } else {
+              this.errorMessage = error.errors[0];
+            }
+          } else {
+            this.errorMessage = error?.message;
+          }
+          console.log(err);
+          console.log(error);
+        }
+      );
   }
 }

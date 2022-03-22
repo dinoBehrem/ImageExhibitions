@@ -6,17 +6,17 @@
   </button>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul id="mainNav">
+    <ul class="mainNav">
       <li class="navItem">
         <a routerLink="Home" routerLinkActive="activeLink">Home</a>
       </li>
       <li class="navItem">
         <a routerLink="Create" routerLinkActive="activeLink">Create</a>
       </li>
-      <li class="navItem" *ngIf="isLogged">
+      <li class="navItem" *ngIf="userIsLogged()">
         <a routerLink="MyExhibitions" routerLinkActive="activeLink">My exhibitions</a>
       </li>
-      <li class="navItem" *ngIf="isLogged">
+      <li class="navItem" *ngIf="userIsLogged()">
         <a routerLink="Collection" routerLinkActive="activeLink">Collection</a>
       </li>
     </ul>
@@ -31,12 +31,7 @@
           <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser1" id="profileMenu">
             <li><a class="dropdown-item dropwonItem" routerLink="Account">Account</a></li>
             <li><a class="dropdown-item dropwonItem" *ngIf="isAdmin" routerLink="Users">Users</a></li>
-            <li>
-              <a class="dropdown-item dropwonItem" routerLink="MyExhibitions" *ngIf="isLogged"
-                routerLinkActive="activeLink">My
-                exhibitions</a>
-            </li>
-            <!-- <li><a class="dropdown-item dropwonItem" routerLink="Account">Account</a></li> -->
+            
             <li>
               <hr class="dropdown-divider">
             </li>

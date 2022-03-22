@@ -36,10 +36,11 @@ export class JwtInterceptorService implements HttpInterceptor {
     //     } else {
     //       errorMessage = `Error Status: ${err.status}\nMessage: ${err.message}`;
     //     }
-    //     // alert(errorMessage);
+    //     alert(errorMessage);
     //     return throwError(errorMessage);
     //   })
     // )
+
     return next.handle(req);
   }
 }

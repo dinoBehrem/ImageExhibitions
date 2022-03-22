@@ -40,7 +40,7 @@ namespace Imagery.Service.Services.Authentication
 
             if (!result.Succeeded)
             {
-                return null;
+                throw new Exception("Incorrect username or password");
             }
 
             AuthResponse token = await TokenService.BuildToken(user);
@@ -54,12 +54,10 @@ namespace Imagery.Service.Services.Authentication
 
             if (userExists != null)
             {
-                //Status = "Error", Message = "User already exists!" }
-
                 return new Response()
                 {
                     Status = "Error",
-                    Message = "User already exists!",
+                    Message = $"User with username \"{register.Username}\" already exists!",
                     IsSuccess = false
                 };
             }
@@ -75,7 +73,6 @@ namespace Imagery.Service.Services.Authentication
 
             var result = await UserManager.CreateAsync(user, register.Password);
 
-            await UserManager.AddToRoleAsync(user, Roles.User);
 
             if (!result.Succeeded)
             {
@@ -87,6 +84,7 @@ namespace Imagery.Service.Services.Authentication
                     Errors = result.Errors.Select(err => err.Description).ToList()
                 };
             }
+            await UserManager.AddToRoleAsync(user, Roles.User);
 
             return new Response()
             {

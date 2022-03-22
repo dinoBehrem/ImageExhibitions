@@ -23,7 +23,7 @@
         </form>
     </div>
 </div> -->
-<div id="LoginForm" >
+<div id="LoginForm">
     <div class="container">
         <div class="login-form">
             <div class="main-div">
@@ -31,19 +31,27 @@
                     <h3 style="text-align: center;">Organize exhibition</h3>
                     <hr>
                 </div>
+                <span *ngIf="errorMessage != null" class="error-message">{{errorMessage}}</span>
                 <form id="Login" [formGroup]="exhibitionDetails" (ngSubmit)="save()">
                     <div class="form-group">
-                        <input type="text" class="form-control" id="title" placeholder="Enter title" formControlName="title" required>
-                        <span class="errorSpan" *ngIf="exhibitionDetails.get('title')?.invalid && exhibitionDetails.get('title')?.touched">Title is required!</span>
+                        <input type="text" class="form-control" id="title" placeholder="Enter title"
+                            formControlName="title" required>
+                        <span class="errorSpan"
+                            *ngIf="exhibitionDetails.get('title')?.invalid && exhibitionDetails.get('title')?.touched">Title
+                            is required!</span>
                     </div>
                     <div class="form-group">
-                        <textarea type="text" class="form-control" id="description" placeholder="Enter description" formControlName="description"></textarea>
+                        <textarea type="text" class="form-control" id="description" placeholder="Enter description"
+                            formControlName="description"></textarea>
                     </div>
                     <div class="form-group">
-                        <input type="datetime-local" class="form-control" id="startingDate" formControlName="startingDate" required>
-                                            </div>
-                    <button type="submit" class="btn btn-primary loginButton" [disabled]="!exhibitionDetails.valid">Create</button>
-                    <div id="formFooter"><span>Check your other </span><a routerLink="/MyExhibitions">exhibitions</a></div>
+                        <input type="datetime-local" class="form-control" id="startingDate"
+                            formControlName="startingDate" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary loginButton"
+                        [disabled]="!exhibitionDetails.valid">Create</button>
+                    <div id="formFooter" (click)="myExhibitions()"><span>Check your other </span><a>exhibitions</a>
+                    </div>
                 </form>
             </div>
         </div>

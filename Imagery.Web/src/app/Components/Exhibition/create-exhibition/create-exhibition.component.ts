@@ -22,6 +22,7 @@ import { UserVM } from 'src/app/ViewModels/UserVM';
 export class CreateExhibitionComponent implements OnInit {
   exhibitionDetails!: FormGroup;
   user!: UserVM;
+  errorMessage?: string;
 
   constructor(
     private exhibitionService: ExhibitionService,
@@ -42,15 +43,21 @@ export class CreateExhibitionComponent implements OnInit {
     if (this.auth.isAuthenticated()) {
       let userName = this.getUser();
       this.exhibitionDetails.addControl('organizer', new FormControl(userName));
-      console.log(this.exhibitionDetails.value);
 
       this.exhibitionService
         .Create(this.exhibitionDetails.value as ExhibitionCreationVM)
-        .subscribe((res: any) => {
-          this.router.navigate(['EditExhibition', res]);
-        });
+        .subscribe(
+          (res: any) => {
+            this.router.navigate(['EditExhibition', res]);
+          },
+          (err: any) => {
+            alert(err.error.message);
+            this.errorMessage = err.error.message;
+          }
+        );
     } else {
       alert('You are not signed user, please sign in!');
+      this.errorMessage = 'You are not signed user, please sign in!';
     }
   }
 
@@ -59,10 +66,19 @@ export class CreateExhibitionComponent implements OnInit {
       'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name';
     const userName = this.auth.GetJWTData(prop);
 
-    if (userName === '') {
-      this.router.navigateByUrl('Login');
-    }
+    // if (userName === '') {
+    //   this.router.navigateByUrl('Login');
+    // }
 
     return userName;
+  }
+
+  myExhibitions() {
+    if (this.getUser() == '') {
+      alert('You are not signed user, please sign in!');
+      this.errorMessage = 'You are not signed user, please sign in!';
+    } else {
+      this.router.navigateByUrl('/MyExhibitions');
+    }
   }
 }

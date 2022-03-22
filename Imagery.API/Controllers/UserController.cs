@@ -4,6 +4,7 @@ using Imagery.Service.ViewModels.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace Imagery.API.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService UserService;
-
+        const string defaultProfilePicture = "https://localhost:44395/ProfilePictures/profilePicPlaceholder4cd83466-ce97-47e3-a3b2-dc6b2bc2085a.png";
         public UserController(IUserService userService)
         {
             UserService = userService;
@@ -28,9 +29,10 @@ namespace Imagery.API.Controllers
         {
             if (register == null)
             {
-                return BadRequest("Invalid credentials!");
+                return BadRequest(new { Message = "Invalid credentials!" });
             }
 
+            register.Image = defaultProfilePicture;
             Response response = await UserService.SignUp(register);
 
             if (!response.IsSuccess)
@@ -38,7 +40,7 @@ namespace Imagery.API.Controllers
                 return BadRequest(response);
             }
 
-            return Ok(response);
+            return NoContent();
         }
 
         [HttpPost]
@@ -47,14 +49,18 @@ namespace Imagery.API.Controllers
         {
             if (login == null)
             {
-                return BadRequest("Invalid credentials!");
+                return BadRequest(new { Message = "Invalid credentials!" });
             }
 
-            AuthResponse authResponse = await UserService.SignIn(login);
+            AuthResponse authResponse = new AuthResponse();
 
-            if (authResponse == null)
+            try
             {
-                return new BadRequestResult();
+                authResponse = await UserService.SignIn(login);
+            }
+            catch (Exception exc)
+            {
+                return BadRequest(new { Message = exc.Message });
             }
 
             return Ok(authResponse);

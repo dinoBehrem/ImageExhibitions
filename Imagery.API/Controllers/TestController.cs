@@ -163,7 +163,7 @@ namespace Imagery.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> GenerateExhibitions()
+        public async Task<ActionResult> GenerateData()
         {
             var rand = new Random();
 
@@ -177,6 +177,7 @@ namespace Imagery.API.Controllers
                 }
             }
 
+           
             // Generate exhibition topic tags
 
             if (topicService.GetAllTopics().Count == 0)
@@ -187,6 +188,7 @@ namespace Imagery.API.Controllers
                 }
             }
 
+           
             // Generate users
 
             await userService.AddTestUsers(users, profilePictures);
@@ -203,10 +205,11 @@ namespace Imagery.API.Controllers
                 await userService.EditUserTest(users[i], bio, phone);
             }
 
+
             // Generate exhibitions
 
-
             HashSet<DimensionsVM> itemDimensions = new HashSet<DimensionsVM>();
+            DateTime date = DateTime.Now;
 
             foreach (var user in users)
             {
@@ -214,15 +217,22 @@ namespace Imagery.API.Controllers
 
                 if (user.Username != Roles.SuperAdmin)
                 {
-
                     for (int i = 0; i < exhibitionCount; i++)
                     {
+                        int days = rand.Next(0, 15);
+                        int hours = rand.Next(0, 24);
+                        int minutes = rand.Next(0, 60);
+
+                        date.AddDays(days);
+                        date.AddHours(hours);
+                        date.AddMinutes(minutes);
+
                         var exhbitionCreation = new ExhbitionCreationVM()
                         {
                             Organizer = user.Username,
                             Title = loremIpsum.Substring(rand.Next(0, 420), 25),
                             Description = titles.Substring(rand.Next(0, 691), 150),
-                            StartingDate = DateTime.Now.AddDays(rand.Next(0, 31))
+                            StartingDate = date
                         };
 
                         int id = await exhibitionService.AddTestExhibitions(exhbitionCreation, users);

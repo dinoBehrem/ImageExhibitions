@@ -46,7 +46,7 @@ export class ImageServiceService {
     return this.http.delete(this.url + '/DeleteItem/' + id, this.options);
   }
 
-  GetCollectionItems(username: string) {
+  GetCollectionItems(username: string): any {
     return this.http.get(this.url + '/GetCollection/' + username, this.options);
   }
 

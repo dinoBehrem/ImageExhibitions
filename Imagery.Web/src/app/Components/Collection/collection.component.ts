@@ -14,6 +14,9 @@ export class CollectionComponent implements OnInit {
   collectionItems: CollectionItemVM[] = [];
   collectionItem!: CollectionItemVM;
   imagePlaceholder: string = '../../assets/imagePlaceholder.png';
+
+  errorMessage?: string;
+
   constructor(
     private imageService: ImageServiceService,
     private signService: SignService
@@ -29,9 +32,14 @@ export class CollectionComponent implements OnInit {
       return;
     }
 
-    this.imageService.GetCollectionItems(username).subscribe((res: any) => {
-      this.collectionItems = res;
-    });
+    this.imageService.GetCollectionItems(username).subscribe(
+      (res: any) => {
+        this.collectionItems = res;
+      },
+      (err: any) => {
+        alert(err.error.message);
+      }
+    );
   }
 
   getUsername() {

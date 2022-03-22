@@ -6,6 +6,7 @@
                     <h2>Sign in</h2>
                     <p>Please enter your email and password</p>
                 </div>
+                <span *ngIf="errorMessage != null" class="error-message">{{errorMessage}}</span>
                 <form id="Login" [formGroup]= "loginDetails" (ngSubmit)="Login()">
                     <div class="form-group">
                         <input type="text" class="form-control" id="inputUsername" placeholder="Username" formControlName="username" required>
@@ -13,11 +14,8 @@
                     </div>
                     <div class="form-group">
                         <input type="password" class="form-control" id="inputPassword" placeholder="Password" formControlName="password" required>
-                        <span class="errorSpan" *ngIf="loginDetails.get('password')?.invalid && loginDetails.get('password')?.touched">Password is required!</span>
+                        <span *ngIf="loginDetails.get('password')?.invalid && loginDetails.get('password')?.touched">Password is required!</span>
                     </div>
-                    <!-- <div class="forgot">
-                        <a href="reset.html">Forgot password?</a>
-                    </div> -->
                     <button type="submit" class="btn btn-primary loginButton" [disabled]="!loginDetails.valid">Login</button>
                     <div id="formFooter"><span>Not a member!</span><a routerLink="/Register">Sign up</a></div>
                 </form>

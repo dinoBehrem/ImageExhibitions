@@ -10,7 +10,6 @@ import { HeaderComponent } from './Components/Header/header/header.component';
 import { SignupComponent } from './Components/Sign/signup/signup.component';
 import { SigninComponent } from './Components/Sign/signin/signin.component';
 import { UsersComponent } from './Components/User/users/users.component';
-import { SuperAdminGuard } from './Guards/superAdmin.guard';
 import { JwtInterceptorService } from './Services/Auth/jwt-interceptor.service';
 import { SuperAdminAccessGuard } from './Guards/super-admin-access.guard';
 import { AdminAccessGuard } from './Guards/admin-access.guard';
