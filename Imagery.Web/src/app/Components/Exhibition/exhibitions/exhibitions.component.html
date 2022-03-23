@@ -2,23 +2,11 @@
   <app-filter (filters)="setFilters($event)"></app-filter>
   <div id="exhibitionFeed">
     <div id="searchBar">
-      <input
-        type="text"
-        [(ngModel)]="filter"
-        value="{{ filter }}"
-        (change)="filterByExhibitionName()"
-        placeholder="Search"
-      />
+      <input type="text" [(ngModel)]="filter" value="{{ filter }}" (change)="filterByExhibitionName()"
+        placeholder="Search" />
     </div>
-    <div
-      class="card mt-2 mb-2 exhibitionCard"
-      *ngFor="let exhibition of filterExhibitions()"
-    >
-      <img
-        class="card-img-top w-25"
-        src="{{ exhibition.cover }}"
-        alt="Card image cap"
-      />
+    <div class="card mt-2 mb-2 exhibitionCard" *ngFor="let exhibition of filterExhibitions()">
+      <img class="card-img-top w-25" src="{{ exhibition.cover }}" alt="Card image cap" />
       <div class="card-body">
         <div class="cardHeader">
           <div>
@@ -34,23 +22,16 @@
         <div>
           <span *ngFor="let topic of exhibition.topics" class="topic">{{
             topic.name
-          }}</span>
+            }}</span>
         </div>
         <div class="cardFooter">
           <span *ngIf="!exhibition.started && !exhibition.expired">{{exhibition?.subscribers}} intrested</span>
-          <button
-            class="btn btn-primary sub-btn"
-            *ngIf="!exhibition.started && !exhibition.expired"
-            (click)="subscription(exhibition.id)"
-          >
+          <button class="btn btn-primary sub-btn" *ngIf="!exhibition.started && !exhibition.expired"
+            (click)="subscription(exhibition.id)">
             Subscribe
           </button>
-          <a
-            routerLink="/Exhibition/{{ exhibition.id }}"
-            class="btn btn-primary sub-btn"
-            *ngIf="exhibition.started && !exhibition.expired"
-            >Join</a
-          >
+          <a routerLink="/Exhibition/{{ exhibition.id }}" class="btn btn-primary sub-btn"
+            *ngIf="exhibition.started && !exhibition.expired">Join</a>
         </div>
       </div>
     </div>

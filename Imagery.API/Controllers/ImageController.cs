@@ -147,6 +147,7 @@ namespace Imagery.API.Controllers
         }
 
         [HttpGet("{username}")]
+        [Authorize]
         public async Task<ActionResult<List<CollectionItemVM>>> GetCollection(string username)
         {
             if (string.IsNullOrEmpty(username))
@@ -154,9 +155,16 @@ namespace Imagery.API.Controllers
                 return null;
             }
 
-            var result = await ImageService.GetCollection(username);
+            try
+            {
+                var result = await ImageService.GetCollection(username);
+                return result;
+            }
+            catch (Exception exc)
+            {
+                return BadRequest(new { Message = exc.InnerException?.Message });
+            }
 
-            return result;
         }
     }
 }

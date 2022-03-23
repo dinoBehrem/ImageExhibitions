@@ -28,7 +28,7 @@ namespace Imagery.API.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult> Create([FromBody]ExhbitionCreationVM exhbitionCreationVM)
+        public async Task<ActionResult> Create([FromBody] ExhbitionCreationVM exhbitionCreationVM)
         {
             // check if input is valid
             if (exhbitionCreationVM == null)
@@ -95,7 +95,7 @@ namespace Imagery.API.Controllers
 
         [HttpPut]
         [Authorize]
-        public ActionResult<CoverImageVM> UpadteCoverImage([FromBody]CoverImageVM coverImage)
+        public ActionResult<CoverImageVM> UpadteCoverImage([FromBody] CoverImageVM coverImage)
         {
             if (coverImage == null)
             {
@@ -116,7 +116,7 @@ namespace Imagery.API.Controllers
 
         [HttpPost]
         [Authorize]
-        public ActionResult<TopicVM> AssignTopic([FromBody]AssignTopicVM assignTopic)
+        public ActionResult<TopicVM> AssignTopic([FromBody] AssignTopicVM assignTopic)
         {
             if (assignTopic == null)
             {
@@ -175,7 +175,7 @@ namespace Imagery.API.Controllers
                 return BadRequest(new { Message = "Error while deleting exhbition!", isSuccess = false });
             }
 
-                return Ok(new { Message = "Exhibition successfully deleted!", isSuccess = true });
+            return Ok(new { Message = "Exhibition successfully deleted!", isSuccess = true });
         }
 
         [HttpPost]
@@ -184,20 +184,24 @@ namespace Imagery.API.Controllers
         {
             if (subscription == null || string.IsNullOrEmpty(subscription.Username))
             {
-                return BadRequest("Invalid data, try again!");
+                return BadRequest(new { Message = "Invalid data, try again!" });
             }
 
-            var result = await ExhibitionService.Subscribe(subscription);
-
-            if (!result)
+            try
             {
-                return BadRequest("You already subscribed to this exhibition!");
+                var result = await ExhibitionService.Subscribe(subscription);
+
+                return Ok(new { Message = "Subscription successfull!" });
+            }
+            catch (Exception exc)
+            {
+
+                return BadRequest(new { Message = exc.Message });
             }
 
-            return Ok("Subscription successfull!");
         }
-        
-        [HttpDelete]
+    
+        [HttpPost]
         [Authorize]
         public async Task<ActionResult> Unsubscribe([FromBody] ExhibitionSubscriptionVM subscription)
         {
@@ -206,14 +210,17 @@ namespace Imagery.API.Controllers
                 return BadRequest("Invalid data, try again!");
             }
 
-            var result = await ExhibitionService.Unsubscribe(subscription);
-
-            if (!result)
+            try
             {
-                return BadRequest("Subscription failed, try again!");
-            }
+                var result = await ExhibitionService.Unsubscribe(subscription);
 
-            return Ok("Subscription successfull!");
+                return Ok(new { Message = "You've unsubscribed successfully!" });
+            }
+            catch (Exception exc)
+            {
+
+                return BadRequest(new { Message = exc.Message });
+            }
         }
     }
 }

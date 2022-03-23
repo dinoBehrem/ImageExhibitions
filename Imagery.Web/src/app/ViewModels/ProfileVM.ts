@@ -1,4 +1,5 @@
 import { ExhibitionProfileVM } from './ExhibitionProfileVM';
+import { ExhibitionVM } from './ExhibitionVM';
 import { UserVM } from './UserVM';
 
 export interface ProfileVM {
@@ -11,6 +12,8 @@ export interface ProfileVM {
   biography: string;
   followers: UserVM[];
   following: UserVM[];
-  exhibitions: ExhibitionProfileVM[];
+  exhibitions: ExhibitionVM[];
+  // exhibitions: ExhibitionProfileVM[];
+
   roles: string[];
 }

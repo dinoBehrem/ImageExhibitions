@@ -76,7 +76,7 @@ namespace Imagery.Service.Services.Exhbition
 
         public List<ExhibitionVM> Exhibitions()
         {
-            List<ExhibitionVM> exhibitions = ExhibitionRepository.Find(exhibition => exhibition.ExpiringTime >= DateTime.Now).Select(exhibition => new ExhibitionVM()
+            List<ExhibitionVM> exhibitions = ExhibitionRepository.Find(exhibition => exhibition.ExpiringTime > DateTime.Now).Select(exhibition => new ExhibitionVM()
             {
                 Id = exhibition.Id,
                 Title = exhibition.Title,
@@ -91,6 +91,7 @@ namespace Imagery.Service.Services.Exhbition
                 Subscribers = GetExibitionsSubscribers(exhibition.Id)
             }).ToList();
 
+            exhibitions.Sort((exhibition, compareExhbition) => exhibition.Date.CompareTo(compareExhbition.Date));
 
             return exhibitions;
         }
@@ -155,6 +156,7 @@ namespace Imagery.Service.Services.Exhbition
 
             exhibition.Content.Title = input.Title;
             exhibition.Content.Date = input.Date;
+            exhibition.Content.ExpiringTime = input.Date.AddHours(2);
             exhibition.Content.Description = input.Description;
 
             var result = ExhibitionRepository.Update(exhibition.Content);
@@ -187,6 +189,21 @@ namespace Imagery.Service.Services.Exhbition
 
         public List<ExhibitionVM> UserExhibitions(string username)
         {
+            //List<ExhibitionVM> exhibitions = ExhibitionRepository.Find(exhibition => exhibition.ExpiringTime > DateTime.Now && exhibition.Organizer.UserName == username).OrderBy(exhibition => exhibition.Date).Select(exhibition => new ExhibitionVM() 
+            //{
+            //    Id = exhibition.Id,
+            //    Title = exhibition.Title,
+            //    Description = exhibition.Description,
+            //    Organizer = toUserVM(exhibition.OrganizerId),
+            //    Date = exhibition.Date,
+            //    Cover = exhibition.CoverImage,
+            //    Items = ExhbitionItems(exhibition.Id),
+            //    Topics = GetExhibitionTopics(exhibition.Id),
+            //    Started = exhibition.Date < DateTime.Now,
+            //    Expired = exhibition.ExpiringTime < DateTime.Now,
+            //    Subscribers = GetExibitionsSubscribers(exhibition.Id)
+            //}).ToList();
+
             List<ExhibitionVM> exhibitions = Exhibitions().Where(exhibition => exhibition.Organizer.Username == username).ToList();
 
             return exhibitions;
@@ -220,14 +237,14 @@ namespace Imagery.Service.Services.Exhbition
 
             if (exhibitionExist.Content == null || userExist == null)
             {
-                return false;
+                throw new Exception("Invalid exhibition, try again!");
             }
 
             var response = ExhibitionSubsRepository.Add(new ExhibitionSubscription() { ExhibitionId = exhibitionExist.Content.Id, UserId = userExist.Id });
 
             if (!response.IsSuccess)
             {
-                return false;
+                throw new Exception("You've already subscribed to this exhibition!");
             }
 
             return true;
@@ -241,21 +258,16 @@ namespace Imagery.Service.Services.Exhbition
 
             if (exhibitionExist.Content == null || userExist == null)
             {
-                return false;
+                throw new Exception("Invalid exhibition, try again!");
             }
 
             var exhSub = ExhibitionSubsRepository.Find(sub => sub.ExhibitionId == exhibitionExist.Content.Id && sub.UserId == userExist.Id).FirstOrDefault();
-
-            if (exhSub == null)
-            {
-                return false;
-            }
 
             var response = ExhibitionSubsRepository.Remove(exhSub);
 
             if (!response.IsSuccess)
             {
-                return false;
+                throw new Exception("You've already unsubscribed from this exhibition!");
             }
 
             return true;

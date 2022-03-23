@@ -27,6 +27,7 @@
   width: 95%;
   height: 30px;
 }
+
 .exhibitionCard {
   display: flex;
   flex-direction: row;
@@ -61,6 +62,9 @@
   color: #783937;
   margin-right: 10px;
 }
+.card-text {
+  color: #783937;
+}
 .topic {
   background-color: #783937;
   color: #fcedda;
@@ -72,6 +76,7 @@
   border-radius: 5px;
   /* margin-bottom: 3px; */
 }
+
 .sub-btn {
   background-color: #ee4e34;
   color: #fcedda;

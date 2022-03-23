@@ -41,7 +41,7 @@
                 </div> -->
                 <label *ngFor="let topic of exhibition.topics" class="check-box"
                     [ngClass]='{"checked":topic.isAssigned}'>
-                    <input type="checkbox" class="form-class">
+                    <!-- <input type="checkbox" class="form-class"> -->
                     <span>{{topic.name}}</span>
                 </label>
             </div>
@@ -95,7 +95,7 @@
                         </div>
                         <div class="itemPrice">
                             <label class="field">Price</label>
-                            <input class="form-control" type="number" [(ngModel)]="newDimensions.price" required>
+                            <input class="form-control" type="number" min="0" [(ngModel)]="newDimensions.price" required>
                         </div>
                         <button type="button" class="btn btn-dimensions" (click)="addDimensions()">Add</button>
                     </div>
@@ -106,7 +106,7 @@
                                 {{dimension.dimension}}</option>
                         </select>
                         <p id="priceSelect">{{dimensionVM?.price}} <span>$</span></p>
-                        <button type="button" class="btn btn-danger" (click)="removeDimensions()">Remove</button>
+                        <button type="button" class="btn btn-danger" (click)="removeDimensions()">Delete</button>
                     </div>
                 </div>
             </div>

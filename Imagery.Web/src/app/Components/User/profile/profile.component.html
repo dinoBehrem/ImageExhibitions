@@ -18,6 +18,7 @@
             <button type="button" class="btn btn-details" (click)="subscribe()">Follow</button>
             <button type="button" class="btn btn-danger" (click)="unsubscribe()">Unfollow</button>
         </div>
+        <p *ngIf="showUserMessage" class="error-message" [ngStyle]="{'background-color': backgroundColor}">{{userSubscriptionMessage}}</p>
     </div>
     <div id="feed" style="width: 80%;">
         <div class="feedNavBar">
@@ -26,51 +27,52 @@
             <button class="btn btn-subs" type="button" data-toggle="collapse" data-target=".multi-collapse"
                 aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2"
                 (click)="setUsers('followers')">Subscritpions</button>
-
         </div>
         <div id="exhibitionTable">
+          <p *ngIf="showExhibitionMessage" class="error-message" [ngStyle]="{'background-color': backgroundColor}">{{exhibitionSubscriptionMessage}}</p>
             <div class="collapse multi-collapse show" id="multiCollapseExample1">
-                <table class="table table-striped">
-                    <thead class="thead">
-                        <tr>
-                            <th scope="col">Title</th>
-                            <th scope="col">Date</th>
-                            <th scope="col">Expired</th>
-                            <th scope="col">Subscribers</th>
-                            <th scope="col">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let exhibition of profile?.exhibitions">
-                            <td>{{exhibition.title}}</td>
-                            <td>{{exhibition.date}}</td>
-                            <td>
-                                <div *ngIf="exhibition.expired; then expired else active"></div>
-                                <ng-template #active>No</ng-template>
-                                <ng-template #expired>Yes</ng-template>
-                            </td>
-                            <td>{{exhibition.subscribers}}</td>
-                            <td>
-                                <button class="btn btn-primary btn-sub"
-                                    *ngIf="!exhibition.started && !exhibition.expired"
-                                    (click)="exhibitionSubscription(exhibition.id)">
-                                    Subscribe
-                                </button>
-                                <a routerLink="/Exhibition/{{ exhibition.id }}" class="btn btn-primary btn-sub"
-                                    *ngIf="exhibition.started && !exhibition.expired">Join</a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-
+                <div class="card mt-2 mb-2 exhibitionCard" *ngFor="let exhibition of profile?.exhibitions">
+                    <img class="card-img-top w-25" src="{{ exhibition.cover }}" alt="Card image cap" />
+                    <div class="card-body">
+                      <div class="cardHeader">
+                        <div>
+                          <h5 class="card-title" style="margin: 0">{{ exhibition.title }}</h5>
+                          <a style="margin: 0; color: #d3d3d3" routerLink="/Profile/{{exhibition.organizer.username}}">
+                            by {{ exhibition.organizer.firstname }}
+                            {{ exhibition.organizer.lastname }}
+                          </a>
+                        </div>
+                        <p>{{ getDateTimeString(exhibition.date) }}</p>
+                      </div>
+                      <p class="card-text">{{ exhibition.description }}</p>
+                      <div>
+                        <span *ngFor="let topic of exhibition.topics" class="topic">{{
+                          topic.name
+                          }}</span>
+                      </div>
+                      <div class="cardFooter">
+                        <span *ngIf="!exhibition.started && !exhibition.expired">{{exhibition?.subscribers}} intrested</span>
+                        <button class="btn btn-primary sub-btn" *ngIf="!exhibition.started && !exhibition.expired"
+                          (click)="subscription(exhibition.id)">
+                          Subscribe
+                        </button>
+                        <button class="btn btn-primary sub-btn" *ngIf="!exhibition.started && !exhibition.expired"
+                          (click)="unsubscription(exhibition.id)">
+                          Unsubscribe
+                        </button>
+                        <a routerLink="/Exhibition/{{ exhibition.id }}" class="btn btn-primary sub-btn"
+                          *ngIf="exhibition.started && !exhibition.expired">Join</a>
+                      </div>
+                    </div>
+                  </div>
             </div>
-            <div class="collapse multi-collapse" id="multiCollapseExample2">
-                <div class="followerBar">
-                    <p (click)="setUsers('followers')">Followers - {{profile?.followers?.length}}</p>
-                    <p (click)="setUsers('following')">Following - {{profile?.following?.length}}</p>
-                </div>
-                <app-subscriptions [subscriptions]="users"></app-subscriptions>
+        </div>
+        <div class="collapse multi-collapse" id="multiCollapseExample2">
+            <div class="followerBar">
+                <p (click)="setUsers('followers')">Followers - {{profile?.followers?.length}}</p>
+                <p (click)="setUsers('following')">Following - {{profile?.following?.length}}</p>
             </div>
+            <app-subscriptions [subscriptions]="users"></app-subscriptions>
         </div>
     </div>
 </div>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ExhibitionService } from 'src/app/Services/Exhibition/exhibition.service';
 import { ImageServiceService } from 'src/app/Services/Image/image-service.service';
 import { SignService } from 'src/app/Services/Sign/sign.service';
@@ -19,7 +19,8 @@ export class CollectionComponent implements OnInit {
 
   constructor(
     private imageService: ImageServiceService,
-    private signService: SignService
+    private signService: SignService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -29,7 +30,7 @@ export class CollectionComponent implements OnInit {
   loadCollectionItems() {
     let username = this.getUsername();
     if (username == '') {
-      return;
+      this.router.navigateByUrl('Home');
     }
 
     this.imageService.GetCollectionItems(username).subscribe(

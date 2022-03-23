@@ -101,7 +101,7 @@ export class SignService {
     return this.http.put(this.url + '/EditAccount/' + username, accountData);
   }
 
-  Subscribre(creator: string) {
+  Subscribre(creator: string): any {
     const claim = 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name';
     const subscriber: string = this.GetJWTData(claim);
 
@@ -112,7 +112,7 @@ export class SignService {
     );
   }
 
-  Unsubscribre(creator: string) {
+  Unsubscribre(creator: string): any {
     const claim = 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name';
     const subscriber: string = this.GetJWTData(claim);
 

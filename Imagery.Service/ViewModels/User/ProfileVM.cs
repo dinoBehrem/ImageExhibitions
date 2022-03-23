@@ -18,7 +18,8 @@ namespace Imagery.Service.ViewModels.User
         public string ProfilePicture { get; set; }
         public List<UserVM> Followers { get; set; }
         public List<UserVM> Following { get; set; }
-        public List<ExhibitionProfileVM> Exhibitions { get; set; }
+        public List<ExhibitionVM> Exhibitions { get; set; }
+        //public List<ExhibitionProfileVM> Exhibitions { get; set; }
         public List<string> Roles { get; set; }
     }
 }

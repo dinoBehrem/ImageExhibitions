@@ -154,7 +154,7 @@ export class ExhibitionService {
     return this.http.delete(this.url + '/DeleteExhbition/' + id, this.options);
   }
 
-  Subscribre(exhibitionId: number) {
+  Subscribre(exhibitionId: number): any {
     const claim = 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name';
     const username: string = this.signServices.GetJWTData(claim);
 
@@ -165,13 +165,14 @@ export class ExhibitionService {
     );
   }
 
-  // Unsubscribre(exhibitionId: number) {
-  //   const claim = 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name';
-  //   const username: string = this.signServices.GetJWTData(claim);
+  Unsubscribre(exhibitionId: number): any {
+    const claim = 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name';
+    const username: string = this.signServices.GetJWTData(claim);
 
-  //   return this.http.post(
-  //     this.url + '/Unsubscribe',
-  //     { exhibitionId, username }
-  //   );
-  // }
+    return this.http.post(
+      this.url + '/Unsubscribe',
+      { exhibitionId, username },
+      this.options
+    );
+  }
 }

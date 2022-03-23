@@ -80,6 +80,7 @@ namespace Imagery.API.Controllers
             return Ok(user);
         }
 
+
         [HttpGet("{username}")]
         public async Task<ActionResult<ProfileVM>> GetProfile(string username)
         {
@@ -99,12 +100,12 @@ namespace Imagery.API.Controllers
         {
             if (string.IsNullOrEmpty(subscription.Creator) || string.IsNullOrEmpty(subscription.Subscriber))
             {
-                return BadRequest(new { Message = "Invalid username!", isSuccess = false });
+                return BadRequest(new { Message = "Invalid username!"});
             }
 
             if (subscription.Creator == subscription.Subscriber)
             {
-                return BadRequest(new { Message = "Can't subscribe to yourself!", isSuccess = false });
+                return BadRequest(new { Message = "Can't subscribe to yourself!"});
             }
 
             var result = UserService.Subscribe(subscription);
@@ -115,7 +116,17 @@ namespace Imagery.API.Controllers
             }
 
             return Ok(new { Message = "Subscription successfull!", isSuccess = true });
+            //try
+            //{
+            //    var result = UserService.Subscribe(subscription);
+                
+            //    return Ok(new { Message = "Subscription successfull!"});
 
+            //}
+            //catch (Exception exc)
+            //{
+            //    return BadRequest(new { Message = exc.Message});
+            //}
         }
 
         [HttpPost]

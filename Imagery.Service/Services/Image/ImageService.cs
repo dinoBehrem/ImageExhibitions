@@ -327,7 +327,7 @@ namespace Imagery.Service.Services.Image
 
             if (userExist == null)
             {
-                return null;
+                throw new Exception("User doesnpt exist!");
             }
 
             var response = CollectionRepository.Find(item => item.UserId == userExist.Id).Select(item => new CollectionItemVM()
