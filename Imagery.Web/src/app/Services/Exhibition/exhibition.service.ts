@@ -175,4 +175,20 @@ export class ExhibitionService {
       this.options
     );
   }
+
+  GetPagedExhibition(pageNumber: number, pageSize: number): any {
+    return this.http.get(
+      this.url +
+        '/GetPaged?' +
+        'pagenumber=' +
+        pageNumber +
+        '&pageSize=' +
+        pageSize,
+      this.options
+    );
+  }
+
+  GetTotalPageCount(): any {
+    return this.http.get(this.url + '/ExhibitionsPageCount', this.options);
+  }
 }

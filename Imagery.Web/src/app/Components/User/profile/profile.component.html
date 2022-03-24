@@ -52,15 +52,15 @@
                       </div>
                       <div class="cardFooter">
                         <span *ngIf="!exhibition.started && !exhibition.expired">{{exhibition?.subscribers}} intrested</span>
-                        <button class="btn btn-primary sub-btn" *ngIf="!exhibition.started && !exhibition.expired"
+                        <button class="btn sub-btn" *ngIf="!exhibition.started && !exhibition.expired"
                           (click)="subscription(exhibition.id)">
                           Subscribe
                         </button>
-                        <button class="btn btn-primary sub-btn" *ngIf="!exhibition.started && !exhibition.expired"
+                        <button class="btn btn-danger" *ngIf="!exhibition.started && !exhibition.expired"
                           (click)="unsubscription(exhibition.id)">
                           Unsubscribe
                         </button>
-                        <a routerLink="/Exhibition/{{ exhibition.id }}" class="btn btn-primary sub-btn"
+                        <a routerLink="/Exhibition/{{ exhibition.id }}" class="btn sub-btn"
                           *ngIf="exhibition.started && !exhibition.expired">Join</a>
                       </div>
                     </div>
@@ -72,7 +72,7 @@
                 <p (click)="setUsers('followers')">Followers - {{profile?.followers?.length}}</p>
                 <p (click)="setUsers('following')">Following - {{profile?.following?.length}}</p>
             </div>
-            <app-subscriptions [subscriptions]="users"></app-subscriptions>
+            <app-subscriptions [subscriptions]="displayUsers()"></app-subscriptions>
         </div>
     </div>
 </div>

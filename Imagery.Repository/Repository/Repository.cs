@@ -19,6 +19,7 @@ namespace Imagery.Repository.Repository
             ImageryContext = imageryContext;
             Entities = ImageryContext.Set<TEntity>();
         }
+
         public List<TEntity> GetAll()
         {
 
@@ -191,6 +192,20 @@ namespace Imagery.Repository.Repository
             }
 
             return response;
+        }
+
+        // pagination
+
+        public PagedList<TEntity> GetPagedList(int pageNumber, int pageSize)
+        {
+            PagedList<TEntity> entities = PagedList<TEntity>.ToPagedList(Entities, pageNumber, pageSize);
+
+            return entities;
+        }
+
+        public int TotalEntitiesCount()
+        {
+            return Entities.Count();
         }
     }
 }

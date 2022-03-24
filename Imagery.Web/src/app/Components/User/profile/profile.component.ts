@@ -52,7 +52,10 @@ export class ProfileComponent implements OnInit {
         this.backgroundColor = 'rgb(120, 57, 55)';
       },
       (err: any) => {
-        this.userSubscriptionMessage = err.error.message;
+        this.userSubscriptionMessage = err?.error?.message;
+        if (err.status == 401) {
+          this.userSubscriptionMessage = 'You are note logged in!';
+        }
         this.backgroundColor = 'rgb(238, 78, 52)';
       }
     );
@@ -70,7 +73,10 @@ export class ProfileComponent implements OnInit {
         this.backgroundColor = 'green';
       },
       (err: any) => {
-        this.userSubscriptionMessage = err.error.message;
+        this.userSubscriptionMessage = err?.error?.message;
+        if (err.status == 401) {
+          this.userSubscriptionMessage = 'You are note logged in!';
+        }
         this.backgroundColor = 'red';
       }
     );
@@ -111,7 +117,10 @@ export class ProfileComponent implements OnInit {
         this.backgroundColor = 'rgb(120, 57, 55)';
       },
       (err: any) => {
-        this.exhibitionSubscriptionMessage = err.error.message;
+        this.exhibitionSubscriptionMessage = err?.error?.message;
+        if (err.status == 401) {
+          this.exhibitionSubscriptionMessage = 'You are note logged in!';
+        }
         this.backgroundColor = 'rgb(238, 78, 52)';
       }
     );
@@ -130,7 +139,10 @@ export class ProfileComponent implements OnInit {
         this.backgroundColor = 'rgb(120, 57, 55)';
       },
       (err: any) => {
-        this.exhibitionSubscriptionMessage = err.error.message;
+        this.exhibitionSubscriptionMessage = err?.error?.message;
+        if (err.status == 401) {
+          this.exhibitionSubscriptionMessage = 'You are note logged in!';
+        }
         this.backgroundColor = 'rgb(238, 78, 52)';
       }
     );
@@ -140,5 +152,12 @@ export class ProfileComponent implements OnInit {
       this.exhibitionSubscriptionMessage = '';
       this.showExhibitionMessage = false;
     }, 3000);
+  }
+
+  displayUsers(): UserVM[] {
+    if (this.users == null) {
+      return [];
+    }
+    return this.users;
   }
 }

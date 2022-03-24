@@ -5,6 +5,8 @@
       <input type="text" [(ngModel)]="filter" value="{{ filter }}" (change)="filterByExhibitionName()"
         placeholder="Search" />
     </div>
+    <p *ngIf="showExhibitionMessage" class="error-message" [ngStyle]="{'background-color': backgroundColor}">
+      {{exhibitionSubscriptionMessage}}</p>
     <div class="card mt-2 mb-2 exhibitionCard" *ngFor="let exhibition of filterExhibitions()">
       <img class="card-img-top w-25" src="{{ exhibition.cover }}" alt="Card image cap" />
       <div class="card-body">
@@ -35,5 +37,9 @@
         </div>
       </div>
     </div>
+    <!-- [length]="length" -->
+    <mat-paginator [length]="length" [pageSize]="pageSize" (page)="pageEvent = $event" aria-label="Select page"
+      (page)="paginator()" style="margin-bottom: 20px;">
+    </mat-paginator>
   </div>
 </div>

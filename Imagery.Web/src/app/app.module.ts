@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './Components/Header/header/header.component';
@@ -51,6 +52,7 @@ import { SubscriptionsComponent } from './Components/User/profile/subscriptions/
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    MatPaginatorModule,
     RouterModule.forRoot([
       { path: '', redirectTo: 'Home', pathMatch: 'full' },
       { path: 'Home', component: ExhibitionsComponent },

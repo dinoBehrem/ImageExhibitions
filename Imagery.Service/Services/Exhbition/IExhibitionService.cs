@@ -1,4 +1,5 @@
-﻿using Imagery.Service.ViewModels.Exhbition;
+﻿using Imagery.Service.Helpers;
+using Imagery.Service.ViewModels.Exhbition;
 using Imagery.Service.ViewModels.Image;
 using Imagery.Service.ViewModels.User;
 using System;
@@ -22,7 +23,13 @@ namespace Imagery.Service.Services.Exhbition
         Task<bool> Subscribe(ExhibitionSubscriptionVM exhibitionSubscription);
         Task<bool> Unsubscribe(ExhibitionSubscriptionVM exhibitionSubscription);
 
+        // Methods for adding test data
         Task<int> AddTestExhibitions(ExhbitionCreationVM exhbitionCreations, List<RegisterVM> registers);
         void TestItems(int id, TestItemUploadVM testItem, List<DimensionsVM> dimensions);
+
+
+        // Pagination 
+        List<ExhibitionVM> GetPagedExhbition(PageParameters parameters);
+        int ExhibitionsCount();
     }
 }

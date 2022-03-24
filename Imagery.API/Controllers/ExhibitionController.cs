@@ -1,4 +1,5 @@
-﻿using Imagery.Service.Services.Exhbition;
+﻿using Imagery.Service.Helpers;
+using Imagery.Service.Services.Exhbition;
 using Imagery.Service.Services.Topics;
 using Imagery.Service.ViewModels;
 using Imagery.Service.ViewModels.Exhbition;
@@ -147,7 +148,6 @@ namespace Imagery.API.Controllers
         }
 
         [HttpGet("{username}")]
-        //[Authorize]
         public ActionResult<List<ExhibitionVM>> GetUserExhibitions(string username)
         {
             if (string.IsNullOrEmpty(username))
@@ -221,6 +221,25 @@ namespace Imagery.API.Controllers
 
                 return BadRequest(new { Message = exc.Message });
             }
+        }
+
+
+        // Pagination test
+
+        [HttpGet]
+        public ActionResult<List<ExhibitionVM>> GetPaged([FromQuery]PageParameters pageParameters)
+        {
+            var exhibitions = ExhibitionService.GetPagedExhbition(pageParameters);
+
+            return Ok(exhibitions);
+        }
+
+        [HttpGet]
+        public ActionResult<int> ExhibitionsPageCount()
+        {
+            int count = ExhibitionService.ExhibitionsCount();
+
+            return Ok(count);
         }
     }
 }

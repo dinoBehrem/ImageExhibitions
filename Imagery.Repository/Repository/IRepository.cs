@@ -19,5 +19,10 @@ namespace Imagery.Repository.Repository
         RepositoryResponse<TEntity> AddRange(List<TEntity> entity);
         List<TEntity> Find(Expression<Func<TEntity, bool>> expression);
         void SaveChanges();
+
+        // paged list
+
+        PagedList<TEntity> GetPagedList(int pageNumber, int pageSize);
+        int TotalEntitiesCount();
     }
 }

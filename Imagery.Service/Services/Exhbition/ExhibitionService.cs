@@ -306,7 +306,33 @@ namespace Imagery.Service.Services.Exhbition
             return count;
         }
 
+        // Testing pagination
 
+        public List<ExhibitionVM> GetPagedExhbition(PageParameters parameters)
+        {
+            List<ExhibitionVM> exhibitions = ExhibitionRepository.GetPagedList(parameters.PageNumber, parameters.PageSize).Select(exhibition => new ExhibitionVM()
+            {
+                Id = exhibition.Id,
+                Title = exhibition.Title,
+                Description = exhibition.Description,
+                Organizer = toUserVM(exhibition.OrganizerId),
+                Date = exhibition.Date,
+                Cover = exhibition.CoverImage,
+                Items = ExhbitionItems(exhibition.Id),
+                Topics = GetExhibitionTopics(exhibition.Id),
+                Started = exhibition.Date < DateTime.Now,
+                Expired = exhibition.ExpiringTime < DateTime.Now,
+                Subscribers = GetExibitionsSubscribers(exhibition.Id)
+            }).ToList();
+
+            return exhibitions;
+        }
+
+        public int ExhibitionsCount()
+        {
+            int pageCount = ExhibitionRepository.TotalEntitiesCount();
+            return pageCount;
+        }
 
 
         // Methods for generating test data
@@ -364,5 +390,6 @@ namespace Imagery.Service.Services.Exhbition
             ImageService.ExponentsUpload(id, testItem, dimensions);
             SetExhibitionCover(new CoverImageVM() { ExhibitionId = id, CoverImage = testItem.Image });
         }
+
     }
 }

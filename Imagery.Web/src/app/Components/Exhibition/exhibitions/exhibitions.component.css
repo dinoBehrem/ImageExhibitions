@@ -89,3 +89,15 @@ app-filter {
   height: 100%;
   width: 18%;
 }
+
+.error-message {
+  position: fixed;
+  /* top: 80px; */
+  z-index: 999;
+  padding: 5px;
+  margin-top: 20px;
+  color: #fcedda;
+  width: 50%;
+  border-radius: 10px;
+  text-align: center;
+}

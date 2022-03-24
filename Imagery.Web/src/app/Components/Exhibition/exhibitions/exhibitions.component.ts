@@ -3,6 +3,7 @@ import { ExhibitionService } from 'src/app/Services/Exhibition/exhibition.servic
 import { ExhibitionVM } from 'src/app/ViewModels/ExhibitionVM';
 import { FilterVM } from 'src/app/ViewModels/FilterVM';
 import { TopicVM } from 'src/app/ViewModels/TopicVM';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-exhibitions',
@@ -21,13 +22,29 @@ export class ExhibitionsComponent implements OnInit {
     creatorName: '',
     description: '',
   };
-
+  showExhibitionMessage: boolean = false;
+  backgroundColor: string = '';
+  exhibitionSubscriptionMessage: string = '';
   filter: string = '';
 
-  constructor(private exhibitionService: ExhibitionService) {}
+  length: number = 0;
+  pageSize: number = 10;
+
+  // MatPaginator Output
+  pageEvent: PageEvent;
+
+  constructor(private exhibitionService: ExhibitionService) {
+    this.pageEvent = new PageEvent();
+    this.pageEvent.pageIndex = 1;
+    this.pageEvent.pageSize = 10;
+    this.pageEvent.previousPageIndex = 0;
+  }
 
   ngOnInit(): void {
-    this.loadExhibitions();
+    // this.loadExhibitions();
+    // this.pageEvent.pageIndex = 1;
+    this.exhibitionsCount();
+    this.paginator();
   }
 
   loadExhibitions() {
@@ -106,10 +123,27 @@ export class ExhibitionsComponent implements OnInit {
   }
 
   subscription(id: number) {
-    console.log(id);
-    this.exhibitionService.Subscribre(id).subscribe((res: any) => {
-      alert(res);
-    });
+    this.exhibitionService.Subscribre(id).subscribe(
+      (res: any) => {
+        this.exhibitionSubscriptionMessage = res.message;
+        this.backgroundColor = 'rgb(120, 57, 55)';
+      },
+      (err: any) => {
+        console.log(err);
+        this.exhibitionSubscriptionMessage = err?.error?.message;
+        if (err.status == 401) {
+          this.exhibitionSubscriptionMessage = 'You are not logged in!';
+        }
+        // this.backgroundColor = 'rgb(238, 78, 52)';
+        this.backgroundColor = 'rgb(255, 0, 0)';
+      }
+    );
+
+    this.showExhibitionMessage = true;
+    setInterval(() => {
+      this.exhibitionSubscriptionMessage = '';
+      this.showExhibitionMessage = false;
+    }, 3000);
   }
 
   getDateTimeString(dateTime: Date): string {
@@ -120,5 +154,28 @@ export class ExhibitionsComponent implements OnInit {
     dateString = dateString.replace(/T/g, ' ');
 
     return dateString;
+  }
+
+  paginator() {
+    console.log(this.pageEvent);
+
+    this.pageEvent.length = this.exhibitionService
+      .GetPagedExhibition(this.pageEvent.pageIndex, this.pageEvent.pageSize)
+      .subscribe(
+        (res: any) => {
+          this.exhibitions = res;
+        },
+        (err: any) => {
+          console.log(err);
+        }
+      );
+  }
+
+  exhibitionsCount() {
+    this.exhibitionService.GetTotalPageCount().subscribe((res: any) => {
+      this.length = res;
+      this.pageEvent.length = res;
+      console.log(this.pageEvent.length);
+    });
   }
 }

@@ -1,5 +1,5 @@
 <div id="exhibitionFeed">
-    <div class="card mt-2 mb-2 sub-card" *ngFor="let sub of subscriptions">
+    <div class="card mt-2 mb-2 sub-card" *ngFor="let sub of displaySubs()">
         <img src="{{ sub?.picture }}" alt="" class="sub-img" />
         <div class="card-body">
             <div>

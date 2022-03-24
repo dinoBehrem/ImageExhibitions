@@ -7,10 +7,13 @@ import { UserVM } from 'src/app/ViewModels/UserVM';
   templateUrl: './subscriptions.component.html',
   styleUrls: ['./subscriptions.component.css'],
 })
-export class SubscriptionsComponent implements OnInit {
-  @Input() subscriptions?: UserVM[] = [];
+export class SubscriptionsComponent implements OnInit, OnDestroy {
+  @Input() subscriptions?: UserVM[];
 
   constructor(private signService: SignService) {}
+  ngOnDestroy(): void {
+    this.subscriptions = [];
+  }
 
   ngOnInit(): void {}
 
@@ -18,5 +21,13 @@ export class SubscriptionsComponent implements OnInit {
     this.signService.Subscribre(username).subscribe((res: any) => {
       alert(res.message);
     });
+  }
+
+  displaySubs(): UserVM[] {
+    if (this.subscriptions == null) {
+      return [];
+    }
+
+    return this.subscriptions;
   }
 }
