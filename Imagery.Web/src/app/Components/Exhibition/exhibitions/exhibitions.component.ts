@@ -29,28 +29,30 @@ export class ExhibitionsComponent implements OnInit {
 
   length: number = 0;
   pageSize: number = 10;
+  pageIndex: number = 1;
 
-  // MatPaginator Output
-  pageEvent: PageEvent;
-
-  constructor(private exhibitionService: ExhibitionService) {
-    this.pageEvent = new PageEvent();
-    this.pageEvent.pageIndex = 1;
-    this.pageEvent.pageSize = 10;
-    this.pageEvent.previousPageIndex = 0;
-  }
+  constructor(private exhibitionService: ExhibitionService) {}
 
   ngOnInit(): void {
-    // this.loadExhibitions();
-    // this.pageEvent.pageIndex = 1;
     this.exhibitionsCount();
-    this.paginator();
+    this.loadExhibitions();
   }
 
   loadExhibitions() {
+    // this.exhibitionService
+    //   .GetAll()
+    //   .subscribe((data: any) => (this.exhibitions = data));
+
     this.exhibitionService
-      .GetAll()
-      .subscribe((data: any) => (this.exhibitions = data));
+      .GetPagedExhibition(this.pageIndex, this.pageSize)
+      .subscribe(
+        (res: any) => {
+          this.exhibitions = res;
+        },
+        (err: any) => {
+          console.log(err);
+        }
+      );
   }
 
   setFilters(filters: FilterVM) {
@@ -156,26 +158,19 @@ export class ExhibitionsComponent implements OnInit {
     return dateString;
   }
 
-  paginator() {
-    console.log(this.pageEvent);
+  paginator(pageEvent: PageEvent) {
+    this.length = pageEvent.length;
+    this.pageSize = pageEvent.pageSize;
+    this.pageIndex = pageEvent.pageIndex + 1;
 
-    this.pageEvent.length = this.exhibitionService
-      .GetPagedExhibition(this.pageEvent.pageIndex, this.pageEvent.pageSize)
-      .subscribe(
-        (res: any) => {
-          this.exhibitions = res;
-        },
-        (err: any) => {
-          console.log(err);
-        }
-      );
+    console.log(pageEvent);
+    this.loadExhibitions();
   }
 
   exhibitionsCount() {
     this.exhibitionService.GetTotalPageCount().subscribe((res: any) => {
       this.length = res;
-      this.pageEvent.length = res;
-      console.log(this.pageEvent.length);
+      console.log(this.length);
     });
   }
 }

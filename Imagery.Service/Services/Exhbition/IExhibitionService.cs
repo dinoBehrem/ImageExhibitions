@@ -16,7 +16,7 @@ namespace Imagery.Service.Services.Exhbition
         bool RemoveExhbition(int exhbitionId);
         List<ExhibitionVM> Exhibitions();
         ExhibitionVM GetById(int id);
-        EditExhibitionVM UpdateExhibition(EditExhibitionVM exhibition);
+        EditExhibitionVM UpdateExhibition(int exhibitionId, EditExhibitionVM exhibition);
         string SetExhibitionCover(CoverImageVM cover);
         List<ExhibitionVM> UserExhibitions(string username);
         TopicVM AssignTopic(AssignTopicVM assignTopic);

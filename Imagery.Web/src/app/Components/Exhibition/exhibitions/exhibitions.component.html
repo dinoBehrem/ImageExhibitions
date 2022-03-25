@@ -37,9 +37,8 @@
         </div>
       </div>
     </div>
-    <!-- [length]="length" -->
-    <mat-paginator [length]="length" [pageSize]="pageSize" (page)="pageEvent = $event" aria-label="Select page"
-      (page)="paginator()" style="margin-bottom: 20px;">
+    <mat-paginator [length]="length" [pageSize]="pageSize" aria-label="Select page"
+      (page)="paginator($event)" style="margin-bottom: 20px;">
     </mat-paginator>
   </div>
 </div>

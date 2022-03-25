@@ -278,6 +278,7 @@ namespace Imagery.Service.Services.Image
         public bool RemoveItems(int exhbitionId)
         {
             var itemsToRemove = GetExhibitionItems(exhbitionId);
+
             const string folder = "ExponentItems";
 
             foreach (var item in itemsToRemove)

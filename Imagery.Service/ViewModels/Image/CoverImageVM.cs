@@ -9,7 +9,7 @@ namespace Imagery.Service.ViewModels.Image
 {
     public class CoverImageVM
     {
-        [Required(ErrorMessage = "Exhbition id is required!")]
+        [Required(ErrorMessage = "Exhibition id is required!")]
         public int ExhibitionId { get; set; }
         
         [Required(ErrorMessage = "Cover image is required!")]

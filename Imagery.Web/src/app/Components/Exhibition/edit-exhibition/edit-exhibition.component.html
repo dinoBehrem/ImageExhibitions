@@ -46,8 +46,10 @@
                 </label>
             </div>
             <div id="detailsFooter">
+                <p style="margin: 0;" class="error-message" [ngStyle]="{'color': backgroundColor}">{{editSuccessMessage}}</p>
                 <button type="submit" class="btn btn-new" (click)="editDetails()">Save changes</button>
             </div>
+
         </div>
     </div>
     <div id="imageDisplay">

@@ -28,25 +28,28 @@ namespace Imagery.API.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        //[Authorize]
         public async Task<ActionResult> Create([FromBody] ExhbitionCreationVM exhbitionCreationVM)
         {
             // check if input is valid
             if (exhbitionCreationVM == null)
             {
-                return BadRequest("Invalid input!");
+                return BadRequest(new { Message = "Invalid input!" });
             }
 
             // add exhbition
-            var response = await ExhibitionService.Create(exhbitionCreationVM);
-
-            // check response for success
-            if (response == null)
+            try
             {
-                return BadRequest("Error, try again!");
+                var response = await ExhibitionService.Create(exhbitionCreationVM);
+
+                return Ok(response.Id);
+
+            }
+            catch (Exception exc)
+            {
+                return BadRequest(new { Message = exc.Message });
             }
 
-            return Ok(response.Id);
         }
 
         [HttpPut("{id}")]
@@ -55,17 +58,20 @@ namespace Imagery.API.Controllers
         {
             if (exhbitionVM == null)
             {
-                return BadRequest("Error, invalid data!");
+                return BadRequest(new { Message = "Error, invalid data!" });
             }
 
-            var response = ExhibitionService.UpdateExhibition(exhbitionVM);
-
-            if (response == null)
+            try
             {
-                return BadRequest("Update failed, try again!");
+                var response = ExhibitionService.UpdateExhibition(id, exhbitionVM);
+
+                return Ok(response);
+            }
+            catch (Exception exc)
+            {
+                return BadRequest(new { Message = exc.Message });
             }
 
-            return Ok(response);
         }
 
         [HttpGet]
@@ -81,17 +87,18 @@ namespace Imagery.API.Controllers
         {
             if (id == -1)
             {
-                return BadRequest("Invalid exhbition id!");
+                return BadRequest(new { Message = "Invalid exhibition id!" });
             }
 
-            var serviceresponse = ExhibitionService.GetById(id);
-
-            if (serviceresponse == null)
+            try
             {
-                return BadRequest("Exhbition not found, try again!");
+                var serviceresponse = ExhibitionService.GetById(id);
+                return Ok(serviceresponse);
             }
-
-            return Ok(serviceresponse);
+            catch (Exception exc)
+            {
+                return BadRequest(new { Message = exc.Message });
+            }
         }
 
         [HttpPut]
@@ -100,19 +107,22 @@ namespace Imagery.API.Controllers
         {
             if (coverImage == null)
             {
-                return BadRequest("Invalid data, please try again!");
+                return BadRequest(new { Message = "Invalid data, please try again!" });
             }
-
-            var result = ExhibitionService.SetExhibitionCover(coverImage);
-
-            if (result == null)
+            try
             {
-                return BadRequest("Invalid data, please try again!");
+                var result = ExhibitionService.SetExhibitionCover(coverImage);
+
+                CoverImageVM cover = new CoverImageVM() { CoverImage = result };
+
+                return Ok(cover);
+
+            }
+            catch (Exception exc)
+            {
+                return BadRequest(new { Message = exc.Message });
             }
 
-            CoverImageVM cover = new CoverImageVM() { CoverImage = result };
-
-            return Ok(cover);
         }
 
         [HttpPost]
@@ -166,16 +176,18 @@ namespace Imagery.API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public ActionResult DeleteExhbition(int id)
         {
-            var response = ExhibitionService.RemoveExhbition(id);
-
-            if (!response)
+            try
             {
-                return BadRequest(new { Message = "Error while deleting exhbition!", isSuccess = false });
+                var response = ExhibitionService.RemoveExhbition(id);
+                return Ok(new { Message = "Exhibition successfully deleted!"});
             }
-
-            return Ok(new { Message = "Exhibition successfully deleted!", isSuccess = true });
+            catch (Exception exc)
+            {
+                return BadRequest(new { Message = exc.Message });
+            }
         }
 
         [HttpPost]

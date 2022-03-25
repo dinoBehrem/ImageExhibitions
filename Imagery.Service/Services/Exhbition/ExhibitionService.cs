@@ -40,11 +40,10 @@ namespace Imagery.Service.Services.Exhbition
 
             if (user == null)
             {
-                return null;
+                throw new Exception("User doesn't exist, try again!");
             }
 
             // create exhibition
-
             var result = ExhibitionRepository.Add(new Exhibition()
             {
                 Title = exhibitionCreation.Title,
@@ -55,11 +54,15 @@ namespace Imagery.Service.Services.Exhbition
                 OrganizerId = exhibitionCreation.Organizer
             });
 
+
+            // check if addtion was successfull
             if (!result.IsSuccess)
             {
-                return null;
+                throw new Exception(result.Message);
+
             }
 
+            // if successfull convert to view model
             return new ExhibitionVM()
             {
                 Id = result.Content.Id,
@@ -76,6 +79,7 @@ namespace Imagery.Service.Services.Exhbition
 
         public List<ExhibitionVM> Exhibitions()
         {
+            // get all exhibitions that haven't expired
             List<ExhibitionVM> exhibitions = ExhibitionRepository.Find(exhibition => exhibition.ExpiringTime > DateTime.Now).Select(exhibition => new ExhibitionVM()
             {
                 Id = exhibition.Id,
@@ -98,13 +102,16 @@ namespace Imagery.Service.Services.Exhbition
 
         public ExhibitionVM GetById(int id)
         {
+            // get requested exhibition
             var repoResponse = ExhibitionRepository.GetSingleOrDefault(id);
 
+            // check for success
             if (!repoResponse.IsSuccess)
             {
-                return null;
+                throw new Exception(repoResponse.Message);
             }
 
+            // conver to exhibition view model
             ExhibitionVM exhibition = new ExhibitionVM()
             {
                 Id = id,
@@ -125,33 +132,38 @@ namespace Imagery.Service.Services.Exhbition
 
         public string SetExhibitionCover(CoverImageVM cover)
         {
+            // check if image is valid
             if (string.IsNullOrEmpty(cover.CoverImage))
             {
-                return null;
+                throw new Exception("Please select image to set as cover!");
             }
 
+            // get requested exhibition
             var response = ExhibitionRepository.GetSingleOrDefault(cover.ExhibitionId);
 
+
+            // check for success
             if (!response.IsSuccess)
             {
-                return null;
+                throw new Exception(response.Message);
             }
 
+            // set cover image
             response.Content.CoverImage = cover.CoverImage;
 
             ExhibitionRepository.SaveChanges();
 
-
+            // return cover image server path
             return cover.CoverImage;
         }
 
-        public EditExhibitionVM UpdateExhibition(EditExhibitionVM input)
+        public EditExhibitionVM UpdateExhibition(int exhibitionId, EditExhibitionVM input)
         {
-            var exhibition = ExhibitionRepository.GetSingleOrDefault(input.Id);
+            var exhibition = ExhibitionRepository.GetSingleOrDefault(exhibitionId);
 
             if (!exhibition.IsSuccess)
             {
-                return null;
+                throw new Exception("Exhibition doesn't exist!");
             }
 
             exhibition.Content.Title = input.Title;
@@ -163,12 +175,15 @@ namespace Imagery.Service.Services.Exhbition
 
             if (!result.IsSuccess)
             {
-                return null;
+                throw new Exception(result.Message);
             }
 
-            EditExhibitionVM editExhibition = new EditExhibitionVM() { Id = result.Content.Id, Title = result.Content.Title, Description = result.Content.Description, Date = result.Content.Date};
-            //response.Items = ExhbitionItems(response.Id);
-            //response.Organizer = toUserVM(exhibition.Content.OrganizerId);
+            EditExhibitionVM editExhibition = new EditExhibitionVM() 
+            { 
+                Title = result.Content.Title,
+                Description = result.Content.Description,
+                Date = result.Content.Date
+            };
 
             return editExhibition;
         }
@@ -189,21 +204,6 @@ namespace Imagery.Service.Services.Exhbition
 
         public List<ExhibitionVM> UserExhibitions(string username)
         {
-            //List<ExhibitionVM> exhibitions = ExhibitionRepository.Find(exhibition => exhibition.ExpiringTime > DateTime.Now && exhibition.Organizer.UserName == username).OrderBy(exhibition => exhibition.Date).Select(exhibition => new ExhibitionVM() 
-            //{
-            //    Id = exhibition.Id,
-            //    Title = exhibition.Title,
-            //    Description = exhibition.Description,
-            //    Organizer = toUserVM(exhibition.OrganizerId),
-            //    Date = exhibition.Date,
-            //    Cover = exhibition.CoverImage,
-            //    Items = ExhbitionItems(exhibition.Id),
-            //    Topics = GetExhibitionTopics(exhibition.Id),
-            //    Started = exhibition.Date < DateTime.Now,
-            //    Expired = exhibition.ExpiringTime < DateTime.Now,
-            //    Subscribers = GetExibitionsSubscribers(exhibition.Id)
-            //}).ToList();
-
             List<ExhibitionVM> exhibitions = Exhibitions().Where(exhibition => exhibition.Organizer.Username == username).ToList();
 
             return exhibitions;
@@ -211,19 +211,31 @@ namespace Imagery.Service.Services.Exhbition
 
         public bool RemoveExhbition(int exhbitionId)
         {
+            // get requested exhibition
             var exhbitionExist = ExhibitionRepository.GetSingleOrDefault(exhbitionId);
 
+            // check if exhibition exist
             if (!exhbitionExist.IsSuccess)
             {
-                return false;
+                throw new Exception(exhbitionExist.Message);
             }
 
+            // check if exhibition expired
+            if (exhbitionExist.Content.ExpiringTime > DateTime.Now)
+            {
+                throw new Exception("Can't remove expired exhibitions!");
+            }
+
+            // remove exhibition items
             ImageService.RemoveItems(exhbitionId);
+
+            // remove exhibition
             var result = ExhibitionRepository.Remove(exhbitionExist.Content);
 
+            // check for success
             if (!result.IsSuccess)
             {
-                return false;
+                throw new Exception(result.Message);
             }
 
             return true;
@@ -310,28 +322,14 @@ namespace Imagery.Service.Services.Exhbition
 
         public List<ExhibitionVM> GetPagedExhbition(PageParameters parameters)
         {
-            List<ExhibitionVM> exhibitions = ExhibitionRepository.GetPagedList(parameters.PageNumber, parameters.PageSize).Select(exhibition => new ExhibitionVM()
-            {
-                Id = exhibition.Id,
-                Title = exhibition.Title,
-                Description = exhibition.Description,
-                Organizer = toUserVM(exhibition.OrganizerId),
-                Date = exhibition.Date,
-                Cover = exhibition.CoverImage,
-                Items = ExhbitionItems(exhibition.Id),
-                Topics = GetExhibitionTopics(exhibition.Id),
-                Started = exhibition.Date < DateTime.Now,
-                Expired = exhibition.ExpiringTime < DateTime.Now,
-                Subscribers = GetExibitionsSubscribers(exhibition.Id)
-            }).ToList();
+            List<ExhibitionVM> exhibitions = PagedList<ExhibitionVM>.ToPagedList(Exhibitions().AsQueryable(), parameters);
 
             return exhibitions;
         }
 
         public int ExhibitionsCount()
         {
-            int pageCount = ExhibitionRepository.TotalEntitiesCount();
-            return pageCount;
+            return ExhibitionRepository.TotalEntitiesCount(exhibition => exhibition.ExpiringTime > DateTime.Now);
         }
 
 

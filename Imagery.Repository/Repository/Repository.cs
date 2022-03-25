@@ -194,18 +194,9 @@ namespace Imagery.Repository.Repository
             return response;
         }
 
-        // pagination
-
-        public PagedList<TEntity> GetPagedList(int pageNumber, int pageSize)
+        public int TotalEntitiesCount(Expression<Func<TEntity, bool>> expression)
         {
-            PagedList<TEntity> entities = PagedList<TEntity>.ToPagedList(Entities, pageNumber, pageSize);
-
-            return entities;
-        }
-
-        public int TotalEntitiesCount()
-        {
-            return Entities.Count();
+            return Entities.Where(expression).Count();
         }
     }
 }

@@ -51,6 +51,10 @@ export class EditExhibitionComponent implements OnInit {
     isAssigned: false,
   };
 
+  editSuccessMessage: string = '';
+  showExhibitionEditMessage: boolean = false;
+  backgroundColor: string = 'transparent';
+
   imagePlaceholder: string = '../../../../assets/imagePlaceholder.png';
 
   constructor(
@@ -251,11 +255,43 @@ export class EditExhibitionComponent implements OnInit {
       date: this.exhibition.date,
     };
 
-    this.exhibitionService.Update(this.editExhibition).subscribe((res: any) => {
-      this.exhibition.title = res.title;
-      this.exhibition.description = res.description;
-      this.exhibition.date = res.date;
-    });
+    if (this.editExhibition.title == '') {
+      this.editSuccessMessage = 'Title is required!';
+      this.backgroundColor = 'rgb(238, 78, 52)';
+      this.showExhibitionEditMessage = true;
+      return;
+    }
+
+    this.exhibitionService.Update(this.editExhibition).subscribe(
+      (res: any) => {
+        this.exhibition.title = res.title;
+        this.exhibition.description = res.description;
+        this.exhibition.date = res.date;
+
+        this.editSuccessMessage = 'Successfully edited!';
+        this.backgroundColor = 'rgb(120, 57, 55)';
+      },
+      (err: any) => {
+        console.log(err);
+        this.editSuccessMessage = 'Error while editing, try again!';
+
+        if (err.error.errors.hasOwnProperty('Title')) {
+          this.editSuccessMessage = err.error.errors['Title'][0];
+        } else if (err.error.errors.hasOwnProperty('Id')) {
+          this.editSuccessMessage = err.error.errors['Id'][0];
+        } else if (err.error.errors.hasOwnProperty('$.date')) {
+          this.editSuccessMessage = 'Date is required';
+        }
+
+        this.backgroundColor = 'rgb(238, 78, 52)';
+      }
+    );
+    this.showExhibitionEditMessage = true;
+
+    setInterval(() => {
+      this.editSuccessMessage = '';
+      this.showExhibitionEditMessage = false;
+    }, 3000);
   }
 
   addDimensions() {
@@ -366,11 +402,12 @@ export class EditExhibitionComponent implements OnInit {
 
   getDateTimeString(dateTime: Date): string {
     let dateString: string;
-    dateString = dateTime.toString().substring(0, 19);
+    dateString = dateTime.toString().substring(0, 16);
+    console.log(dateString);
 
     //dateString = dateString.replace(/T/g, ' ');
     let date = new Date(dateString);
 
-    return date.toLocaleString();
+    return dateString;
   }
 }
