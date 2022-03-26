@@ -17,7 +17,7 @@ export class FilterComponent implements OnInit {
   ) {}
 
   topics: TopicVM[] = [];
-  selectedTopics: TopicVM[] = [];
+  selectedTopics: string[] = [];
 
   ngOnInit(): void {
     this.loadTopics();
@@ -62,13 +62,13 @@ export class FilterComponent implements OnInit {
   addTopic(topic: TopicVM) {
     if (!topic.isAssigned) {
       topic.isAssigned = !topic.isAssigned;
-      if (this.selectedTopics.includes(topic)) {
+      if (this.selectedTopics.includes(topic.name)) {
         return;
       }
 
-      this.selectedTopics.push(topic);
+      this.selectedTopics.push(topic.name);
     } else {
-      let index = this.selectedTopics.indexOf(topic);
+      let index = this.selectedTopics.indexOf(topic.name);
 
       if (index === -1) {
         return;

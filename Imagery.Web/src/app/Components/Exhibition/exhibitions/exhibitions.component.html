@@ -1,5 +1,5 @@
 <div id="main">
-  <app-filter (filters)="setFilters($event)"></app-filter>
+  <app-filter (filters)="getByFilters($event)"></app-filter>
   <div id="exhibitionFeed">
     <div id="searchBar">
       <input type="text" [(ngModel)]="filter" value="{{ filter }}" (change)="filterByExhibitionName()"
@@ -7,7 +7,7 @@
     </div>
     <p *ngIf="showExhibitionMessage" class="error-message" [ngStyle]="{'background-color': backgroundColor}">
       {{exhibitionSubscriptionMessage}}</p>
-    <div class="card mt-2 mb-2 exhibitionCard" *ngFor="let exhibition of filterExhibitions()">
+    <div class="card mt-2 mb-2 exhibitionCard" *ngFor="let exhibition of exhibitions">
       <img class="card-img-top w-25" src="{{ exhibition.cover }}" alt="Card image cap" />
       <div class="card-body">
         <div class="cardHeader">

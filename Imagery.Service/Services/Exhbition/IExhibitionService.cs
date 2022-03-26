@@ -30,6 +30,9 @@ namespace Imagery.Service.Services.Exhbition
 
         // Pagination 
         List<ExhibitionVM> GetPagedExhbition(PageParameters parameters);
-        int ExhibitionsCount();
+        
+        // Filtering exhibitions
+        List<ExhibitionVM> GetFilteredExhbition(FilterVM filters, PageParameters pageParameters);
+        int GetTotalCount();
     }
 }

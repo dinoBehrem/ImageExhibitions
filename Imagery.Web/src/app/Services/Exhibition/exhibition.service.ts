@@ -40,42 +40,21 @@ export class ExhibitionService {
     );
   }
 
-  Filter(filter: FilterVM): any {
-    // let dateFromString: string;
-    // let dateToString: string;
+  Filter(filter: FilterVM, pageIndex: number, pageSize: number): any {
+    var paramaters = this.ConfigureHttpParamas(filter);
 
-    // if (filter.dateFrom == null) {
-    //   filter.dateFrom = new Date(new Date().toLocaleDateString());
-
-    //   dateFromString = this.getDateTimeString(filter.dateFrom);
-    // } else {
-    //   dateFromString = filter.dateFrom.toString();
-    // }
-
-    // if (filter.dateTo == null) {
-    //   filter.dateTo = new Date(new Date(2050, 1, 1).toLocaleDateString());
-    //   dateToString = this.getDateTimeString(filter.dateTo);
-    // } else {
-    //   dateToString = filter.dateTo.toString();
-    // }
-
-    // console.log(dateFromString + ' ------------ ' + dateToString);
-
-    // const httpParams = new HttpParams({
-    //   fromObject: {
-    //     creatorName: filter.creatorName,
-    //     dateFrom: dateFromString,
-    //     dateTo: dateToString,
-    //   },
-    // });
-
-    // console.log(httpParams);
-
-    // return this.http.get<ExhibitionVM[]>(this.url + '/GetByFilter', {
-    //   params: httpParams,
-    // });
-
-    return this.http.post(this.url + '/GetByFilter', filter, this.options);
+    return this.http.get(
+      this.url +
+        '/GetByFilters?' +
+        'pagenumber=' +
+        pageIndex +
+        '&pageSize=' +
+        pageSize,
+      {
+        headers: this.options.headers,
+        params: paramaters,
+      }
+    );
   }
 
   getDateTimeString(dateTime: Date): string {
@@ -190,5 +169,43 @@ export class ExhibitionService {
 
   GetTotalPageCount(): any {
     return this.http.get(this.url + '/ExhibitionsPageCount', this.options);
+  }
+
+  private ConfigureHttpParamas(filters: FilterVM): HttpParams {
+    var httpParams = new HttpParams();
+
+    if (filters.avgPriceMax != null || filters.avgPriceMax != undefined) {
+      httpParams = httpParams.append('avgPriceMax', filters.avgPriceMax);
+    }
+
+    if (filters.avgPriceMin != null || filters.avgPriceMin != undefined) {
+      httpParams = httpParams.append('avgPriceMin', filters.avgPriceMin);
+    }
+
+    if (filters.avgPriceMax != null || filters.avgPriceMax != undefined) {
+      httpParams = httpParams.append('avgPriceMax', filters.avgPriceMax);
+    }
+
+    if (filters.dateFrom != null || filters.dateFrom != undefined) {
+      httpParams = httpParams.append('dateFrom', filters.dateFrom.toString());
+    }
+
+    if (filters.dateTo != null || filters.dateTo != undefined) {
+      httpParams = httpParams.append('dateTo', filters.dateTo.toString());
+    }
+
+    if (filters.creatorName != null || filters.creatorName != undefined) {
+      httpParams = httpParams.append('creatorName', filters.creatorName);
+    }
+
+    if (filters.description != null || filters.description != undefined) {
+      httpParams = httpParams.append('description', filters.description);
+    }
+
+    filters.topics.forEach((topic) => {
+      httpParams = httpParams.append('topics', topic);
+    });
+
+    return httpParams;
   }
 }

@@ -18,9 +18,9 @@ export class ExhibitionsComponent implements OnInit {
     dateTo: null,
     avgPriceMin: null,
     avgPriceMax: null,
-    topics: [],
-    creatorName: '',
-    description: '',
+    topics: null,
+    creatorName: null,
+    description: null,
   };
   showExhibitionMessage: boolean = false;
   backgroundColor: string = '';
@@ -34,87 +34,21 @@ export class ExhibitionsComponent implements OnInit {
   constructor(private exhibitionService: ExhibitionService) {}
 
   ngOnInit(): void {
-    this.exhibitionsCount();
     this.loadExhibitions();
   }
 
   loadExhibitions() {
-    // this.exhibitionService
-    //   .GetAll()
-    //   .subscribe((data: any) => (this.exhibitions = data));
-
     this.exhibitionService
       .GetPagedExhibition(this.pageIndex, this.pageSize)
       .subscribe(
         (res: any) => {
-          this.exhibitions = res;
+          this.length = res.count;
+          this.exhibitions = res.exhibitions;
         },
         (err: any) => {
           console.log(err);
         }
       );
-  }
-
-  setFilters(filters: FilterVM) {
-    this.filters = filters;
-    this.filterExhibitions();
-  }
-
-  filterExhibitions() {
-    if (this.exhibitions == null) {
-      return [];
-    }
-
-    return this.exhibitions.filter(
-      (exhibition) =>
-        this.checkForText(exhibition.title, this.filter) &&
-        (exhibition.date >= this.filters?.dateFrom ||
-          this.filters?.dateFrom == null) &&
-        (exhibition.date <= this.filters?.dateTo ||
-          this.filters?.dateTo == null) &&
-        (exhibition.averagePrice >= this.filters?.avgPriceMin ||
-          this.filters.avgPriceMin == null) &&
-        (exhibition.averagePrice <= this.filters?.avgPriceMax ||
-          this.filters.avgPriceMax == null) &&
-        (this.checkForText(
-          exhibition.organizer.firstname + ' ' + exhibition.organizer.lastname,
-          this.filters.creatorName
-        ) ||
-          this.filters.creatorName == '') &&
-        (this.checkForText(exhibition.description, this.filters.description) ||
-          this.filters.description == '') &&
-        (this.checkForTopic(exhibition.topics, this.filters.topics) ||
-          this.filters.topics?.length == 0)
-    );
-  }
-
-  checkForText(content: string, keyword: string) {
-    return content.toLowerCase().includes(keyword.toLowerCase());
-  }
-
-  checkForTopic(exhibitionTopics: TopicVM[], topics: TopicVM[]) {
-    if (
-      exhibitionTopics == null ||
-      exhibitionTopics.length == 0 ||
-      topics == null ||
-      topics.length == 0
-    ) {
-      return false;
-    }
-
-    let containes = false;
-
-    for (let i = 0; i < topics.length; i++) {
-      for (let j = 0; j < exhibitionTopics.length; j++) {
-        if (exhibitionTopics[j].id == topics[i].id) {
-          containes = true;
-          i = topics.length;
-          j = exhibitionTopics.length;
-        }
-      }
-    }
-
-    return containes;
   }
 
   filterByExhibitionName() {
@@ -162,15 +96,20 @@ export class ExhibitionsComponent implements OnInit {
     this.length = pageEvent.length;
     this.pageSize = pageEvent.pageSize;
     this.pageIndex = pageEvent.pageIndex + 1;
-
-    console.log(pageEvent);
-    this.loadExhibitions();
+    this.getByFilters(this.filters);
   }
 
-  exhibitionsCount() {
-    this.exhibitionService.GetTotalPageCount().subscribe((res: any) => {
-      this.length = res;
-      console.log(this.length);
-    });
+  // testing server side filtering
+
+  getByFilters(filters: FilterVM) {
+    this.filters = filters;
+    this.exhibitionService
+      .Filter(filters, this.pageIndex, this.pageSize)
+      .subscribe((res: any) => {
+        this.exhibitions = res.exhibitions;
+        this.length = res.count;
+      });
+
+    this.pageIndex = 1;
   }
 }

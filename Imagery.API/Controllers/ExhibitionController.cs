@@ -28,7 +28,7 @@ namespace Imagery.API.Controllers
         }
 
         [HttpPost]
-        //[Authorize]
+        [Authorize]
         public async Task<ActionResult> Create([FromBody] ExhbitionCreationVM exhbitionCreationVM)
         {
             // check if input is valid
@@ -235,6 +235,14 @@ namespace Imagery.API.Controllers
             }
         }
 
+        [HttpGet]
+        public ActionResult<List<ExhibitionVM>> GetByFilters([FromQuery]FilterVM filters, [FromQuery] PageParameters pageParameters)
+        {
+            var response = ExhibitionService.GetFilteredExhbition(filters, pageParameters);
+            int count = ExhibitionService.GetTotalCount();
+
+            return Ok(new { Exhibitions = response, Count = count });
+        }
 
         // Pagination test
 
@@ -242,16 +250,17 @@ namespace Imagery.API.Controllers
         public ActionResult<List<ExhibitionVM>> GetPaged([FromQuery]PageParameters pageParameters)
         {
             var exhibitions = ExhibitionService.GetPagedExhbition(pageParameters);
+            int count = ExhibitionService.GetTotalCount();
 
-            return Ok(exhibitions);
+            return Ok(new { Exhibitions = exhibitions, Count = count });
         }
 
-        [HttpGet]
-        public ActionResult<int> ExhibitionsPageCount()
-        {
-            int count = ExhibitionService.ExhibitionsCount();
+        //[HttpGet]
+        //public ActionResult<int> ExhibitionsPageCount()
+        //{
+        //    int count = ExhibitionService.ExhibitionsCount();
 
-            return Ok(count);
-        }
+        //    return Ok(count);
+        //}
     }
 }

@@ -22,7 +22,7 @@ namespace Imagery.Service.Services.Exhbition
         private readonly IImageService ImageService;
         private readonly ITopicService TopicService;
         private readonly IRepository<ExhibitionSubscription> ExhibitionSubsRepository;
-
+        private int TotalCount = 0;
         public ExhibitionService(UserManager<User> userManager, IRepository<Exhibition> exhbitionRepository, IRepository<User> userRepository, IImageService imageService, ITopicService topicService, IRepository<ExhibitionSubscription> exhibitionSubsRepository)
         {
             UserManager = userManager;
@@ -96,6 +96,8 @@ namespace Imagery.Service.Services.Exhbition
             }).ToList();
 
             exhibitions.Sort((exhibition, compareExhbition) => exhibition.Date.CompareTo(compareExhbition.Date));
+
+            TotalCount = exhibitions.Count;
 
             return exhibitions;
         }
@@ -327,12 +329,6 @@ namespace Imagery.Service.Services.Exhbition
             return exhibitions;
         }
 
-        public int ExhibitionsCount()
-        {
-            return ExhibitionRepository.TotalEntitiesCount(exhibition => exhibition.ExpiringTime > DateTime.Now);
-        }
-
-
         // Methods for generating test data
         public async Task<int> AddTestExhibitions(ExhbitionCreationVM exhbitionCreation, List<RegisterVM> registers)
         {
@@ -389,5 +385,47 @@ namespace Imagery.Service.Services.Exhbition
             SetExhibitionCover(new CoverImageVM() { ExhibitionId = id, CoverImage = testItem.Image });
         }
 
+
+        // Filtering exhibitions
+        public List<ExhibitionVM> GetFilteredExhbition(FilterVM filters, PageParameters parameters)
+        {
+            List<ExhibitionVM> exhibitions = Exhibitions().Where(exhibition =>
+            (exhibition.AveragePrice >= filters?.AvgPriceMin || filters.AvgPriceMin == null) &&
+            (exhibition.AveragePrice <= filters?.AvgPriceMax || filters.AvgPriceMax == null) &&
+            (exhibition.Date >= filters.DateFrom || filters.DateFrom == null) &&
+            (exhibition.Date <= filters.DateTo || filters.DateTo == null) &&
+            (string.IsNullOrEmpty(filters.CreatorName) || exhibition.Organizer.Firstname.ToLower().Contains(filters.CreatorName.ToLower())) &&
+            (string.IsNullOrEmpty(filters.Description) || exhibition.Description.ToLower().Contains(filters.Description.ToLower())) &&
+            CheckForTopics(filters.Topics, exhibition.Topics)).ToList();
+
+            List<ExhibitionVM> filterdExhitions = PagedList<ExhibitionVM>.ToPagedList(exhibitions.AsQueryable(), parameters);
+
+            TotalCount = exhibitions.Count;
+
+            return filterdExhitions;
+        }
+
+        public int GetTotalCount()
+        {
+            return TotalCount;
+        }
+
+        private bool CheckForTopics(List<string> topics, List<TopicVM> exhibitionTopics)
+        {
+            if (topics?.Count == 0 || topics == null)
+            {
+                return true;
+            }
+
+            foreach (var exhibitionTopic in exhibitionTopics)
+            {
+                if (!topics.Contains(exhibitionTopic.Name))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
     }
 }

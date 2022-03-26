@@ -7,5 +7,5 @@ export interface FilterVM {
   avgPriceMin: number;
   avgPriceMax: number;
   description: string;
-  topics: TopicVM[];
+  topics: string[];
 }
