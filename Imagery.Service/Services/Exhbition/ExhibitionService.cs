@@ -175,6 +175,8 @@ namespace Imagery.Service.Services.Exhbition
 
             var result = ExhibitionRepository.Update(exhibition.Content);
 
+            var updateTopics = TopicService.SetExhibitionTopic(exhibitionId, input.Topics);
+
             if (!result.IsSuccess)
             {
                 throw new Exception(result.Message);
@@ -184,7 +186,8 @@ namespace Imagery.Service.Services.Exhbition
             { 
                 Title = result.Content.Title,
                 Description = result.Content.Description,
-                Date = result.Content.Date
+                Date = result.Content.Date,
+                Topics = updateTopics
             };
 
             return editExhibition;
@@ -199,7 +202,7 @@ namespace Imagery.Service.Services.Exhbition
                 return null;
             }
 
-            var assignedTopic = TopicService.SetExhibitionTopic(assignTopic.ExhibitionId, assignTopic.TopicId);
+            var assignedTopic = TopicService.AssignTopic(assignTopic.ExhibitionId, assignTopic.TopicId);
 
             return assignedTopic;
         }
@@ -426,6 +429,16 @@ namespace Imagery.Service.Services.Exhbition
             }
 
             return true;
+        }
+
+        public List<ExhibitionVM> FilterByName(string title)
+        {
+            List<ExhibitionVM> source = Exhibitions().Where(exhibition => exhibition.Title.ToLower().Contains(title.ToLower())).ToList();
+            List<ExhibitionVM> exhibitions = PagedList<ExhibitionVM>.ToPagedList(source.AsQueryable(), new PageParameters());
+
+            TotalCount = source.Count;
+
+            return exhibitions;
         }
     }
 }

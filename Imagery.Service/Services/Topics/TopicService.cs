@@ -26,28 +26,26 @@ namespace Imagery.Service.Services.Topics
             return TopicsRepository.GetAll().Select(topic => new TopicVM() { Id = topic.Id, Name = topic.Name, isAssigned = false }).ToList();
         }
 
-        public TopicVM SetExhibitionTopic(int exhbitionId, int topicId)
+        public List<TopicVM> SetExhibitionTopic(int exhbitionId, List<TopicVM> topics)
         {
-            var topicExist = TopicsRepository.GetSingleOrDefault(topicId);
+            // Get all exhibition topics
+            var exhibitionTopics = TopicsExhibitionRepository.Find(et => et.ExhibitionId == exhbitionId);
 
-            var topicExhibirionExist = TopicsExhibitionRepository.Find(et => et.ExhibitionId == exhbitionId && et.TopicId == topicId).FirstOrDefault();
+            // Remove old exhibition topics
+            var remove = TopicsExhibitionRepository.RemoveRange(exhibitionTopics);
 
-
-            if (!topicExist.IsSuccess)
-            {
-                return null;
-            }
-
-            var assign = TopicsExhibitionRepository.Add(new ExhibitionTopics() { ExhibitionId = exhbitionId, TopicId = topicId });
+            // Assign new topics to exhibition
+            var assign = TopicsExhibitionRepository.AddRange(topics.Select(topic => new ExhibitionTopics() { ExhibitionId = exhbitionId, TopicId = topic.Id}).ToList());
 
             if (!assign.IsSuccess)
             {
                 return null;
             }
 
-            TopicVM topicVM = Mapper.MapTopicVM(topicExist.Content);
+            // Get new exhibition topics
+            var assignedTopics = GetExhibitionTopics(exhbitionId);
 
-            return topicVM;
+            return assignedTopics;
          }
 
         public List<TopicVM> GetExhibitionTopics(int exhibitionId)
@@ -88,8 +86,33 @@ namespace Imagery.Service.Services.Topics
             return topic.Content;
         }
 
+        public TopicVM AssignTopic(int exhbitionId, int topicId)
+        {
+            var topicExist = TopicsRepository.GetSingleOrDefault(topicId);
+
+            var topicExhibirionExist = TopicsExhibitionRepository.Find(et => et.ExhibitionId == exhbitionId && et.TopicId == topicId).FirstOrDefault();
+
+
+            if (!topicExist.IsSuccess)
+            {
+                return null;
+            }
+
+            var assign = TopicsExhibitionRepository.Add(new ExhibitionTopics() { ExhibitionId = exhbitionId, TopicId = topicId });
+
+            if (!assign.IsSuccess)
+            {
+                return null;
+            }
+
+            TopicVM topicVM = Mapper.MapTopicVM(topicExist.Content);
+
+            return topicVM;
+        }
+
 
         // Methods for generating test data
+
         public void TestTopics(int exhibitionId)
         {
             List<TopicVM> topics = GetAllTopics();
@@ -107,10 +130,11 @@ namespace Imagery.Service.Services.Topics
                 if (!exhibitionTopics.Contains(topics[index].Id))
                 {
                     exhibitionTopics.Add(topics[index].Id);
-                    SetExhibitionTopic(exhibitionId, topics[index].Id);
+                    AssignTopic(exhibitionId, topics[index].Id);
                 }
             }
         }
+
         public void Create(string name)
         {
             var response = TopicsRepository.Add(new Topic() { Name = name });

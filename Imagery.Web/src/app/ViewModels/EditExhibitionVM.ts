@@ -5,4 +5,5 @@ export interface EditExhibitionVM {
   title: string;
   description: string;
   date: Date;
+  topics: TopicVM[];
 }

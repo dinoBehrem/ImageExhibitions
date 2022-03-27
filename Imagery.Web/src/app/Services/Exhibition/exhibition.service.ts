@@ -57,6 +57,17 @@ export class ExhibitionService {
     );
   }
 
+  FilterByTitle(title: string) {
+    var httpParams = new HttpParams();
+
+    httpParams = httpParams.append('title', title);
+
+    return this.http.get(this.url + '/FilterByTitle', {
+      params: httpParams,
+      headers: this.options.headers,
+    });
+  }
+
   getDateTimeString(dateTime: Date): string {
     let dateString: string;
 

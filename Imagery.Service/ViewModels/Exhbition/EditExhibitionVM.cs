@@ -16,6 +16,7 @@ namespace Imagery.Service.ViewModels.Exhbition
 
         [Required(ErrorMessage = "Date is required")]
         public DateTime Date { get; set; }
+        public List<TopicVM> Topics { get; set; }
 
     }
 }

@@ -236,6 +236,20 @@ namespace Imagery.API.Controllers
         }
 
         [HttpGet]
+        public ActionResult<List<ExhibitionVM>> FilterByTitle([FromQuery]string title)
+        {
+            if (string.IsNullOrEmpty(title))
+            {
+                return BadRequest(new { Message = "Please provide a title" });
+            }
+
+            var result = ExhibitionService.FilterByName(title);
+            int count = ExhibitionService.GetTotalCount();
+
+            return Ok(new { Exhibitions = result, Count = count });
+        }
+
+        [HttpGet]
         public ActionResult<List<ExhibitionVM>> GetByFilters([FromQuery]FilterVM filters, [FromQuery] PageParameters pageParameters)
         {
             var response = ExhibitionService.GetFilteredExhbition(filters, pageParameters);
@@ -254,13 +268,5 @@ namespace Imagery.API.Controllers
 
             return Ok(new { Exhibitions = exhibitions, Count = count });
         }
-
-        //[HttpGet]
-        //public ActionResult<int> ExhibitionsPageCount()
-        //{
-        //    int count = ExhibitionService.ExhibitionsCount();
-
-        //    return Ok(count);
-        //}
     }
 }

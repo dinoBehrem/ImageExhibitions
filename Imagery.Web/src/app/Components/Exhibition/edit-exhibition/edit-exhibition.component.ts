@@ -69,10 +69,9 @@ export class EditExhibitionComponent implements OnInit {
     this.sub = this.route.params.subscribe((param: any) => {
       this.id = +param['id'];
 
+      this.loadTopics();
       this.loadExhbition();
     });
-
-    this.loadTopics();
   }
 
   loadExhbition() {
@@ -84,27 +83,13 @@ export class EditExhibitionComponent implements OnInit {
     this.exhibitionService.GetSingle(this.id).subscribe((res: any) => {
       this.exhibition = res;
       this.selectedTopics = res.topics;
+      this.configureTopics();
     });
   }
 
   loadTopics() {
     this.exhibitionService.GetTopics().subscribe((res: any) => {
       this.topics = res;
-
-      this.topics.forEach((topic) => {
-        let index = false;
-
-        this.selectedTopics.forEach((stopic) => {
-          if (stopic.id == topic.id) {
-            index = true;
-          }
-        });
-
-        if (index) {
-          topic.isAssigned = true;
-          // console.log('------');
-        }
-      });
     });
   }
 
@@ -253,6 +238,7 @@ export class EditExhibitionComponent implements OnInit {
       title: this.exhibition.title,
       description: this.exhibition.description,
       date: this.exhibition.date,
+      topics: this.selectedTopics,
     };
 
     if (this.editExhibition.title == '') {
@@ -267,6 +253,7 @@ export class EditExhibitionComponent implements OnInit {
         this.exhibition.title = res.title;
         this.exhibition.description = res.description;
         this.exhibition.date = res.date;
+        this.selectedTopics = res.topics;
 
         this.editSuccessMessage = 'Successfully edited!';
         this.backgroundColor = 'rgb(120, 57, 55)';
@@ -335,63 +322,6 @@ export class EditExhibitionComponent implements OnInit {
       });
   }
 
-  addTopic() {
-    this.topicVM = this.topics.filter((topic) => topic.id == this.topicVM.id);
-    console.log(this.topicVM);
-    let existAsFalse = this.exhibition.topics.includes(
-      this.topicVM[0] as TopicVM
-    );
-    let index = this.exhibition.topics.indexOf(this.topicVM[0]);
-
-    this.topicVM[0].isAssigned = true;
-    let existAsTrue = this.exhibition.topics.includes(
-      this.topicVM[0] as TopicVM
-    );
-
-    if (existAsTrue) {
-      console.log('---/---');
-
-      return;
-    }
-
-    if (existAsFalse) {
-      this.exhibition.topics[index].isAssigned = true;
-      console.log('---+---');
-      return;
-    }
-
-    if (!existAsFalse && !existAsTrue) {
-      this.exhibition.topics.push(this.topicVM[0]);
-      console.log('---=---');
-    }
-  }
-
-  selectTopic(topic: TopicVM) {
-    if (!topic.isAssigned) {
-      topic.isAssigned = !topic.isAssigned;
-      if (this.selectedTopics.includes(topic)) {
-        return;
-      }
-      this.selectedTopics.push(topic);
-    } else {
-      let index = this.selectedTopics.indexOf(topic);
-      if (index === -1) {
-        return;
-      }
-      this.selectedTopics[index].isAssigned =
-        !this.selectedTopics[index].isAssigned;
-    }
-  }
-
-  removeTopic(topic: TopicVM) {
-    let index = this.exhibition.topics.indexOf(topic);
-
-    if (index != -1) {
-      console.log('---+---');
-      this.exhibition.topics[index].isAssigned = false;
-    }
-  }
-
   dimensionsPrice() {
     this.itemVM?.dimensions.forEach((dimen: any) => {
       if (dimen.id == this.dimensionId) {
@@ -403,11 +333,33 @@ export class EditExhibitionComponent implements OnInit {
   getDateTimeString(dateTime: Date): string {
     let dateString: string;
     dateString = dateTime.toString().substring(0, 16);
-    console.log(dateString);
-
-    //dateString = dateString.replace(/T/g, ' ');
-    let date = new Date(dateString);
 
     return dateString;
+  }
+
+  configureTopics() {
+    this.topics.forEach((topic) => {
+      this.selectedTopics.forEach((selected) => {
+        if (topic.name == selected.name) {
+          topic.isAssigned = true;
+        }
+      });
+    });
+  }
+
+  addTopic(topic: TopicVM) {
+    let exist = false;
+    this.selectedTopics.forEach((selectedTopic, index) => {
+      if (topic.id == selectedTopic.id) {
+        topic.isAssigned = false;
+        this.selectedTopics.splice(index, 1);
+        exist = true;
+      }
+    });
+
+    if (!exist) {
+      topic.isAssigned = true;
+      this.selectedTopics.push(topic);
+    }
   }
 }

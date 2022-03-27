@@ -19,7 +19,7 @@
             <div class="form-group">
                 <label for="title" class="field">Title</label>
                 <input type="text" class="form-control" id="title" aria-describedby="title" placeholder="Enter title"
-                    [(ngModel)]="exhibition.title" value="{{exhibition?.title}}">
+                    [(ngModel)]="exhibition!.title" value="{{exhibition?.title}}">
             </div>
             <div class="form-group">
                 <label for="description" class="field">Description</label>
@@ -33,15 +33,8 @@
             </div>
             <div id="detailsTopics">
                 <label for="startingDate" class="field">Select tags</label><br>
-                <!-- <div>
-                    <select [(ngModel)]="topicVM.id">
-                        <option *ngFor="let topic of topics" value="{{topic.id}}">{{topic.name}}</option>
-                    </select>
-                    <button type="button" class="btn btn-topic" (click)="addTopic()">Add topic</button>
-                </div> -->
-                <label *ngFor="let topic of exhibition.topics" class="check-box"
-                    [ngClass]='{"checked":topic.isAssigned}'>
-                    <!-- <input type="checkbox" class="form-class"> -->
+                <label *ngFor="let topic of topics" class="check-box"
+                    [ngClass]='{"checked":topic.isAssigned}' (click)="addTopic(topic)">
                     <span>{{topic.name}}</span>
                 </label>
             </div>
@@ -49,7 +42,6 @@
                 <p style="margin: 0;" class="error-message" [ngStyle]="{'color': backgroundColor}">{{editSuccessMessage}}</p>
                 <button type="submit" class="btn btn-new" (click)="editDetails()">Save changes</button>
             </div>
-
         </div>
     </div>
     <div id="imageDisplay">

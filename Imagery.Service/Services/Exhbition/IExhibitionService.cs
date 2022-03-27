@@ -34,5 +34,6 @@ namespace Imagery.Service.Services.Exhbition
         // Filtering exhibitions
         List<ExhibitionVM> GetFilteredExhbition(FilterVM filters, PageParameters pageParameters);
         int GetTotalCount();
+        List<ExhibitionVM> FilterByName(string title);
     }
 }

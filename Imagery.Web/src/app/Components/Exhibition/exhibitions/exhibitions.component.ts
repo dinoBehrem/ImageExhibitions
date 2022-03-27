@@ -52,10 +52,16 @@ export class ExhibitionsComponent implements OnInit {
   }
 
   filterByExhibitionName() {
-    this.loadExhibitions();
-    return this.exhibitions.filter((exhibition) =>
-      exhibition.title.toLowerCase().includes(this.filter.toLowerCase())
-    );
+    if (this.filter == '') {
+      this.loadExhibitions();
+    } else {
+      this.exhibitionService
+        .FilterByTitle(this.filter)
+        .subscribe((res: any) => {
+          this.exhibitions = res.exhibitions;
+          this.length = res.count;
+        });
+    }
   }
 
   subscription(id: number) {
