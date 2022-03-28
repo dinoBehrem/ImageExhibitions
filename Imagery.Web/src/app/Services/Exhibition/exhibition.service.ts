@@ -140,6 +140,10 @@ export class ExhibitionService {
     );
   }
 
+  GetMyExhibitions(username: string) {
+    return this.http.get(this.url + '/MyExhibitions/' + username, this.options);
+  }
+
   RemoveExhbition(id: number) {
     return this.http.delete(this.url + '/DeleteExhbition/' + id, this.options);
   }

@@ -106,6 +106,7 @@ export class ExhibitionComponent implements OnInit {
       organizer: this.exhibition.organizer.username,
       creator: this.itemVM.creator,
       customer: this.getUsername(),
+      exhibitionId: this.exhibition.id,
     };
 
     this.imageService

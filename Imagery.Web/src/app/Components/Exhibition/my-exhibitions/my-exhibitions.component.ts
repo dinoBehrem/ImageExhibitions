@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ExhibitionService } from 'src/app/Services/Exhibition/exhibition.service';
 import { SignService } from 'src/app/Services/Sign/sign.service';
 import { ExhibitionVM } from 'src/app/ViewModels/ExhibitionVM';
+import { MyExhibitionVM } from 'src/app/ViewModels/MyExhibitionVM';
 
 @Component({
   selector: 'app-my-exhibitions',
@@ -14,8 +15,8 @@ export class MyExhibitionsComponent implements OnInit {
     private signService: SignService
   ) {}
 
-  exhibitionVM!: ExhibitionVM;
-  exhibitions: ExhibitionVM[] = [];
+  exhibitionVM!: MyExhibitionVM;
+  exhibitions: MyExhibitionVM[] = [];
   imagePlaceholder: string = '../../../../assets/imagePlaceholder.png';
   dateString: string = '';
 
@@ -25,9 +26,9 @@ export class MyExhibitionsComponent implements OnInit {
 
   loadExhibitions() {
     this.exhibitnioService
-      .GetUserExhibitions(this.getUsername())
+      .GetMyExhibitions(this.getUsername())
       .subscribe((res: any) => {
-        this.exhibitions = res;
+        this.exhibitions = res.exhibitions;
       });
   }
 
@@ -42,7 +43,7 @@ export class MyExhibitionsComponent implements OnInit {
     return username;
   }
 
-  deleteExhbition(exhibition: ExhibitionVM) {
+  deleteExhbition(exhibition: MyExhibitionVM) {
     if (exhibition.expired) {
       alert("Can't delete expired exhibition!");
       return;
@@ -69,7 +70,7 @@ export class MyExhibitionsComponent implements OnInit {
       });
   }
 
-  setExhibition(exhibition: ExhibitionVM) {
+  setExhibition(exhibition: MyExhibitionVM) {
     this.dateString = this.getDateTimeString(exhibition.date);
     this.exhibitionVM = exhibition;
   }

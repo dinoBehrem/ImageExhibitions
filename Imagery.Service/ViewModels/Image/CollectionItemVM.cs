@@ -17,6 +17,6 @@ namespace Imagery.Service.ViewModels.Image
         public string Exhibition { get; set; }
         public string Organizer { get; set; }
         public string Customer { get; set; }
-
+        public int ExhibitionId { get; set; }
     }
 }

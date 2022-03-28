@@ -214,6 +214,38 @@ namespace Imagery.Service.Services.Exhbition
             return exhibitions;
         }
 
+        public async Task<List<MyExhibitionVM>> MyExhibitions(string username)
+        {
+            var userExist = await UserManager.FindByNameAsync(username);
+
+            if (userExist == null)
+            {
+                throw new Exception("User doesn't exist");
+            }
+
+            List<MyExhibitionVM> exhibitions = ExhibitionRepository.Find(exhibition => exhibition.OrganizerId == userExist.Id).Select(exhibition => new MyExhibitionVM()
+            {
+                Id = exhibition.Id,
+                Title = exhibition.Title,
+                Description = exhibition.Description,
+                Date = exhibition.Date,
+                Cover = exhibition.CoverImage,
+                Items = ExhbitionItems(exhibition.Id).Count,
+                Topics = GetExhibitionTopics(exhibition.Id),
+                Started = exhibition.Date < DateTime.Now,
+                Expired = exhibition.ExpiringTime < DateTime.Now,
+                Subscribers = GetExibitionsSubscribers(exhibition.Id),
+                SoldItems = ImageService.GetSoledItemCount(exhibition.Id),
+                Profit = ImageService.GetExhibitionProfit(exhibition.Id)
+            }).ToList();
+            
+            TotalCount = exhibitions.Count;
+
+            exhibitions = PagedList<MyExhibitionVM>.ToPagedList(exhibitions.AsQueryable(), new PageParameters());
+
+            return exhibitions;
+        }
+
         public bool RemoveExhbition(int exhbitionId)
         {
             // get requested exhibition

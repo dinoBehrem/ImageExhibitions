@@ -158,21 +158,47 @@ namespace Imagery.API.Controllers
         }
 
         [HttpGet("{username}")]
-        public ActionResult<List<ExhibitionVM>> GetUserExhibitions(string username)
+        public ActionResult<List<MyExhibitionVM>> GetUserExhibitions(string username)
         {
             if (string.IsNullOrEmpty(username))
             {
-                return BadRequest("Inavlid username, try again!");
+                return BadRequest(new { Message = "Inavlid username, try again!" });
             }
 
-            var result = ExhibitionService.UserExhibitions(username);
-
-            if (result == null)
+            try
             {
-                return BadRequest("Error, something went wrong!");
+                var result = ExhibitionService.UserExhibitions(username);
+                var count = ExhibitionService.GetTotalCount();
+
+                return Ok(new { Exhibitions = result, Count = count });
+
+            }
+            catch (Exception exc)
+            {
+                return BadRequest(new { Message = exc.Message});
+            }
+        }
+
+        [HttpGet("{username}")]
+        public async Task<ActionResult<List<MyExhibitionVM>>> MyExhibitions(string username)
+        {
+            if (string.IsNullOrEmpty(username))
+            {
+                return BadRequest(new { Message = "Inavlid username, try again!" });
             }
 
-            return result;
+            try
+            {
+                var result = await ExhibitionService.MyExhibitions(username);
+                var count = ExhibitionService.GetTotalCount();
+
+                return Ok(new { Exhibitions = result, Count = count });
+
+            }
+            catch (Exception exc)
+            {
+                return BadRequest(new { Message = exc.Message });
+            }
         }
 
         [HttpDelete("{id}")]

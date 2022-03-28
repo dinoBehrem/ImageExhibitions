@@ -312,6 +312,7 @@ namespace Imagery.Service.Services.Image
                 ExhibitionTitle = collectionItem.Exhibition,
                 Organizer = collectionItem.Organizer,
                 UserId = userExist.Id,
+                ExhibitionId = collectionItem.ExhibitionId
             });
 
             if(!response.IsSuccess)
@@ -346,6 +347,12 @@ namespace Imagery.Service.Services.Image
             return response;
         }
 
+        public int GetSoledItemCount(int exhibitionId)
+        {
+            int soledItemsCount = CollectionRepository.Find(collectionItem => collectionItem.ExhibitionId == exhibitionId).Count;
+
+            return soledItemsCount;
+        }
 
         // Methods for generating test data
         public string TestItemUpload(IFormFile file)
@@ -372,6 +379,11 @@ namespace Imagery.Service.Services.Image
             }
         }
 
-        
+        public double GetExhibitionProfit(int exhibitionId)
+        {
+            double profit = CollectionRepository.Find(exhibition => exhibition.Id == exhibitionId).Sum(collectionItem => collectionItem.Price);
+
+            return profit;
+        }
     }
 }

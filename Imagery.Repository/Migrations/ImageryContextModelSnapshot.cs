@@ -37,6 +37,9 @@ namespace Imagery.Repository.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("ExhibitionId")
+                        .HasColumnType("int");
+
                     b.Property<string>("ExhibitionTitle")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");

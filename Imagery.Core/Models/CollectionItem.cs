@@ -35,6 +35,8 @@ namespace Imagery.Core.Models
         [Required(ErrorMessage = "Organizer is required")]
         public string Organizer { get; set; }
 
+        public int ExhibitionId { get; set; }
+
         [ForeignKey(nameof(UserId))]
         public User User { get; set; }
 

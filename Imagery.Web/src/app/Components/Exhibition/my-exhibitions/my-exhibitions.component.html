@@ -39,6 +39,8 @@
           <th scope="col">Title</th>
           <th scope="col">Date</th>
           <th scope="col">Expired</th>
+          <th scope="col">Sold items</th>
+          <th scope="col">Profit</th>
           <th scope="col">Subscribers</th>
           <th scope="col">Action</th>
         </tr>
@@ -52,6 +54,8 @@
             <ng-template #active>No</ng-template>
             <ng-template #expired>Yes</ng-template>
           </td>
+          <td>{{exhibition.soldItems}}</td>
+          <td>{{exhibition.profit}}</td>
           <td>{{exhibition.subscribers}}</td>
           <td>
             <button class="btn btn-details" (click)="setExhibition(exhibition)">Details</button>
