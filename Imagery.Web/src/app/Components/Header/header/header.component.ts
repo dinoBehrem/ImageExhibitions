@@ -27,9 +27,9 @@ export class HeaderComponent implements OnInit {
     const permission: string[] = [...this.signService.GetJWTData(claim)];
 
     if (permission.includes('Admin') || permission.includes('SuperAdmin')) {
-      this.isAdmin = true;
+      return true;
     } else {
-      this.isAdmin = false;
+      return false;
     }
   }
 

@@ -1,12 +1,12 @@
 <div id="account">
     <div id="accountDetails">
         <div class="exhibitionCover">
-                <img [src]="user?.profilePicture" data-toggle="modal" data-target="#exampleModal">
-                <div>
-                    <input class="form-control btn btn-upload" type="file" id="file" aria-describedby="file"
+            <img [src]="user?.profilePicture" data-toggle="modal" data-target="#exampleModal">
+            <div class="image-input-form">
+                <input class="form-control btn btn-upload" type="file" id="file" aria-describedby="file"
                     (change)="fileInput($event)" required>
-                    <p (click)="saveImage()">save image...</p>
-                </div>
+                <span (click)="saveImage()" class="set-cover-link">save image...</span>
+            </div>
         </div>
         <div id="userInfo">
             <h1>{{user?.firstName}} {{user?.lastName}}</h1>
@@ -23,7 +23,7 @@
     </div>
     <div id="editAccount">
         <div id="itemDetails">
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <label class="field">First name</label>
                 <input class="form-control" type="text" [(ngModel)]="userVM.firstName" value="{{user?.firstName}}">
             </div>
@@ -47,7 +47,48 @@
             
             <div class="modal-footer">
                 <button type="submit" class="btn btn-save" (click)="edit()">Save changes</button>
-            </div>
+            </div> -->
+
+            <form [formGroup]="userDetails" (ngSubmit)="saveChanges()">
+                <div class="form-group">
+                    <label class="field">First name</label>
+                    <div class="input-field">
+                        <input class="form-control" type="text" formControlName="firstName">
+                        <p class="error-message" *ngIf="userDetails.get('firstName')?.invalid">*First name is required!
+                        </p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="field">Last name</label>
+                    <div class="input-field">
+                        <input class="form-control" type="text" formControlName="lastName">
+                        <p class="error-message" *ngIf="userDetails.get('lastName')?.invalid">*Last name is required!
+                        </p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="field">Email</label>
+                    <div class="input-field">
+                        <input class="form-control" type="text" formControlName="email">
+                        <p class="error-message" *ngIf="userDetails.get('email')?.invalid">*Email is required!</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="field">Phone</label>
+                    <div class="input-field">
+                        <input class="form-control" type="text" formControlName="phone">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="field">Biography</label>
+                    <div class="input-field">
+                        <input class="form-control" type="text" formControlName="biography">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-save" [disabled]="!userDetails.valid">Save changes</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

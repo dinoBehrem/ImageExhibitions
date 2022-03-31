@@ -87,7 +87,7 @@ h4,
   justify-content: space-between;
   align-items: baseline;
 }
-.form-control {
+.input-field {
   width: 80%;
 }
 
@@ -96,4 +96,25 @@ h4,
   color: #fcedda;
   border: none;
   align-self: flex-end;
+}
+.image-input-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.set-cover-link {
+  color: #783937;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.set-cover-link:hover {
+  font-weight: 500;
+}
+
+.error-message {
+  color: #f00;
+  text-align: center;
+  font-size: 14px;
+  margin-bottom: 12px;
 }
