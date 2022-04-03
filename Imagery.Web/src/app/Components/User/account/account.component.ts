@@ -1,10 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
 import { Router } from '@angular/router';
 import { ImageServiceService } from 'src/app/Services/Image/image-service.service';
 import { SignService } from 'src/app/Services/Sign/sign.service';
@@ -22,7 +16,7 @@ export class AccountComponent implements OnInit {
   oldImage: string = '';
   imageData: FormData = new FormData();
   imageFile: any = File;
-
+  users?: UserVM[];
   userVM: any = {
     firstName: '',
     lastName: '',
@@ -33,17 +27,15 @@ export class AccountComponent implements OnInit {
   };
   change: boolean = false;
 
-  userDetails!: FormGroup;
-
   constructor(
     private signServices: SignService,
     private imageService: ImageServiceService,
-    private router: Router,
-    private formBuilder: FormBuilder
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     this.loadUser();
+    this.users = this.user?.following;
   }
 
   loadUser() {
@@ -58,23 +50,10 @@ export class AccountComponent implements OnInit {
     this.signServices.GetUser(userName).subscribe((res: any) => {
       if (res !== null) {
         this.user = res;
-        this.userDetails = this.formBuilder.group({
-          firstName: [
-            this.user?.firstName,
-            { validators: [Validators.required] },
-          ],
-          lastName: [
-            this.user?.lastName,
-            { validators: [Validators.required] },
-          ],
-          email: [this.user?.email, { validators: [Validators.required] }],
-          phone: [this.user?.phone],
-          biography: [this.user?.biography],
-        });
+        this.userVM = res;
       } else {
         alert('User is not found!');
       }
-      this.userVM = this.user;
     });
   }
 
@@ -92,6 +71,24 @@ export class AccountComponent implements OnInit {
     }
   }
 
+  edit() {
+    this.imageData.append('firstname', this.userVM.firstName);
+    this.imageData.append('lastname', this.userVM.lastName);
+    this.imageData.append('email', this.userVM.email);
+    this.imageData.append('phone', this.userVM.phone);
+    this.imageData.append('biography', this.userVM.biography);
+
+    this.signServices
+      .EditProfile(this.user.userName, this.imageData)
+      .subscribe((res: any) => {
+        this.user.firstName = res.firstname;
+        this.user.lastName = res.lastname;
+        this.user.email = res.email;
+        this.user.phone = res.phone;
+        this.user.biography = res.biography;
+      });
+  }
+
   discardImage() {
     this.user.profilePicture = this.oldImage;
     this.change = false;
@@ -104,19 +101,6 @@ export class AccountComponent implements OnInit {
       .UploadProfilePicture(this.user.userName, this.imageData)
       .subscribe((res: any) => {
         this.user.profilePicture = res;
-      });
-  }
-
-  saveChanges() {
-    console.log(this.userDetails.value);
-    this.signServices
-      .EditProfile(this.user.userName, this.userDetails.value)
-      .subscribe((res: any) => {
-        this.user.firstName = res.firstname;
-        this.user.lastName = res.lastname;
-        this.user.email = res.email;
-        this.user.phone = res.phone;
-        this.user.biography = res.biography;
       });
   }
 }

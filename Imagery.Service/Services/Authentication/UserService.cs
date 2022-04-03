@@ -200,7 +200,7 @@ namespace Imagery.Service.Services.Authentication
 
             if (userExist == null)
             {
-                throw new Exception("User doesn't exist!");
+                return null;
             }
 
             userExist.FirstName = user.Firstname;
@@ -213,7 +213,7 @@ namespace Imagery.Service.Services.Authentication
 
             if (!response.Succeeded)
             {
-                throw new Exception("Error, edit failed!");
+                return null;
             }
 
             return user;

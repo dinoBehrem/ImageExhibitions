@@ -97,7 +97,7 @@ export class SignService {
     return this.http.get(this.url + '/GetProfile/' + username, this.options);
   }
 
-  EditProfile(username: string, accountData: any) {
+  EditProfile(username: string, accountData: FormData) {
     return this.http.put(this.url + '/EditAccount/' + username, accountData);
   }
 

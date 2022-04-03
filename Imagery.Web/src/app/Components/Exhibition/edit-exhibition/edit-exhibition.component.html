@@ -107,7 +107,7 @@
             <span (click)="setCover()" *ngIf="!isNewItem" class="set-cover-link">set as cover...</span>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-dimensions" (click)="saveImage()">Save changes</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal" *ngIf="!itemStatus()" (click)="removeItem()">Delete</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="removeItem()">Delete</button>
             </div>
         </div>
     </div>
