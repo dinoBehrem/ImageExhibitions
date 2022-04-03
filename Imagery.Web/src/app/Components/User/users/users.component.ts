@@ -1,36 +1,26 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SignService } from 'src/app/Services/Sign/sign.service';
 import { UserService } from 'src/app/Services/User/user.service';
+import { ResponseVM } from 'src/app/ViewModels/ResponseVM';
 import { RoleManagerVM } from 'src/app/ViewModels/RoleManager';
 import { UserVM } from 'src/app/ViewModels/UserVM';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
-
+import { of } from 'rxjs';
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.css'],
 })
 export class UsersComponent implements OnInit {
-  users = new MatTableDataSource<UserVM>();
+  users: UserVM[] = [];
   constructor(
     private userService: UserService,
     private authService: SignService
   ) {}
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-
   user!: UserVM;
   _role: string = '';
   roles!: string[];
-  displayedColumns: string[] = [
-    'firstname',
-    'lastname',
-    'username',
-    'email',
-    'picture',
-    'details',
-  ];
+
   ngOnInit(): void {
     this.LoadUsers();
     this.LoadRoles();
@@ -38,8 +28,7 @@ export class UsersComponent implements OnInit {
 
   LoadUsers() {
     return this.userService.GetAll().subscribe((data: any) => {
-      this.users.data = data;
-      this.users.paginator = this.paginator;
+      this.users = data;
     });
   }
 
@@ -67,11 +56,10 @@ export class UsersComponent implements OnInit {
       role: this._role,
     };
 
-    this.userService
+    return this.userService
       .PromoteToRole(roleManager as RoleManagerVM)
       .subscribe((res: any) => {
         if (res.isSuccess) {
-          this.user.roles.push(this._role);
           alert(res?.message);
         }
       });
@@ -95,7 +83,7 @@ export class UsersComponent implements OnInit {
       return;
     }
 
-    this.userService
+    return this.userService
       .DemoteToRole(roleManager as RoleManagerVM)
       .subscribe((res: any) => {
         if (res.isSuccess) {

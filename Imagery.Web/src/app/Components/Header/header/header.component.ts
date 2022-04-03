@@ -38,7 +38,8 @@ export class HeaderComponent implements OnInit {
     const username: string = this.signService.GetJWTData(claim);
 
     if (username === '') {
-      this.router.navigateByUrl('Login');
+      // this.router.navigateByUrl('Login');
+      return;
     }
 
     return username;
