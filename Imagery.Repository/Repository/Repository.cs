@@ -89,6 +89,7 @@ namespace Imagery.Repository.Repository
             try
             {
                 ImageryContext.Entry(entity).State = EntityState.Modified;
+                SaveChanges();
 
                 response.Status = "Success";
                 response.Message = "Entity successfully added!";
@@ -104,7 +105,6 @@ namespace Imagery.Repository.Repository
                 response.Content = null;
             }
             
-            SaveChanges();
 
             return response;
         }

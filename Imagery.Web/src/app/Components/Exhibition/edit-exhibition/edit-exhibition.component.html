@@ -16,120 +16,130 @@
                     </ng-template>
                 </div>
             </div>
-            <div class="form-group">
-                <label for="title" class="field">Title</label>
-                <input type="text" class="form-control" id="title" aria-describedby="title" placeholder="Enter title"
-                    [(ngModel)]="exhibition!.title" value="{{exhibition?.title}}">
-            </div>
-            <div class="form-group">
-                <label for="description" class="field">Description</label>
-                <textarea type="text" class="form-control" id="description" placeholder="Description"
-                    [(ngModel)]="exhibition.description" value="{{exhibition?.description}}" maxlength="450"></textarea>
-            </div>
-            <div class="form-group">
-                <label for="startingDate" class="field">Starting date</label>
-                <input type="datetime-local" class="form-control" id="startingDate" [(ngModel)]="exhibition.date"
-                    [value]="getDateTimeString(exhibition.date)">
-            </div>
-            <div id="detailsTopics">
-                <label for="startingDate" class="field">Select tags</label><br>
-                <label *ngFor="let topic of topics" class="check-box"
-                    [ngClass]='{"checked":topic.isAssigned}' (click)="addTopic(topic)">
-                    <span>{{topic.name}}</span>
-                </label>
-            </div>
-            <div id="detailsFooter">
-                <p style="margin: 0;" class="error-message" [ngStyle]="{'color': backgroundColor}">{{editSuccessMessage}}</p>
-                <button type="submit" class="btn btn-new" (click)="editDetails()">Save changes</button>
-            </div>
-        </div>
-    </div>
-    <div id="imageDisplay">
-        <div *ngFor="let item of exhibition.items" class="toggleModal" (click)="setItem(item)">
-            <img src="{{item.image}}" />
-        </div>
-    </div>
-    <div id="editItem">
-        <div class="detailsHeader">
-            <div style="display: flex; flex-direction: row; justify-content: space-between;">
-                <h3 class="detailsTitle">Image details</h3>
-                <button class="btn btn-new" (click)="newItem()">New</button>
-            </div>
-            <hr>
-        </div>
-        <div id="itemDetails">
-            <div class="exhibitionCover">
-                <div class="cover">
-                    <img [src]="imageURL" data-toggle="modal" data-target="#exampleModal">
+            <form [formGroup]="exhibitionDetails" *ngIf="exhibitionDetails" (ngSubmit)="editDetails()">
+                <div class="form-group">
+                    <label class="field">Title</label>
+                    <div class="input-field">
+                        <input class="form-control" type="text" formControlName="title">
+                        <p class="error-message" *ngIf="exhibitionDetails.get('title')?.invalid && exhibitionDetails.get('title')?.touched">*Title is required!
+                        </p>
+                    </div>
                 </div>
+                <div class="form-group">
+                    <label class="field">Description</label>
+                    <div class="input-field">
+                        <input class="form-control" type="text" formControlName="description">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="field">Date</label>
+                    <div class="input-field">
+                        <input class="form-control" type="datetime-local" formControlName="date">
+                        <p class="error-message" *ngIf="exhibitionDetails.get('date')?.invalid">*Date is required!</p>
+                    </div>
+                </div>
+                <div id="detailsTopics">
+                    <label for="startingDate" class="field">Select tags</label><br>
+                    <label *ngFor="let topic of topics" class="check-box"
+                        [ngClass]='{"checked":topic.isAssigned}' (click)="addTopic(topic)">
+                        <span>{{topic.name}}</span>
+                    </label>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-new" [disabled]="!exhibitionDetails.valid">Save
+                        changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+        <div id="imageDisplay">
+            <div *ngFor="let item of exhibition?.items" class="toggleModal" (click)="setItem(item)">
+                <img src="{{item.image}}" />
             </div>
+        </div>
+        <div id="editItem">
+            <div class="detailsHeader">
+                <div style="display: flex; flex-direction: row; justify-content: space-between;">
+                    <h3 class="detailsTitle">Image details</h3>
+                    <button class="btn btn-new" (click)="newItem()">New</button>
+                </div>
+                <hr>
+            </div>
+            <div id="itemDetails">
+                <div class="exhibitionCover">
+                    <div class="cover">
+                        <img [src]="imageURL" data-toggle="modal" data-target="#exampleModal">
+                    </div>
+                </div>
 
-            <input class="form-control btn btn-upload" type="file" id="file" aria-describedby="file"
-                (change)="fileInput($event)" required>
-            <hr>
-            <div class="form-group">
-                <label class="field">Name</label>
-                <input class="form-control" type="text" [(ngModel)]="itemVM.name" value="{{itemVM.name}}" required>
-            </div>
-            <div class="form-group">
-                <label class="field">Description</label>
-                <textarea type="text" class="form-control" [(ngModel)]="itemVM.description"
-                    value="{{itemVM.description}}" maxlength="450"></textarea>
-            </div>
-            <div class="form-group">
-                <label class="field">Artist</label>
-                <input class="form-control" type="text" [(ngModel)]="itemVM.creator" required>
-            </div>
-            <div class="form-group">
-                <div id="priceDimensions" *ngIf="!itemStatus()">
-                    <div class="priceDimensionContainer" style="margin-bottom: 8px;">
-                        <div class="itemPrice">
-                            <label class="field">Dimensions</label>
-                            <input class="form-control" type="text" [(ngModel)]="newDimensions.dimension" required>
+                <input class="form-control btn btn-upload" type="file" id="file" aria-describedby="file"
+                    (change)="fileInput($event)" required>
+                <hr>
+                <div class="form-group">
+                    <label class="field">Name</label>
+                    <input class="form-control" type="text" [(ngModel)]="itemVM.name" value="{{itemVM.name}}" required>
+                </div>
+                <div class="form-group">
+                    <label class="field">Description</label>
+                    <textarea type="text" class="form-control" [(ngModel)]="itemVM.description"
+                        value="{{itemVM.description}}" maxlength="450"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="field">Artist</label>
+                    <input class="form-control" type="text" [(ngModel)]="itemVM.creator" required>
+                </div>
+                <div class="form-group">
+                    <div id="priceDimensions" *ngIf="!itemStatus()">
+                        <div class="priceDimensionContainer" style="margin-bottom: 8px;">
+                            <div class="itemPrice">
+                                <label class="field">Dimensions</label>
+                                <input class="form-control" type="text" [(ngModel)]="newDimensions.dimension" required>
+                            </div>
+                            <div class="itemPrice">
+                                <label class="field">Price</label>
+                                <input class="form-control" type="number" min="0" [(ngModel)]="newDimensions.price"
+                                    required>
+                            </div>
+                            <button type="button" class="btn btn-dimensions" (click)="addDimensions()">Add</button>
                         </div>
-                        <div class="itemPrice">
-                            <label class="field">Price</label>
-                            <input class="form-control" type="number" min="0" [(ngModel)]="newDimensions.price" required>
+                        <div class="priceDimensionContainer">
+                            <select [(ngModel)]="dimensionId" (change)="dimensionsPrice()" class="form-control"
+                                style="width: auto;">
+                                <option *ngFor="let dimension of itemVM.dimensions" value="{{dimension.id}}">
+                                    {{dimension.dimension}}</option>
+                            </select>
+                            <p id="priceSelect">{{dimensionVM?.price}} <span>$</span></p>
+                            <button type="button" class="btn btn-danger" (click)="removeDimensions()">Delete</button>
                         </div>
-                        <button type="button" class="btn btn-dimensions" (click)="addDimensions()">Add</button>
-                    </div>
-                    <div class="priceDimensionContainer">
-                        <select [(ngModel)]="dimensionId" (change)="dimensionsPrice()" class="form-control"
-                            style="width: auto;">
-                            <option *ngFor="let dimension of itemVM.dimensions" value="{{dimension.id}}">
-                                {{dimension.dimension}}</option>
-                        </select>
-                        <p id="priceSelect">{{dimensionVM?.price}} <span>$</span></p>
-                        <button type="button" class="btn btn-danger" (click)="removeDimensions()">Delete</button>
                     </div>
                 </div>
-            </div>
-            <span (click)="setCover()" *ngIf="!isNewItem" class="set-cover-link">set as cover...</span>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-dimensions" (click)="saveImage()">Save changes</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal" *ngIf="!itemStatus()" (click)="removeItem()">Delete</button>
-            </div>
-        </div>
-    </div>
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Image preview</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div id="exhbitionForm">
-                        <div id="modalImage">
-                            <img [src]="imageURL">
-                        </div>
-                    </div>
+                <span (click)="setCover()" *ngIf="!isNewItem" class="set-cover-link">set as cover...</span>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-dimensions" (click)="saveImage()">Save changes</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" *ngIf="!itemStatus()"
+                        (click)="removeItem()">Delete</button>
                 </div>
             </div>
         </div>
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Image preview</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="exhbitionForm">
+                            <div id="modalImage">
+                                <img [src]="imageURL">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>

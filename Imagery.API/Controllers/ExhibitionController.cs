@@ -71,7 +71,6 @@ namespace Imagery.API.Controllers
             {
                 return BadRequest(new { Message = exc.Message });
             }
-
         }
 
         [HttpGet]

@@ -1,4 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ExhibitionService } from 'src/app/Services/Exhibition/exhibition.service';
 import { ImageServiceService } from 'src/app/Services/Image/image-service.service';
@@ -20,7 +26,6 @@ export class EditExhibitionComponent implements OnInit {
   sub: any;
 
   exhibition!: ExhibitionVM;
-  editExhibition!: EditExhibitionVM;
   imageURL: string = '../../../../assets/imagePlaceholder.png';
   imageData: FormData = new FormData();
 
@@ -61,6 +66,7 @@ export class EditExhibitionComponent implements OnInit {
     private exhibitionService: ExhibitionService,
     private auth: SignService,
     private imageService: ImageServiceService,
+    private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router
   ) {}
@@ -82,6 +88,14 @@ export class EditExhibitionComponent implements OnInit {
 
     this.exhibitionService.GetSingle(this.id).subscribe((res: any) => {
       this.exhibition = res;
+      this.exhibitionDetails = this.formBuilder.group({
+        title: [this.exhibition.title, { validators: [Validators.required] }],
+        description: [this.exhibition.description],
+        date: [
+          this.getDateTimeString(this.exhibition.date),
+          { validators: [Validators.required] },
+        ],
+      });
       this.selectedTopics = res.topics;
       this.configureTopics();
     });
@@ -233,22 +247,18 @@ export class EditExhibitionComponent implements OnInit {
   }
 
   editDetails() {
-    this.editExhibition = {
-      id: this.exhibition.id,
-      title: this.exhibition.title,
-      description: this.exhibition.description,
-      date: this.exhibition.date,
-      topics: this.selectedTopics,
-    };
+    this.exhibitionDetails.addControl(
+      'id',
+      new FormControl(this.exhibition.id)
+    );
+    this.exhibitionDetails.addControl(
+      'topics',
+      new FormControl(this.selectedTopics)
+    );
 
-    if (this.editExhibition.title == '') {
-      this.editSuccessMessage = 'Title is required!';
-      this.backgroundColor = 'rgb(238, 78, 52)';
-      this.showExhibitionEditMessage = true;
-      return;
-    }
+    console.log(this.exhibitionDetails.value);
 
-    this.exhibitionService.Update(this.editExhibition).subscribe(
+    this.exhibitionService.Update(this.exhibitionDetails.value).subscribe(
       (res: any) => {
         this.exhibition.title = res.title;
         this.exhibition.description = res.description;
@@ -275,6 +285,7 @@ export class EditExhibitionComponent implements OnInit {
     );
     this.showExhibitionEditMessage = true;
 
+    clearInterval();
     setInterval(() => {
       this.editSuccessMessage = '';
       this.showExhibitionEditMessage = false;
@@ -362,4 +373,8 @@ export class EditExhibitionComponent implements OnInit {
       this.selectedTopics.push(topic);
     }
   }
+
+  // testing edit form group
+
+  exhibitionDetails!: FormGroup;
 }

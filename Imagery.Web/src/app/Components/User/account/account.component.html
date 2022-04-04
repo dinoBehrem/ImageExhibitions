@@ -23,7 +23,7 @@
     </div>
     <div id="editAccount">
         <div id="itemDetails">
-            <form [formGroup]="userDetails" (ngSubmit)="saveChanges()">
+            <form [formGroup]="userDetails" *ngIf="userDetails" (ngSubmit)="saveChanges()">
                 <div class="form-group">
                     <label class="field">First name</label>
                     <div class="input-field">

@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { ImageServiceService } from 'src/app/Services/Image/image-service.service';
 import { SignService } from 'src/app/Services/Sign/sign.service';
 import { ProfileVM } from 'src/app/ViewModels/ProfileVM';
-import { UserVM } from 'src/app/ViewModels/UserVM';
 
 @Component({
   selector: 'app-account',
@@ -17,15 +16,6 @@ export class AccountComponent implements OnInit {
   oldImage: string = '';
   imageData: FormData = new FormData();
   imageFile: any = File;
-  userVM: any = {
-    firstName: '',
-    lastName: '',
-    profilePicture: '',
-    email: '',
-    phone: '',
-    biography: '',
-  };
-
   change: boolean = false;
 
   userDetails!: FormGroup;
@@ -69,7 +59,6 @@ export class AccountComponent implements OnInit {
       } else {
         alert('User is not found!');
       }
-      this.userVM = this.user;
     });
   }
 
