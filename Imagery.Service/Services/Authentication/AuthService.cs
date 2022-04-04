@@ -89,7 +89,8 @@ namespace Imagery.Service.Services.Authentication
                     Lastname = user.LastName,
                     Username = user.UserName,
                     Email = user.Email,
-                    Picture = user.ProfilePicture
+                    Picture = user.ProfilePicture,
+                    Roles = UserRoles(user).Result
                 });
         }
 
@@ -139,6 +140,11 @@ namespace Imagery.Service.Services.Authentication
             };
 
         }
+        private async Task<List<string>> UserRoles(User user)
+        {
+            IList<string> roles = await UserManager.GetRolesAsync(user);
 
+            return roles.ToList();
+        }
     }
 }

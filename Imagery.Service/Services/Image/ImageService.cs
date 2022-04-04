@@ -381,7 +381,7 @@ namespace Imagery.Service.Services.Image
 
         public double GetExhibitionProfit(int exhibitionId)
         {
-            double profit = CollectionRepository.Find(exhibition => exhibition.Id == exhibitionId).Sum(collectionItem => collectionItem.Price);
+            double profit = CollectionRepository.Find(collectionItem => collectionItem.ExhibitionId == exhibitionId).Sum(collectionItem => collectionItem.Price);
 
             return profit;
         }

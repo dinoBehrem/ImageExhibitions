@@ -1,22 +1,12 @@
 <div id="account">
     <div id="accountDetails">
         <div class="exhibitionCover">
-<<<<<<< HEAD
-<<<<<<< HEAD
             <img [src]="user?.profilePicture">
-=======
-            <img [src]="user?.profilePicture" data-toggle="modal" data-target="#exampleModal">
->>>>>>> parent of 6266383 (Redesigned Users component)
             <div class="image-input-form">
                 <input class="form-control btn btn-upload" type="file" id="file" aria-describedby="file"
-=======
-                <img [src]="user?.profilePicture" data-toggle="modal" data-target="#exampleModal">
-                <div>
-                    <input class="form-control btn btn-upload" type="file" id="file" aria-describedby="file"
->>>>>>> parent of c539a51 (Account component redesigned, server errror response implemented)
                     (change)="fileInput($event)" required>
-                    <p (click)="saveImage()">save image...</p>
-                </div>
+                    <span (click)="saveImage()" class="set-cover-link">save image...</span>
+            </div>
         </div>
         <div id="userInfo">
             <h1>{{user?.firstName}} {{user?.lastName}}</h1>
@@ -33,36 +23,6 @@
     </div>
     <div id="editAccount">
         <div id="itemDetails">
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-            <!-- <div class="form-group">
-                <label class="field">First name</label>
-                <input class="form-control" type="text" [(ngModel)]="userVM.firstName" value="{{user?.firstName}}">
-            </div>
-            <div class="form-group">
-                <label class="field">Last name</label>
-                <input class="form-control" type="text" [(ngModel)]="userVM.lastName" value="{{user?.lastName}}">
-            </div>
-            <div class="form-group">
-                <label class="field">Email</label>
-                <input class="form-control" type="text" [(ngModel)]="userVM.email" value="{{user?.email}}">
-            </div>
-            <div class="form-group">
-                <label class="field">Phone</label>
-                <input class="form-control" type="text" [(ngModel)]="userVM.phone" value="{{user?.phone}}">
-            </div>
-            <div class="form-group">
-                <label class="field">Biography</label>
-                <textarea type="text" class="form-control" [(ngModel)]="userVM.biography"
-                    value="{{user?.biography}}" maxlength="450"></textarea>
-            </div>
-            
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-save" (click)="edit()">Save changes</button>
-            </div> -->
-
->>>>>>> parent of 6266383 (Redesigned Users component)
             <form [formGroup]="userDetails" (ngSubmit)="saveChanges()">
                 <div class="form-group">
                     <label class="field">First name</label>
@@ -103,33 +63,6 @@
                     <button type="submit" class="btn btn-save" [disabled]="!userDetails.valid">Save changes</button>
                 </div>
             </form>
-=======
-            <div class="form-group">
-                <label class="field">First name</label>
-                <input class="form-control" type="text" [(ngModel)]="userVM.firstName" value="{{user?.firstName}}">
-            </div>
-            <div class="form-group">
-                <label class="field">Last name</label>
-                <input class="form-control" type="text" [(ngModel)]="userVM.lastName" value="{{user?.lastName}}">
-            </div>
-            <div class="form-group">
-                <label class="field">Email</label>
-                <input class="form-control" type="text" [(ngModel)]="userVM.email" value="{{user?.email}}">
-            </div>
-            <div class="form-group">
-                <label class="field">Phone</label>
-                <input class="form-control" type="text" [(ngModel)]="userVM.phone" value="{{user?.phone}}">
-            </div>
-            <div class="form-group">
-                <label class="field">Biography</label>
-                <textarea type="text" class="form-control" [(ngModel)]="userVM.biography"
-                    value="{{user?.biography}}" maxlength="450"></textarea>
-            </div>
-            
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-save" (click)="edit()">Save changes</button>
-            </div>
->>>>>>> parent of c539a51 (Account component redesigned, server errror response implemented)
         </div>
     </div>
 </div>

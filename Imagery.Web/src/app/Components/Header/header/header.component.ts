@@ -27,9 +27,9 @@ export class HeaderComponent implements OnInit {
     const permission: string[] = [...this.signService.GetJWTData(claim)];
 
     if (permission.includes('Admin') || permission.includes('SuperAdmin')) {
-      this.isAdmin = true;
+      return true;
     } else {
-      this.isAdmin = false;
+      return false;
     }
   }
 
@@ -38,8 +38,7 @@ export class HeaderComponent implements OnInit {
     const username: string = this.signService.GetJWTData(claim);
 
     if (username === '') {
-      // this.router.navigateByUrl('Login');
-      return;
+      this.router.navigateByUrl('Login');
     }
 
     return username;

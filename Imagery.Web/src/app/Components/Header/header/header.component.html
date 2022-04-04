@@ -30,8 +30,7 @@
           </button>
           <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser1" id="profileMenu">
             <li><a class="dropdown-item dropwonItem" routerLink="Account">Account</a></li>
-            <li><a class="dropdown-item dropwonItem" *ngIf="isAdmin" routerLink="Users">Users</a></li>
-            
+            <li><a class="dropdown-item dropwonItem" *ngIf="adminPermission()" routerLink="Users">Users</a></li>
             <li>
               <hr class="dropdown-divider">
             </li>

@@ -84,4 +84,12 @@ export class MyExhibitionsComponent implements OnInit {
 
     return dateString;
   }
+
+  disableButton() {
+    if (this.exhibitionVM?.started && this.exhibitionVM != null) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

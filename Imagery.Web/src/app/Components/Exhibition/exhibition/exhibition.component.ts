@@ -18,15 +18,6 @@ export class ExhibitionComponent implements OnInit {
   id: number = -1;
   sub: any;
 
-  // itemVM: any = {
-  //   image: '',
-  //   name: '',
-  //   creator: '',
-  //   description: '',
-  //   dimensions: '',
-  //   price: 0.0,
-  // };
-
   itemVM!: ExponentItemVM;
 
   dimensionVM: any;

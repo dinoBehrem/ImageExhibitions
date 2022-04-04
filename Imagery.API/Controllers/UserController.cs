@@ -116,17 +116,6 @@ namespace Imagery.API.Controllers
             }
 
             return Ok(new { Message = "Subscription successfull!", isSuccess = true });
-            //try
-            //{
-            //    var result = UserService.Subscribe(subscription);
-                
-            //    return Ok(new { Message = "Subscription successfull!"});
-
-            //}
-            //catch (Exception exc)
-            //{
-            //    return BadRequest(new { Message = exc.Message});
-            //}
         }
 
         [HttpPost]
@@ -156,21 +145,26 @@ namespace Imagery.API.Controllers
 
         [HttpPut("{username}")]
         [Authorize]
-        public async Task<ActionResult<UserEditVM>> EditAccount(string username, [FromForm]UserEditVM userEdit)
+        public async Task<ActionResult<UserEditVM>> EditAccount(string username, [FromBody]UserEditVM userEdit)
         {
             if (string.IsNullOrEmpty(username) || userEdit == null)
             {
-                return BadRequest("Invalid username or data!");
+                return BadRequest(new { Messsage = "Invalid username or data!" });
             }
 
-            var result = await UserService.EditProfile(username, userEdit);
-
-            if (result == null)
+            try
             {
-                return BadRequest("Profile not updated!");
-            }
 
-            return Ok(result);
+                var result = await UserService.EditProfile(username, userEdit);
+                return Ok(result);
+            }
+            catch (Exception exc)
+            {
+                return BadRequest(new
+                {
+                    Messsage = exc.Message
+                });
+            }
         }
     }
 }

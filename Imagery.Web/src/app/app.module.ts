@@ -71,7 +71,7 @@ import { SubscriptionsComponent } from './Components/User/profile/subscriptions/
       {
         path: 'Users',
         component: UsersComponent,
-        canActivate: [SuperAdminAccessGuard],
+        canActivate: [AdminAccessGuard],
       },
       { path: 'Profile/:username', component: ProfileComponent },
       {

@@ -105,8 +105,6 @@ export class ExhibitionsComponent implements OnInit {
     this.getByFilters(this.filters);
   }
 
-  // testing server side filtering
-
   getByFilters(filters: FilterVM) {
     this.filters = filters;
     this.exhibitionService

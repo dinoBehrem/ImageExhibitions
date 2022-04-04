@@ -1,4 +1,86 @@
+.flex {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#user-details {
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1px solid #e9ecef;
+    margin-bottom: 10px;
+}
+
+.user-profile-picture {
+    height: 40%;
+    margin-bottom: 10px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.user-profile-picture>img {
+    height: 200px;
+    width: 200px;
+    border-radius: 50%;
+}
+
+#user-info {
+    width: -webkit-fill-available;
+    padding: 45px;
+}
+
+#contact,
+#roles {
+    padding-left: 8px;
+}
+
+.form-control {
+    display: inline;
+    width: auto;
+}
+
+.role {
+    color: #ee4e34;
+    font-weight: 400;
+    margin-left: 5px;
+}
+
+.btn-save {
+    background-color: #ee4e34;
+    color: #fcedda;
+    border: none;
+}
 img {
     width: 50px;
     height : 50px;
 }
+
+thead {
+    background-color: #783937;
+    color: #fcedda;
+  }
+  
+  .table-striped > tbody > tr:nth-child(odd) > td,
+  .table-striped > tbody > tr:nth-child(odd) > th {
+    background-color: #fcedda;
+  }
+  
+  .btn-details {
+    background-color: #ee4e34;
+    color: #fcedda;
+  }
+  
+  .btn-edit {
+    background-color: #fcedda;
+    color: #783937;
+  }
+  
+  tr td {
+    color: #783937;
+  }
+  
+  th,
+  td {
+    text-align: center;
+  }

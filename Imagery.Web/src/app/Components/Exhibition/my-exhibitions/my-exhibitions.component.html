@@ -25,9 +25,9 @@
           <span>{{topic.name}}</span>
         </label>
       </div>
-      <div id="detailsFooter" *ngIf="!exhibitionVM?.started && exhibitionVM != null">
-        <a routerLink='/EditExhibition/{{exhibitionVM?.id}}' class="btn btn-edit">Edit</a>
-        <button class="btn btn-danger" (click)="deleteExhbition(exhibitionVM)">Delete</button>
+      <div id="detailsFooter" *ngIf="exhibitionVM != null">
+        <button routerLink='/EditExhibition/{{exhibitionVM?.id}}' class="btn btn-edit" [disabled]="disableButton()">Edit</button>
+        <button class="btn btn-danger" (click)="deleteExhbition(exhibitionVM)" [disabled]="disableButton()">Delete</button>
       </div>
     </div>
   </div>
