@@ -2,9 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ExhibitionService } from 'src/app/Services/Exhibition/exhibition.service';
 import { SignService } from 'src/app/Services/Sign/sign.service';
-import { UserService } from 'src/app/Services/User/user.service';
 import { ProfileVM } from 'src/app/ViewModels/ProfileVM';
 import { UserVM } from 'src/app/ViewModels/UserVM';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-profile',

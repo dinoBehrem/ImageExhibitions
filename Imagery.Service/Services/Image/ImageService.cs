@@ -292,28 +292,38 @@ namespace Imagery.Service.Services.Image
             return true;
         }
 
-        public async Task<bool> AddColectionItem(CollectionItemVM collectionItem)
+        public async Task<bool> AddColection(CollectionVM collectionItem)
         {
-            var userExist = await UserManager.FindByNameAsync(collectionItem.Customer);
+            var userExist = await UserManager.FindByNameAsync(collectionItem.Username);
 
             if (userExist == null)
             {
                 return false;
             }
 
-            var response = CollectionRepository.Add(new CollectionItem()
+            List<CollectionItem> collection = new List<CollectionItem>();
+
+            foreach (var item in collectionItem.Collection)
             {
-                Name = collectionItem.Name,
-                Image = collectionItem.Image,
-                Description = collectionItem.Description,
-                Creator = collectionItem.Creator,
-                Dimensions = collectionItem.Dimensions,
-                Price = collectionItem.Price,
-                ExhibitionTitle = collectionItem.Exhibition,
-                Organizer = collectionItem.Organizer,
-                UserId = userExist.Id,
-                ExhibitionId = collectionItem.ExhibitionId
-            });
+                for (int i = 0; i < item.Quantity; i++)
+                {
+                    collection.Add(new CollectionItem()
+                    {
+                        Name = item.Name,
+                        Image = item.Image,
+                        Description = item.Description,
+                        Creator = item.Creator,
+                        Dimensions = item.Dimensions,
+                        Price = item.Price,
+                        ExhibitionTitle = item.Exhibition,
+                        Organizer = item.Organizer,
+                        UserId = userExist.Id,
+                        ExhibitionId = item.ExhibitionId
+                    });
+                }
+            }
+
+            var response = CollectionRepository.AddRange(collection);
 
             if(!response.IsSuccess)
             {

@@ -36,11 +36,6 @@ export class HeaderComponent implements OnInit {
   getUsername() {
     const claim = 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name';
     const username: string = this.signService.GetJWTData(claim);
-
-    if (username === '') {
-      this.router.navigateByUrl('Login');
-    }
-
     return username;
   }
 

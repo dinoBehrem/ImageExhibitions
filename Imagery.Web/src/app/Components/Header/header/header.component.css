@@ -116,3 +116,10 @@
   font-size: 30px;
   font-family: "Roboto", sans-serif;
 }
+
+.btn-cart{
+  background-color: transparent;
+  border: none;
+  color: #fcedda;
+  margin-right: 10px;
+}

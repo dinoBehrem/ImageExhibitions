@@ -129,14 +129,14 @@ namespace Imagery.API.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult> BuyItem([FromBody] CollectionItemVM collectionItem)
+        public async Task<ActionResult> BuyItem([FromBody] CollectionVM collectionItems)
         {
-            if (collectionItem == null)
+            if (collectionItems == null)
             {
                 return BadRequest(new { Message = "Error, item doesn't exist!", isSuccess = false });
             }
 
-            var response = await ImageService.AddColectionItem(collectionItem);
+            var response = await ImageService.AddColection(collectionItems);
 
             if (!response)
             {

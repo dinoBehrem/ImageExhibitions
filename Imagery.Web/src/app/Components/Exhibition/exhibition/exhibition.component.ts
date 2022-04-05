@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CartService } from 'src/app/Services/Cart/cart.service';
 import { ExhibitionService } from 'src/app/Services/Exhibition/exhibition.service';
 import { ImageServiceService } from 'src/app/Services/Image/image-service.service';
 import { SignService } from 'src/app/Services/Sign/sign.service';
@@ -26,7 +27,7 @@ export class ExhibitionComponent implements OnInit {
 
   constructor(
     private exhibitionService: ExhibitionService,
-    private imageService: ImageServiceService,
+    private cartService: CartService,
     private signService: SignService,
     private route: ActivatedRoute,
     private router: Router
@@ -81,12 +82,6 @@ export class ExhibitionComponent implements OnInit {
       return;
     }
 
-    if (!this.getUsername()) {
-      alert('You are not logged in!');
-
-      return;
-    }
-
     let collectionItem = {
       image: this.itemVM.image,
       name: this.itemVM.name,
@@ -98,16 +93,13 @@ export class ExhibitionComponent implements OnInit {
       creator: this.itemVM.creator,
       customer: this.getUsername(),
       exhibitionId: this.exhibition.id,
+      quantity:1
     };
 
-    this.imageService
-      .AddCollectionItem(collectionItem as CollectionItemVM)
-      .subscribe((res: any) => {
-        alert(res.message);
-
-        this.dimensionVM = null;
-        this.dimensionId = -1;
-      });
+    this.cartService
+      .addToCart(collectionItem as CollectionItemVM);
+      this.dimensionVM = null;
+      this.dimensionId = -1;
   }
 
   getUsername() {
@@ -127,6 +119,5 @@ export class ExhibitionComponent implements OnInit {
         this.dimensionVM = dimen as DimensionsVM;
       }
     });
-    console.log(this.dimensionVM);
   }
 }

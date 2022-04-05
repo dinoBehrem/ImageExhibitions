@@ -8,4 +8,5 @@ export interface CollectionItemVM {
   organizer: string;
   creator: string;
   customer: string;
+  quantity: number;
 }

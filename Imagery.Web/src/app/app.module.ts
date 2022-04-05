@@ -5,6 +5,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './Components/Header/header/header.component';
@@ -26,6 +28,7 @@ import { AccountComponent } from './Components/User/account/account.component';
 import { MyExhibitionsComponent } from './Components/Exhibition/my-exhibitions/my-exhibitions.component';
 import { CollectionComponent } from './Components/Collection/collection.component';
 import { SubscriptionsComponent } from './Components/User/profile/subscriptions/subscriptions.component';
+import { CartComponent } from './Components/cart/cart.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +48,7 @@ import { SubscriptionsComponent } from './Components/User/profile/subscriptions/
     MyExhibitionsComponent,
     CollectionComponent,
     SubscriptionsComponent,
+    CartComponent,
   ],
   imports: [
     BrowserModule,
@@ -53,6 +57,8 @@ import { SubscriptionsComponent } from './Components/User/profile/subscriptions/
     ReactiveFormsModule,
     HttpClientModule,
     MatPaginatorModule,
+    MatIconModule,
+    MatCardModule,
     RouterModule.forRoot([
       { path: '', redirectTo: 'Home', pathMatch: 'full' },
       { path: 'Home', component: ExhibitionsComponent },

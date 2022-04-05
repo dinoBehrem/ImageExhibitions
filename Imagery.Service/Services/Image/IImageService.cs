@@ -18,7 +18,7 @@ namespace Imagery.Service.Services.Image
         EditItemVM UpdateExponentItem(int id, EditItemVM editItem);
         bool RemoveItem(int id);
         bool RemoveItems(int exhbitionId);
-        Task<bool> AddColectionItem(CollectionItemVM collectionItem);
+        Task<bool> AddColection(CollectionVM collectionItem);
         Task<List<CollectionItemVM>> GetCollection(string username);
         int GetSoledItemCount(int exhibitionId);
         double GetExhibitionProfit(int exhibitionId);

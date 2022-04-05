@@ -83,6 +83,7 @@
   background-color: #ee4e34;
   color: #fcedda;
   align-self: flex-end;
+  margin-right: 10px;
 }
 
 #collapseBudget > label {

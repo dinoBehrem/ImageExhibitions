@@ -217,7 +217,7 @@ export class ExhibitionService {
       httpParams = httpParams.append('description', filters.description);
     }
 
-    filters.topics.forEach((topic) => {
+    filters?.topics?.forEach((topic) => {
       httpParams = httpParams.append('topics', topic);
     });
 

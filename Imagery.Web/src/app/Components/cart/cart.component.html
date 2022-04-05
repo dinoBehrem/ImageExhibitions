@@ -1,0 +1,11 @@
+<div class="card" *ngFor="let item of cartItems">
+    <div class="card-body">
+        <h5 class="card-title">{{item.name}}</h5>
+        <p class="card-text">{{item.creator}}</p>
+    </div>
+
+</div>
+<div class="cart-footer" *ngIf="cartItems.length > 0">
+    <button type="button" class="btn" (click)="clear()">Clear cart</button>
+    <button type="button" class="btn" (click)="buy()">Buy</button>
+</div>

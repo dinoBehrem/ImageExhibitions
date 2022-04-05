@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CollectionItemVM } from 'src/app/ViewModels/CollectionItemVM';
+import { CollectionVM } from 'src/app/ViewModels/CollectionVM';
 import { DimensionsVM } from 'src/app/ViewModels/DimensionsVM';
 
 @Injectable({
@@ -50,7 +51,7 @@ export class ImageServiceService {
     return this.http.get(this.url + '/GetCollection/' + username, this.options);
   }
 
-  AddCollectionItem(collectionItem: CollectionItemVM) {
-    return this.http.post(this.url + '/BuyItem', collectionItem, this.options);
+  AddCollection(collection: CollectionVM) {
+    return this.http.post(this.url + '/BuyItem', collection, this.options);
   }
 }

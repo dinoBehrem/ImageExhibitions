@@ -18,5 +18,6 @@ namespace Imagery.Service.ViewModels.Image
         public string Organizer { get; set; }
         public string Customer { get; set; }
         public int ExhibitionId { get; set; }
+        public int Quantity { get; set; }
     }
 }

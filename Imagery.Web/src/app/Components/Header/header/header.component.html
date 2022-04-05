@@ -20,7 +20,14 @@
         <a routerLink="Collection" routerLinkActive="activeLink">Collection</a>
       </li>
     </ul>
-
+    <div class="dropdown">
+      <button class="btn btn-cart dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+       <mat-icon>add_shopping_cart</mat-icon>
+      </button>
+      <app-cart class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+       
+      </app-cart>
+    </div>
     <app-header-status>
       <ng-container authorized>
         <div class="dropdown">
@@ -28,7 +35,7 @@
             aria-expanded="false">
             {{getUsername()}}
           </button>
-          <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser1" id="profileMenu">
+          <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownMenuButton" id="profileMenu">
             <li><a class="dropdown-item dropwonItem" routerLink="Account">Account</a></li>
             <li><a class="dropdown-item dropwonItem" *ngIf="adminPermission()" routerLink="Users">Users</a></li>
             <li>
