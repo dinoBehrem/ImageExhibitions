@@ -7,13 +7,10 @@ import { UserVM } from 'src/app/ViewModels/UserVM';
   templateUrl: './subscriptions.component.html',
   styleUrls: ['./subscriptions.component.css'],
 })
-export class SubscriptionsComponent implements OnInit, OnDestroy {
+export class SubscriptionsComponent implements OnInit {
   @Input() subscriptions?: UserVM[];
 
   constructor(private signService: SignService) {}
-  ngOnDestroy(): void {
-    this.subscriptions = [];
-  }
 
   ngOnInit(): void {}
 

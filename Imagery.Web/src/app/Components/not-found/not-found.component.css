@@ -1,0 +1,19 @@
+.main {
+    margin: 0 auto;
+    height: 93%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #F7F8FB;
+}
+
+.status-code{
+    font-size: 150px;
+    color: #bebebe;
+}
+
+.status-text{
+    font-size: 60px;
+    color: #bebebe;
+}

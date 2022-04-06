@@ -29,6 +29,7 @@ import { MyExhibitionsComponent } from './Components/Exhibition/my-exhibitions/m
 import { CollectionComponent } from './Components/Collection/collection.component';
 import { SubscriptionsComponent } from './Components/User/profile/subscriptions/subscriptions.component';
 import { CartComponent } from './Components/cart/cart.component';
+import { NotFoundComponent } from './Components/not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { CartComponent } from './Components/cart/cart.component';
     CollectionComponent,
     SubscriptionsComponent,
     CartComponent,
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,
@@ -90,6 +92,10 @@ import { CartComponent } from './Components/cart/cart.component';
         path: 'Collection',
         component: CollectionComponent,
         canActivate: [UserAccessGuard],
+      },
+      {
+        path: '**',
+        component: NotFoundComponent,
       },
     ]),
   ],

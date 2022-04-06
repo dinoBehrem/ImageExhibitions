@@ -209,10 +209,11 @@ namespace Imagery.API.Controllers
             // Generate exhibitions
 
             HashSet<DimensionsVM> itemDimensions = new HashSet<DimensionsVM>();
-            DateTime date = DateTime.Now;
 
             foreach (var user in users)
             {
+                DateTime date = DateTime.Now;
+
                 int exhibitionCount = rand.Next(2, 4);
 
                 if (user.Username != Roles.SuperAdmin)
@@ -223,15 +224,15 @@ namespace Imagery.API.Controllers
                         int hours = rand.Next(0, 24);
                         int minutes = rand.Next(0, 60);
 
-                        date.AddDays(days);
-                        date.AddHours(hours);
-                        date.AddMinutes(minutes);
+                        date = date.AddDays(days);
+                        date = date.AddHours(hours);
+                        date = date.AddMinutes(minutes);
 
                         var exhbitionCreation = new ExhbitionCreationVM()
                         {
                             Organizer = user.Username,
                             Title = loremIpsum.Substring(rand.Next(0, 420), 25),
-                            Description = titles.Substring(rand.Next(0, 691), 150),
+                            Description = titles.Substring(rand.Next(0, 671), 170),
                             StartingDate = date
                         };
 
@@ -255,7 +256,7 @@ namespace Imagery.API.Controllers
                             exhibitionService.TestItems(id, new TestItemUploadVM()
                             {
                                 Name = loremIpsum.Substring(rand.Next(0, 420), 25),
-                                Creator = user.Username,
+                                Creator = user.Firstname + " " + user.Lastname,
                                 Description = titles.Substring(rand.Next(0, 711), 50),
                                 Image = exponentItems[rand.Next(0, exponentItems.Count)]
                             }, itemDimensions.ToList());

@@ -78,7 +78,7 @@
         <p (click)="setUsers('followers')">Followers - {{profile?.followers?.length}}</p>
         <p (click)="setUsers('following')">Following - {{profile?.following?.length}}</p>
       </div>
-      <app-subscriptions [subscriptions]="displayUsers()"></app-subscriptions>
+      <app-subscriptions [subscriptions]="users"></app-subscriptions>
     </div>
   </div>
 </div>

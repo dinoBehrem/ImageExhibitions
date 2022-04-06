@@ -123,6 +123,12 @@ export class EditExhibitionComponent implements OnInit {
   saveImage() {
     this.imageData.append('exhibitionId', this.exhibition.id.toString());
     this.imageData.append('name', this.itemVM.name);
+    if (this.itemVM.creator == '') {
+      this.itemVM.creator =
+        this.exhibition.organizer.firstname +
+        ' ' +
+        this.exhibition.organizer.lastname;
+    }
     this.imageData.append('creator', this.itemVM.creator);
     this.imageData.append('imageDescription', this.itemVM.description);
 
@@ -137,13 +143,11 @@ export class EditExhibitionComponent implements OnInit {
           this.setItem(res as ExponentItemVM);
           this.isNewItem = false;
         });
-      console.log('New image');
     } else {
       if (this.change) {
         this.imageData.append('image', this.imageFile, this.imageFile.name);
       }
       this.editItem();
-      console.log('Edit image');
     }
   }
 
@@ -255,8 +259,6 @@ export class EditExhibitionComponent implements OnInit {
       'topics',
       new FormControl(this.selectedTopics)
     );
-
-    console.log(this.exhibitionDetails.value);
 
     this.exhibitionService.Update(this.exhibitionDetails.value).subscribe(
       (res: any) => {

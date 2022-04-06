@@ -76,4 +76,18 @@ export class CartService {
 
     return username;
   }
+
+  getItemCount(): number {
+    let sum = 0;
+    this.cartItems.forEach((item) => (sum += item.quantity));
+
+    return sum;
+  }
+
+  getTotalPrice(): number {
+    let total = 0;
+    this.cartItems.forEach((item) => (total += item.quantity * item.price));
+
+    return total;
+  }
 }

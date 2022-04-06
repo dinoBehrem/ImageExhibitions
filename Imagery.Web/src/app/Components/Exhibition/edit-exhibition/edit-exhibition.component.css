@@ -112,6 +112,7 @@ textarea {
   font-weight: 500;
   padding-left: 10px;
   text-align: center;
+  margin: 0;
 }
 
 #detailsFooter {
@@ -209,4 +210,13 @@ textarea {
   color: #fcedda;
   border: none;
   align-self: flex-end;
+}
+
+.details-header-info{
+  display: flex; flex-direction: row; justify-content: space-between; align-items: center;
+}
+
+.creator-note {
+  font-size: 14px;
+  color: #bebebe;
 }

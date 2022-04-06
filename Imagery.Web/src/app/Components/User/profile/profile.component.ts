@@ -17,6 +17,8 @@ export class ProfileComponent implements OnInit {
   exhibitionSubscriptionMessage?: string;
   showExhibitionMessage: boolean = false;
 
+  subCategory: string = 'followers';
+
   userSubscriptionMessage?: string;
   backgroundColor: string = 'transparent';
   showUserMessage: boolean = false;
@@ -26,6 +28,7 @@ export class ProfileComponent implements OnInit {
     private exhibitionService: ExhibitionService,
     private route: ActivatedRoute
   ) {}
+
   sub: any;
   username: string = '';
 
@@ -36,12 +39,12 @@ export class ProfileComponent implements OnInit {
         this.loadProfile();
       }
     });
-    this.users = this.profile?.following;
   }
 
   loadProfile() {
     this.signService.GetProfile(this.username).subscribe((res: any) => {
       this.profile = res;
+      this.setUsers('followers');
     });
   }
 
@@ -93,6 +96,8 @@ export class ProfileComponent implements OnInit {
     } else if (type === 'followers') {
       this.users = this.profile?.followers;
     }
+
+    this.subCategory = type;
   }
 
   exhibitionSubscription(id: number) {

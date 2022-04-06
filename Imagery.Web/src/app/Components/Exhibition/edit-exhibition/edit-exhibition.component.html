@@ -28,7 +28,7 @@
                 <div class="form-group">
                     <label class="field">Description</label>
                     <div class="input-field">
-                        <input class="form-control" type="text" formControlName="description">
+                        <textarea class="form-control" type="text" formControlName="description"></textarea>
                     </div>
                 </div>
                 <div class="form-group">
@@ -59,7 +59,7 @@
         </div>
         <div id="editItem">
             <div class="detailsHeader">
-                <div style="display: flex; flex-direction: row; justify-content: space-between;">
+                <div class="details-header-info">
                     <h3 class="detailsTitle">Image details</h3>
                     <button class="btn btn-new" (click)="newItem()"><mat-icon>add_a_photo</mat-icon></button>
                 </div>
@@ -87,6 +87,7 @@
                 <div class="form-group">
                     <label class="field">Artist</label>
                     <input class="form-control" type="text" [(ngModel)]="itemVM.creator" required>
+                    <span class="creator-note" *ngIf="itemStatus()">*If you leave blank, your name will be set as creator...</span>
                 </div>
                 <div class="form-group">
                     <div id="priceDimensions" *ngIf="!itemStatus()">
