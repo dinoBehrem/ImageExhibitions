@@ -123,3 +123,11 @@
   color: #fcedda;
   margin-right: 10px;
 }
+
+.cart {
+  width:400px;
+  margin-left: -250px;
+  background-color: #F7F8FB;
+  max-height: 400px;
+  padding: 0 4px 0;
+}

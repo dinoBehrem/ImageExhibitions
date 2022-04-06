@@ -19,6 +19,18 @@ export class CartComponent implements OnInit {
     this.cartItems = this.cartService.clearCart();
   }
 
+  increase(item: CollectionItemVM) {
+    this.cartService.increaseQuantity(item);
+  }
+
+  decrease(item: CollectionItemVM) {
+    this.cartService.decreaseQuantity(item);
+  }
+
+  remove(item: CollectionItemVM) {
+    this.cartService.removeItem(item);
+  }
+
   buy() {
     this.cartService.purchase();
     this.cartItems = this.cartService.clearCart();

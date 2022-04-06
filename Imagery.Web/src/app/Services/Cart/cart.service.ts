@@ -16,9 +16,12 @@ export class CartService {
     private signService: SignService
   ) {}
 
-  addToCart(product: CollectionItemVM) {
-    this.cartItems.push(product);
-    console.log(this.cartItems);
+  addToCart(item: CollectionItemVM) {
+    if (this.cartItems.includes(item)) {
+      this.increaseQuantity(item);
+    } else {
+      this.cartItems.push(item);
+    }
   }
 
   getItems() {
@@ -35,10 +38,17 @@ export class CartService {
   }
 
   decreaseQuantity(item: CollectionItemVM) {
-    if (item.quantity == 0) {
-      return;
-    } else {
-      item.quantity--;
+    item.quantity--;
+    if (item.quantity <= 0) {
+      this.removeItem(item);
+    }
+  }
+
+  removeItem(item: CollectionItemVM) {
+    let index = this.cartItems.indexOf(item);
+
+    if (index > -1) {
+      this.cartItems.splice(index, 1);
     }
   }
 
@@ -51,8 +61,8 @@ export class CartService {
       .AddCollection(collection as CollectionVM)
       .subscribe((res: any) => {
         alert(res.message);
-        this.clearCart();
       });
+    this.clearCart();
   }
 
   getUsername() {
