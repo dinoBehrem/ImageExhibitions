@@ -230,3 +230,8 @@ textarea {
 h4 {
   color: #ee4e34;
 }
+
+.error-message {
+  color: #ff0000;
+  font-size: 14px;
+}

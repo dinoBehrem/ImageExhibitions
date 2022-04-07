@@ -11,7 +11,6 @@ import { ImageServiceService } from 'src/app/Services/Image/image-service.servic
 import { SignService } from 'src/app/Services/Sign/sign.service';
 import { CoverImageVM } from 'src/app/ViewModels/CoverImageVM';
 import { DimensionsVM } from 'src/app/ViewModels/DimensionsVM';
-import { EditExhibitionVM } from 'src/app/ViewModels/EditExhibitionVM';
 import { ExhibitionVM } from 'src/app/ViewModels/ExhibitionVM';
 import { ExponentItemVM } from 'src/app/ViewModels/ExponentItemVM';
 import { TopicVM } from 'src/app/ViewModels/TopicVM';
@@ -24,6 +23,7 @@ import { TopicVM } from 'src/app/ViewModels/TopicVM';
 export class EditExhibitionComponent implements OnInit {
   id: number = -1;
   sub: any;
+  exhibitionDetails!: FormGroup;
 
   exhibition!: ExhibitionVM;
   imageURL: string = '../../../../assets/imagePlaceholder.png';
@@ -375,8 +375,4 @@ export class EditExhibitionComponent implements OnInit {
       this.selectedTopics.push(topic);
     }
   }
-
-  // testing edit form group
-
-  exhibitionDetails!: FormGroup;
 }

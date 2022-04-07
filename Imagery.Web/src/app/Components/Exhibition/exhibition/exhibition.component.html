@@ -53,6 +53,8 @@
                             </select>
                         </div>
                         <p id="priceSelect">{{dimensionVM?.price}} <span>$</span></p>
+                        <p *ngIf="dimensinosErrorMessage" class="error-message">
+                            {{dimensinosErrorMessage}}</p>
                     </div>
                 </div>
             </div>

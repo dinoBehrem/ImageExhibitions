@@ -50,11 +50,11 @@
   height: 100%;
   width: 100%;
 }
+
 .toggleModal {
   width: 250px;
   height: 250px;
   background-color: rgba(197, 199, 200, 0.322);
-  border-radius: 10px;
   margin: 5px;
 }
 
@@ -191,6 +191,17 @@ textarea {
   color: #783937;
 }
 
+.btn-dimensions:hover {
+  color: #fcedda;
+  background-color: #783937;
+}
+
+.btn-delete {
+  height: calc(2.25rem + 2px);
+  background-color: #ff0000;
+  color: #fcedda;
+}
+
 .modal-footer {
   border: none;
 }
@@ -206,6 +217,7 @@ textarea {
 }
 
 .btn-new {
+  height: calc(2.25rem + 2px);
   background-color: #ee4e34;
   color: #fcedda;
   border: none;
@@ -219,4 +231,13 @@ textarea {
 .creator-note {
   font-size: 14px;
   color: #bebebe;
+}
+
+.error-message {
+  color: #ff0000;
+  font-size: 14px;
+}
+
+.invalid-dimensions {
+  border: 2px solid #ff0000;
 }

@@ -53,7 +53,7 @@
         </div>
     </div>
         <div id="imageDisplay">
-            <div *ngFor="let item of exhibition?.items" class="toggleModal" (click)="setItem(item)">
+            <div *ngFor="let item of exhibition?.items" class="toggleModal" [ngClass]='{"invalid-dimensions": item.dimensions.length == 0}' (click)="setItem(item)">
                 <img src="{{item.image}}" />
             </div>
         </div>
@@ -77,7 +77,8 @@
                 <hr>
                 <div class="form-group">
                     <label class="field">Name</label>
-                    <input class="form-control" type="text" [(ngModel)]="itemVM.name" value="{{itemVM.name}}" required>
+                    <input class="form-control" type="text" [(ngModel)]="itemVM.name" value="{{itemVM.name}}">
+                    <p class="error-message" *ngIf="!itemVM.name">*Name is required</p>
                 </div>
                 <div class="form-group">
                     <label class="field">Description</label>
@@ -86,8 +87,8 @@
                 </div>
                 <div class="form-group">
                     <label class="field">Artist</label>
-                    <input class="form-control" type="text" [(ngModel)]="itemVM.creator" required>
-                    <span class="creator-note" *ngIf="itemStatus()">*If you leave blank, your name will be set as creator...</span>
+                    <input class="form-control" type="text" [(ngModel)]="itemVM.creator">
+                    <span class="creator-note" *ngIf="itemStatus()">*Leaving blank will set your name as creator</span>
                 </div>
                 <div class="form-group">
                     <div id="priceDimensions" *ngIf="!itemStatus()">
@@ -101,16 +102,18 @@
                                 <input class="form-control" type="number" min="0" [(ngModel)]="newDimensions.price"
                                     required>
                             </div>
-                            <button type="button" class="btn btn-dimensions" (click)="addDimensions()">Add</button>
+                            <button type="button" class="btn btn-dimensions" (click)="addDimensions()"><mat-icon>add_circle_outline</mat-icon></button>
                         </div>
+                        <p class="error-message" *ngIf="itemVM.dimensions.length == 0">*Please add dimensions</p>
                         <div class="priceDimensionContainer">
                             <select [(ngModel)]="dimensionId" (change)="dimensionsPrice()" class="form-control"
                                 style="width: auto;">
                                 <option *ngFor="let dimension of itemVM.dimensions" value="{{dimension.id}}">
                                     {{dimension.dimension}}</option>
                             </select>
+                            
                             <p id="priceSelect">{{dimensionVM?.price}} <span>$</span></p>
-                            <button type="button" class="btn btn-danger" (click)="removeDimensions()">Delete</button>
+                            <button type="button" class="btn btn-delete" (click)="removeDimensions()"><mat-icon>delete_forever</mat-icon></button>
                         </div>
                     </div>
                 </div>

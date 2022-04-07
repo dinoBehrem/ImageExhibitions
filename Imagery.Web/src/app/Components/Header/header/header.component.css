@@ -130,4 +130,5 @@
   background-color: #F7F8FB;
   max-height: 400px;
   padding: 0 4px 0;
+  overflow: scroll;
 }

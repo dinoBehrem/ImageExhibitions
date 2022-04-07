@@ -13,7 +13,8 @@ export class CartService {
 
   constructor(
     private imageService: ImageServiceService,
-    private signService: SignService
+    private signService: SignService,
+    private router: Router
   ) {}
 
   addToCart(item: CollectionItemVM) {
@@ -71,7 +72,7 @@ export class CartService {
 
     if (username === '') {
       alert('Login in to complete your purchase!');
-      return '';
+      this.router.navigate(['Login']);
     }
 
     return username;

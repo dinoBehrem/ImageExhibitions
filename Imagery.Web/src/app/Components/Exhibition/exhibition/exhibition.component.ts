@@ -25,6 +25,9 @@ export class ExhibitionComponent implements OnInit {
   dimensionId: number = -1;
   imageURL: string = '../../../../assets/imagePlaceholder.png';
 
+  dimensinosErrorMessage: string = '';
+  imageErrorMessage: string = '';
+
   constructor(
     private exhibitionService: ExhibitionService,
     private cartService: CartService,
@@ -73,12 +76,12 @@ export class ExhibitionComponent implements OnInit {
 
   addToCart() {
     if (this.itemVM == undefined) {
-      alert('Please select image!');
+      this.imageErrorMessage = '*Please select image!';
       return;
     }
 
     if (this.dimensionId == -1) {
-      alert('Please select dimensions!');
+      this.imageErrorMessage = 'Please select dimensions!';
       return;
     }
 
@@ -93,13 +96,13 @@ export class ExhibitionComponent implements OnInit {
       creator: this.itemVM.creator,
       customer: this.getUsername(),
       exhibitionId: this.exhibition.id,
-      quantity:1
+      quantity: 1,
     };
 
-    this.cartService
-      .addToCart(collectionItem as CollectionItemVM);
-      this.dimensionVM = null;
-      this.dimensionId = -1;
+    this.cartService.addToCart(collectionItem as CollectionItemVM);
+    this.dimensionVM = null;
+    this.dimensionId = -1;
+    this.dimensinosErrorMessage = this.imageErrorMessage = '';
   }
 
   getUsername() {
