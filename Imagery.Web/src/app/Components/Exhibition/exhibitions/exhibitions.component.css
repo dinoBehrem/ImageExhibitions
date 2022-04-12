@@ -88,6 +88,7 @@ app-filter {
   height: 100%;
   width: 18%;
   background-color: #F7F8FB;
+  overflow: scroll;
 }
 
 .error-message {

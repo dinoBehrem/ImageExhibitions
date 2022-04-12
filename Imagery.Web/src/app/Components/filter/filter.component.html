@@ -9,15 +9,20 @@
                 <div class="botomLine">
                     <div class="category">
                         <span>Price range</span>
-                        <a class="expandCategory" data-toggle="collapse" href="#collapseBudget" role="button" aria-expanded="false" aria-controls="collapseBudget">                    
+                        <a class="expandCategory" data-toggle="collapse" href="#collapseBudget" role="button"
+                            aria-expanded="false" aria-controls="collapseBudget">
                         </a>
                     </div>
                     <div class="collapse" id="collapseBudget">
                         <div>
-                            <label>From:</label>
-                            <input type="number" min="0" class="priceInput" formControlName="avgPriceMin">
-                            <label>To:</label>
-                            <input type="number" min="0" class="priceInput" formControlName="avgPriceMax">
+                            <div>
+                                <label>From:</label>
+                                <input type="number" min="0" class="priceInput" formControlName="avgPriceMin">
+                            </div>
+                            <div>
+                                <label>To:</label>
+                                <input type="number" min="0" class="priceInput" formControlName="avgPriceMax">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -25,27 +30,29 @@
                 <div class="botomLine">
                     <div class="category">
                         <span>Date</span>
-                        <a class="expandCategory" data-toggle="collapse" href="#collapseDate" role="button" aria-expanded="false" aria-controls="collapseDate">                    
+                        <a class="expandCategory" data-toggle="collapse" href="#collapseDate" role="button"
+                            aria-expanded="false" aria-controls="collapseDate">
                         </a>
                     </div>
                     <div class="collapse" id="collapseDate">
-                        <div >
+                        <div>
                             <label>From:</label>
                             <input type="datetime-local" class="form-control" formControlName="dateFrom"><br>
                             <label>To:</label>
                             <input type="datetime-local" class="form-control" formControlName="dateTo"><br>
                         </div>
                     </div>
-                    
+
                 </div>
                 <div class="botomLine">
                     <div class="category">
                         <span>Creator</span>
-                        <a class="expandCategory" data-toggle="collapse" href="#collapseCreator" role="button" aria-expanded="false" aria-controls="collapseCreator">                    
+                        <a class="expandCategory" data-toggle="collapse" href="#collapseCreator" role="button"
+                            aria-expanded="false" aria-controls="collapseCreator">
                         </a>
                     </div>
                     <div class="collapse" id="collapseCreator">
-                        <div >
+                        <div>
                             <label style="width: 50px;">Name:</label>
                             <input type="text" class="form-control" formControlName="creatorName"><br>
                         </div>
@@ -54,11 +61,12 @@
                 <div class="botomLine">
                     <div class="category">
                         <span>Description</span>
-                        <a class="expandCategory" data-toggle="collapse" href="#collapseDescription" role="button" aria-expanded="false" aria-controls="collapseDescription">                    
+                        <a class="expandCategory" data-toggle="collapse" href="#collapseDescription" role="button"
+                            aria-expanded="false" aria-controls="collapseDescription">
                         </a>
                     </div>
                     <div class="collapse" id="collapseDescription">
-                        <div >
+                        <div>
                             <label style="width: 50px;">Content:</label>
                             <input type="text" class="form-control" formControlName="description"><br>
                         </div>
@@ -68,18 +76,20 @@
                 <div class="botomLine">
                     <div class="category">
                         <span>Topics</span>
-                        <a class="expandCategory" data-toggle="collapse" href="#collapseTopics" role="button" aria-expanded="false" aria-controls="collapseTopics">                    
+                        <a class="expandCategory" data-toggle="collapse" href="#collapseTopics" role="button"
+                            aria-expanded="false" aria-controls="collapseTopics">
                         </a>
                     </div>
                     <div class="collapse" id="collapseTopics">
                         <div>
-                            <label *ngFor="let topic of topics" class="check-box" [ngClass]='{"checked":topic.isAssigned, "unchecked": !topic.isAssigned}'>
+                            <label *ngFor="let topic of topics" class="check-box"
+                                [ngClass]='{"checked":topic.isAssigned, "unchecked": !topic.isAssigned}'>
                                 <span (click)="addTopic(topic)">{{topic.name}}</span>
                             </label>
                         </div>
                     </div>
                 </div>
-               
+
             </div>
             <button type="submit" class="btn btn-secondary filterBtn">Apply filters</button>
         </form>

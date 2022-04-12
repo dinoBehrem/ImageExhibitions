@@ -6,7 +6,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatIconModule } from '@angular/material/icon';
-import { MatCardModule } from '@angular/material/card';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './Components/Header/header/header.component';
@@ -60,7 +59,6 @@ import { NotFoundComponent } from './Components/not-found/not-found.component';
     HttpClientModule,
     MatPaginatorModule,
     MatIconModule,
-    MatCardModule,
     RouterModule.forRoot([
       { path: '', redirectTo: 'Home', pathMatch: 'full' },
       { path: 'Home', component: ExhibitionsComponent },
