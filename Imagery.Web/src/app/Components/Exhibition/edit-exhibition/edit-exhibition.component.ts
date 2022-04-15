@@ -121,31 +121,30 @@ export class EditExhibitionComponent implements OnInit {
   }
 
   saveImage() {
-    this.imageData.append('exhibitionId', this.exhibition.id.toString());
-    this.imageData.append('name', this.itemVM.name);
+    this.imageData.set('exhibitionId', this.exhibition.id.toString());
+    this.imageData.set('name', this.itemVM.name);
     if (this.itemVM.creator == '') {
       this.itemVM.creator =
         this.exhibition.organizer.firstname +
         ' ' +
         this.exhibition.organizer.lastname;
     }
-    this.imageData.append('creator', this.itemVM.creator);
-    this.imageData.append('imageDescription', this.itemVM.description);
-
-    this.itemStatus();
+    this.imageData.set('creator', this.itemVM.creator);
+    this.imageData.set('imageDescription', this.itemVM.description);
 
     if (this.isNewItem) {
-      this.imageData.append('image', this.imageFile, this.imageFile.name);
+      this.imageData.set('image', this.imageFile, this.imageFile.name);
       this.imageService
         .UploadItemImage(this.id, this.imageData)
         .subscribe((res: any) => {
           this.exhibition.items.push(res);
           this.setItem(res as ExponentItemVM);
           this.isNewItem = false;
+          this.change = false;
         });
     } else {
       if (this.change) {
-        this.imageData.append('image', this.imageFile, this.imageFile.name);
+        this.imageData.set('image', this.imageFile, this.imageFile.name);
       }
       this.editItem();
     }
@@ -215,6 +214,7 @@ export class EditExhibitionComponent implements OnInit {
     this.newDimensions = { price: 0, dimension: '', id: 0 };
     this.dimensionVM = { price: 0, dimension: '', id: 0 };
     this.isNewItem = true;
+    this.change = false;
   }
 
   removeItem() {
@@ -231,8 +231,6 @@ export class EditExhibitionComponent implements OnInit {
 
           this.newItem();
         }
-
-        console.log(res.isSuccess);
       });
     }
   }

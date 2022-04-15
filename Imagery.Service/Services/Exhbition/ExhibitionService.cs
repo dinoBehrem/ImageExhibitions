@@ -47,7 +47,7 @@ namespace Imagery.Service.Services.Exhbition
             var result = ExhibitionRepository.Add(new Exhibition()
             {
                 Title = exhibitionCreation.Title,
-                Description = exhibitionCreation?.Description,
+                Description = CheckIfNullOrEmpty(exhibitionCreation.Description),
                 Date = exhibitionCreation.StartingDate,
                 ExpiringTime = exhibitionCreation.StartingDate.AddHours(2),
                 Organizer = user,
@@ -353,6 +353,17 @@ namespace Imagery.Service.Services.Exhbition
             int count = ExhibitionSubsRepository.Find(exh => exh.ExhibitionId == id).Count;
 
             return count;
+        }
+
+
+        private string CheckIfNullOrEmpty(string content)
+        {
+            if (string.IsNullOrEmpty(content))
+            {
+                return "";
+            }
+
+            return content;
         }
 
         // Testing pagination
